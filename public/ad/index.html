@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en-ZA">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>ZOAT — Web Development Ad</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500&family=Outfit:wght@400;500;600;800&family=Syne:wght@700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div id="ready-gate">LOADING TYPE</div>
+    <div class="page">
+      <div class="stage-wrap">
+        <div class="stage-frame">
+          <canvas id="stage" width="1080" height="1920" aria-label="20 second ZOAT web development ad"></canvas>
+        </div>
+      </div>
+      <div class="controls">
+        <p class="meta">
+          <strong>Zach of All Trades</strong> — 20s vertical ad · 1080×1920 · 9:16
+        </p>
+        <div class="row">
+          <button id="play" type="button">Play</button>
+          <button id="pause" type="button">Pause</button>
+          <button id="replay" type="button">Replay</button>
+          <input id="scrub" type="range" min="0" max="20" step="0.05" value="0" aria-label="Timeline" />
+          <span id="time">0:00.0 / 0:20.0</span>
+          <button id="mute" type="button" aria-pressed="true">Sound off</button>
+          <button id="export" type="button">Export Video</button>
+          <span id="status">Loading</span>
+        </div>
+        <p id="export-note">
+          Export records the 20-second canvas at 1080×1920, 30fps. Chrome and Edge usually save WebM.
+          The file extension will match the real format — not renamed.
+        </p>
+      </div>
+    </div>
+    <script type="module" src="./player.js"></script>
+  </body>
+</html>

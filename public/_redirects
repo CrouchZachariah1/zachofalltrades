@@ -1,0 +1,3 @@
+/ad    /ad/index.html   200
+/ad/*  /ad/:splat       200
+/*     /index.html      200

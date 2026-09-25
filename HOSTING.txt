@@ -1,0 +1,64 @@
+ZACH OF ALL TRADES — HOST THIS SITE
+===================================
+
+This is a static website. After you build, Node is not required on the host
+(except if you choose "own PC / Hetzner" and run the included server).
+
+BUILD ONCE ON YOUR PC
+---------------------
+In this folder:
+
+  npm install
+  npm run build
+
+Upload the FILES INSIDE the "dist" folder.
+index.html must be the homepage. Do not upload a folder named dist.
+
+--------------------------------
+HostAfrica / xneelo / Domains.co.za / Afrihost
+(cPanel, File Manager or FTP)
+
+1. Log in to cPanel → File Manager
+2. Open public_html (or www)
+3. Upload EVERYTHING inside dist:
+     index.html
+     index.php
+     .htaccess
+     favicon.svg
+     robots.txt
+     web.config
+     assets/   (the whole folder)
+4. Visit your domain.
+
+If the homepage is blank, make sure .htaccess was uploaded
+(File Manager: enable "Show Hidden Files").
+
+--------------------------------
+Hetzner VPS (Linux)
+
+Option A — nginx (typical):
+  sudo mkdir -p /var/www/zach-of-all-trades
+  copy the contents of dist into that folder
+  copy deploy/nginx.conf to /etc/nginx/sites-available/zach-of-all-trades
+  sudo ln -s /etc/nginx/sites-available/zach-of-all-trades /etc/nginx/sites-enabled/
+  sudo nginx -t && sudo systemctl reload nginx
+
+Option B — Node (no nginx):
+  copy the whole project (or at least dist + serve.mjs)
+  npm run start
+  listen on port 4173, or:  set PORT=80
+
+--------------------------------
+Your own PC / server
+
+  npm run build
+  npm run start
+
+Then open http://localhost:4173
+Other devices on your network can use http://YOUR-LAN-IP:4173
+
+--------------------------------
+QUOTE FORM
+
+Before building, copy .env.example to .env and fill one key,
+then npm run build again and re-upload dist.

@@ -1,0 +1,18 @@
+dist
+dist-ssr
+node_modules
+*.local
+.env
+.env.*
+!.env.example
+.env.production
+*.mp4
+ad-build/
+ad-preview/
+resume.txt
+
+# Local captures
+Screenshot*.png
+*.png
+!public/**/*.png
+.vercel
