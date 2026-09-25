@@ -2,8 +2,13 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "name": "zachofalltrades",
   "compatibility_date": "2026-09-16",
+  "workers_dev": true,
+  "preview_urls": true,
   "assets": {
     "directory": "./dist",
     "not_found_handling": "single-page-application"
-  }
+  },
+  "routes": [
+    { "pattern": "zachofalltrades.co.za", "custom_domain": true }
+  ]
 }

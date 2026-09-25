@@ -11,6 +11,7 @@ export function DomainNote() {
     } catch {
       /* private mode */
     }
+    if (!/\.vercel\.app$/i.test(window.location.hostname)) return
     setOpen(true)
   }, [])
 
