@@ -36,7 +36,7 @@ function PlanetInner({ quality }: { quality: Quality }) {
     }),
     [],
   )
-  const chipCount = quality.tier === 'low' ? 40 : 90
+  const chipCount = quality.tier === 'low' ? 28 : quality.tier === 'high' ? 56 : 40
 
   useLayoutEffect(() => {
     const inst = chips.current

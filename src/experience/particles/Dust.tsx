@@ -32,9 +32,12 @@ export function Dust({ quality }: { quality: Quality }) {
     if (inst.instanceColor) inst.instanceColor.needsUpdate = true
   }, [count])
 
+  const skip = useRef(0)
   useFrame(({ clock, camera }) => {
     const inst = mesh.current
-    if (!inst) return
+    if (!inst || document.hidden) return
+    skip.current += 1
+    if (skip.current % 2 === 1) return
     const t = clock.elapsedTime
     const p = live.progress
     const space = p > 0.7 ? 1 : 0
@@ -55,8 +58,8 @@ export function Dust({ quality }: { quality: Quality }) {
   })
 
   return (
-    <instancedMesh ref={mesh} args={[undefined, undefined, count]} frustumCulled={false}>
-      <sphereGeometry args={[1, 6, 6]} />
+    <instancedMesh ref={mesh} args={[undefined, undefined, count]}>
+      <sphereGeometry args={[1, 4, 4]} />
       <meshBasicMaterial color="#ffffff" transparent opacity={0.22} depthWrite={false} />
     </instancedMesh>
   )

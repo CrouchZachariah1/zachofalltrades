@@ -15,6 +15,7 @@ export function CanvasRoot({ quality, onQuality }: Props) {
         dpr={quality.dpr}
         shadows={false}
         eventPrefix="client"
+        performance={{ min: 0.5, max: 1, debounce: 200 }}
         gl={{
           antialias: quality.antialias,
           alpha: false,

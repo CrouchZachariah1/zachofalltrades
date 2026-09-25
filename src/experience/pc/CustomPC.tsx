@@ -13,6 +13,7 @@ import {
   makeScreenTexture,
 } from '../../lib/textures.ts'
 import { live } from '../../store/experience.ts'
+import { useMountRange } from '../hooks/useMountRange.ts'
 import { Hit } from '../objects/Hit.tsx'
 import { LabelSprite } from '../objects/LabelSprite.tsx'
 import { PartTag } from '../objects/PartTag.tsx'
@@ -80,6 +81,7 @@ export function CustomPC({ quality, variant = 'hero' }: Props) {
 
   useFrame((clockState, dt) => {
     const p = live.progress
+    if (variant === 'hero' && p >= 0.275) return
     const s = state.current
     if (variant === 'hero') {
       if (p < 0.28) {
@@ -570,21 +572,7 @@ function Cables() {
 }
 
 export function JourneyPC({ quality }: { quality: Quality }) {
-  const group = useRef<THREE.Group>(null)
-  useFrame(() => {
-    const p = live.progress
-    const g = group.current
-    if (!g) return
-    if (p < 0.275) {
-      g.visible = true
-      g.position.set(0, 0, 0)
-    } else {
-      g.visible = false
-    }
-  })
-  return (
-    <group ref={group}>
-      <CustomPC quality={quality} variant="hero" />
-    </group>
-  )
+  const mounted = useMountRange(0, 0.275, 0.04)
+  if (!mounted) return null
+  return <CustomPC quality={quality} variant="hero" />
 }

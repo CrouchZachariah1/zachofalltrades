@@ -7,12 +7,19 @@ import { sectionAlpha } from '../../lib/math.ts'
 import type { Quality } from '../../lib/quality.ts'
 import { makeGradientRay } from '../../lib/textures.ts'
 import { live } from '../../store/experience.ts'
+import { useMountRange } from '../hooks/useMountRange.ts'
 import { BenchHardware } from '../objects/BenchHardware.tsx'
 import { FacilityRoom } from '../objects/FacilityRoom.tsx'
 import { GridFloor } from '../objects/GridFloor.tsx'
 import { SystemDiagram } from '../objects/SystemDiagram.tsx'
 
 export function Workshop({ quality }: { quality: Quality }) {
+  const mounted = useMountRange(bands.open[0], bands.workshop[1], 0.08)
+  if (!mounted) return null
+  return <WorkshopInner quality={quality} />
+}
+
+function WorkshopInner({ quality }: { quality: Quality }) {
   const group = useRef<THREE.Group>(null)
   const ray = useMemo(() => makeGradientRay(), [])
 

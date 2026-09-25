@@ -1,6 +1,7 @@
-import { AdaptiveDpr, Environment, Lightformer, Preload } from '@react-three/drei'
+import { AdaptiveDpr, Environment, Lightformer } from '@react-three/drei'
 import { useFrame } from '@react-three/fiber'
 import { useRef } from 'react'
+import { scrollApi } from '../hooks/useSmoothScroll.ts'
 import { degradeQuality, type Quality } from '../lib/quality.ts'
 import { live, useExperience } from '../store/experience.ts'
 import { CameraRig } from './CameraRig.tsx'
@@ -27,8 +28,9 @@ type Props = {
 export function Experience({ quality, onQuality }: Props) {
   return (
     <>
+      <LenisPump />
       <CameraRig quality={quality} />
-      <Environment resolution={quality.tier === 'high' ? 256 : 128} environmentIntensity={0.12}>
+      <Environment resolution={quality.tier === 'high' ? 128 : 64} environmentIntensity={0.12}>
         <Lightformer intensity={0.95} rotation-x={Math.PI / 2} position={[0, 4, 0]} scale={[8, 8, 1]} />
         <Lightformer intensity={0.28} position={[3.5, 1.4, 2]} scale={[2, 3, 1]} color="#d7e8ff" />
         <Lightformer intensity={0.1} position={[-2.5, 1, -1.5]} scale={[2, 2, 1]} color="#4ee3ff" />
@@ -47,10 +49,9 @@ export function Experience({ quality, onQuality }: Props) {
       <ServiceUniverse />
       <Dust quality={quality} />
       <PostFX quality={quality} />
-      {quality.tier !== 'low' && <AdaptiveDpr pixelated />}
-      <FpsGuard quality={quality} onQuality={onQuality} />
+      {quality.tier !== 'low' && <AdaptiveDpr />}
+      <FpsGuard key={quality.tier} quality={quality} onQuality={onQuality} />
       <BootMarker />
-      <Preload all />
     </>
   )
 }
@@ -70,20 +71,26 @@ function BootMarker() {
   return null
 }
 
+function LenisPump() {
+  useFrame(() => {
+    scrollApi.lenis?.raf(performance.now())
+  })
+  return null
+}
+
 function FpsGuard({ quality, onQuality }: Props) {
-  const samples = useRef<number[]>([])
+  const warm = useRef(0)
+  const bad = useRef(0)
   const dropped = useRef(false)
   useFrame((_, dt) => {
     if (dropped.current || quality.tier === 'low') return
-    const fps = 1 / Math.max(dt, 0.0001)
-    if (samples.current.length < 45) {
-      samples.current.push(fps)
+    if (warm.current < 30) {
+      warm.current += 1
       return
     }
-    samples.current.push(fps)
-    if (samples.current.length > 90) samples.current.shift()
-    const avg = samples.current.reduce((a, b) => a + b, 0) / samples.current.length
-    if (avg < 28) {
+    if (dt > 1 / 42) bad.current += 1
+    else bad.current = Math.max(0, bad.current - 2)
+    if (bad.current > 10) {
       dropped.current = true
       onQuality(degradeQuality(quality))
     }

@@ -98,8 +98,6 @@ function OsInner() {
                 metalness={0.05}
                 transparent
                 opacity={0.16}
-                transmission={0.35}
-                thickness={0.2}
               />
             </mesh>
             <mesh position={[0, w.size[1] / 2 - 0.03, 0.012]}>

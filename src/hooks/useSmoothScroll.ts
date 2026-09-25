@@ -105,20 +105,12 @@ export function useSmoothScroll(enabled: boolean): void {
     lenis.on('scroll', onScroll)
     apply(0, 0)
 
-    let raf = 0
-    const loop = (time: number) => {
-      lenis.raf(time)
-      raf = requestAnimationFrame(loop)
-    }
-    raf = requestAnimationFrame(loop)
-
     const unsub = useExperience.subscribe((s) => {
       if (s.ready) releaseBoot()
     })
     if (useExperience.getState().ready) releaseBoot()
 
     return () => {
-      cancelAnimationFrame(raf)
       unsub()
       lenis.off('scroll', onScroll)
       lenis.destroy()

@@ -62,6 +62,7 @@ function TunnelInner({ quality }: { quality: Quality }) {
     if (!inst || !g) return
     const p = live.progress
     g.visible = inBand(p, bands.explosion[0], bands.explosion[1], 0.04)
+    if (!g.visible) return
     const t = clock.elapsedTime
     const stretch = 1 + Math.min(Math.abs(live.velocity) * 0.012, 1.4)
     const local = remap(p, bands.explosion[0], bands.explosion[1])

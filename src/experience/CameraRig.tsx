@@ -73,8 +73,11 @@ export function CameraRig({ quality }: { quality: Quality }) {
     camera.lookAt(look.current)
 
     if (camera instanceof THREE.PerspectiveCamera) {
-      camera.fov = THREE.MathUtils.damp(camera.fov, sample.fov, 3.4, dt)
-      camera.updateProjectionMatrix()
+      const nextFov = THREE.MathUtils.damp(camera.fov, sample.fov, 3.4, dt)
+      if (Math.abs(nextFov - camera.fov) > 0.04) {
+        camera.fov = nextFov
+        camera.updateProjectionMatrix()
+      }
     }
 
     bg.set(atmo.bg)

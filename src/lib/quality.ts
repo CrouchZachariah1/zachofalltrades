@@ -42,15 +42,15 @@ function baseQuality(tier: QualityTier, mobile: boolean): Quality {
       webgl: true,
       mobile,
       reducedMotion: false,
-      dpr: [1, 1.75],
-      particles: 720,
-      tunnel: 140,
-      city: 72,
-      stars: 90,
+      dpr: [1, 1.5],
+      particles: 280,
+      tunnel: 72,
+      city: 48,
+      stars: 56,
       bloom: true,
-      transmission: true,
-      antialias: true,
-      pixelRatioMax: 1.75,
+      transmission: false,
+      antialias: false,
+      pixelRatioMax: 1.5,
     }
   }
   if (tier === 'medium') {
@@ -59,15 +59,15 @@ function baseQuality(tier: QualityTier, mobile: boolean): Quality {
       webgl: true,
       mobile,
       reducedMotion: false,
-      dpr: [1, 1.25],
-      particles: 320,
-      tunnel: 72,
-      city: 40,
-      stars: 48,
+      dpr: [1, 1.15],
+      particles: 160,
+      tunnel: 48,
+      city: 32,
+      stars: 36,
       bloom: true,
       transmission: false,
-      antialias: !mobile,
-      pixelRatioMax: 1.25,
+      antialias: false,
+      pixelRatioMax: 1.15,
     }
   }
   return {
@@ -76,10 +76,10 @@ function baseQuality(tier: QualityTier, mobile: boolean): Quality {
     mobile,
     reducedMotion: false,
     dpr: [1, 1],
-    particles: 140,
-    tunnel: 36,
-    city: 22,
-    stars: 28,
+    particles: 80,
+    tunnel: 28,
+    city: 18,
+    stars: 22,
     bloom: false,
     transmission: false,
     antialias: false,
@@ -121,11 +121,11 @@ export function detectAppMode(): AppMode {
   const memory = (navigator as Navigator & { deviceMemory?: number }).deviceMemory
   const cores = navigator.hardwareConcurrency ?? 4
 
-  let tier: QualityTier = 'high'
+  let tier: QualityTier = 'medium'
   if (mobile) {
     tier = cores >= 8 && (memory ?? 4) >= 4 ? 'medium' : 'low'
-  } else if ((memory ?? 8) <= 4 || cores <= 4) {
-    tier = 'medium'
+  } else if ((memory ?? 8) >= 8 && cores >= 8) {
+    tier = 'high'
   }
 
   return {
