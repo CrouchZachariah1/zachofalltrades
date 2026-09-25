@@ -32,12 +32,9 @@ export function Dust({ quality }: { quality: Quality }) {
     if (inst.instanceColor) inst.instanceColor.needsUpdate = true
   }, [count])
 
-  const skip = useRef(0)
   useFrame(({ clock, camera }) => {
     const inst = mesh.current
     if (!inst || document.hidden) return
-    skip.current += 1
-    if (skip.current % 2 === 1) return
     const t = clock.elapsedTime
     const p = live.progress
     const space = p > 0.7 ? 1 : 0

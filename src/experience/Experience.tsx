@@ -1,4 +1,4 @@
-import { AdaptiveDpr, Environment, Lightformer } from '@react-three/drei'
+import { Environment, Lightformer } from '@react-three/drei'
 import { useFrame } from '@react-three/fiber'
 import { useRef } from 'react'
 import { scrollApi } from '../hooks/useSmoothScroll.ts'
@@ -49,7 +49,6 @@ export function Experience({ quality, onQuality }: Props) {
       <ServiceUniverse />
       <Dust quality={quality} />
       <PostFX quality={quality} />
-      {quality.tier !== 'low' && <AdaptiveDpr />}
       <FpsGuard key={quality.tier} quality={quality} onQuality={onQuality} />
       <BootMarker />
     </>
@@ -73,8 +72,14 @@ function BootMarker() {
 
 function LenisPump() {
   useFrame(() => {
-    scrollApi.lenis?.raf(performance.now())
-  })
+    const lenis = scrollApi.lenis
+    if (!lenis) return
+    lenis.raf(performance.now())
+    if (!live.ready) return
+    const limit = lenis.limit
+    live.progress = limit <= 0 ? 0 : Math.min(1, Math.max(0, lenis.scroll / limit))
+    live.velocity = lenis.velocity
+  }, -1)
   return null
 }
 

@@ -83,15 +83,12 @@ export function useSmoothScroll(enabled: boolean): void {
 
     const mobile = window.matchMedia('(max-width: 820px)').matches
     const lenis = new Lenis({
-      lerp: mobile ? 0.08 : 0.055,
-      duration: mobile ? 1.4 : 1.85,
-      easing: (t) => 1 - Math.pow(1 - t, 3),
+      lerp: mobile ? 0.14 : 0.12,
+      duration: mobile ? 1.1 : 1.2,
       smoothWheel: true,
-      syncTouch: true,
-      syncTouchLerp: 0.07,
-      touchInertiaExponent: 1.15,
-      touchMultiplier: 0.85,
-      wheelMultiplier: mobile ? 0.7 : 0.62,
+      syncTouch: false,
+      touchMultiplier: 1,
+      wheelMultiplier: mobile ? 0.9 : 0.95,
       autoRaf: false,
       anchors: false,
     })
