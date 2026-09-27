@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState, type FormEvent } from 'react'
 import { requestOptions, resolveBrief } from '../config/request.ts'
+import { site } from '../config/site.ts'
 import { submitQuote, validateQuote } from '../lib/form.ts'
 import { useExperience } from '../store/experience.ts'
 import { MagneticButton } from './MagneticButton.tsx'
@@ -475,8 +476,7 @@ export function Contact() {
                 </MagneticButton>
                 {status === 'config' && (
                   <p className="form-note">
-                    Form is ready. Add <code>VITE_FORM_ENDPOINT</code>, <code>VITE_FORM_ACCESS_KEY</code>, or{' '}
-                    <code>VITE_CONTACT_EMAIL</code> to receive requests.
+                    Form is ready. Requests open a mail to {site.email} if no form endpoint is set.
                   </p>
                 )}
                 {status === 'error' && error && <p className="form-note warn">{error}</p>}

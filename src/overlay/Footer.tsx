@@ -22,6 +22,9 @@ export function Footer() {
         Windows and Microsoft 365 work is performed with the customer’s genuine license or
         subscription. We do not sell Microsoft licenses.
       </p>
+      <p className="footer-note">
+        <a href={`mailto:${site.email}`}>{site.email}</a>
+      </p>
     </footer>
   )
 }

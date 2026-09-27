@@ -1,3 +1,5 @@
+import { site } from '../config/site.ts'
+
 export type QuotePayload = {
   name: string
   email: string
@@ -27,7 +29,7 @@ export function validateQuote(data: QuotePayload): string | null {
 export async function submitQuote(data: QuotePayload): Promise<SubmitResult> {
   const endpoint = import.meta.env.VITE_FORM_ENDPOINT?.trim()
   const accessKey = import.meta.env.VITE_FORM_ACCESS_KEY?.trim()
-  const email = import.meta.env.VITE_CONTACT_EMAIL?.trim()
+  const email = import.meta.env.VITE_CONTACT_EMAIL?.trim() || site.email
 
   const payload = {
     ...data,
