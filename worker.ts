@@ -1,0 +1,105 @@
+import { mainClientEmail, mainInboxEmail, sendResendEmail } from './src/server/mail.ts'
+
+export interface Env {
+  ASSETS: Fetcher
+  RESEND_API_KEY?: string
+  CONTACT_TO_EMAIL?: string
+  RESEND_FROM?: string
+}
+
+const hits = new Map<string, { n: number; t: number }>()
+
+function json(data: unknown, status = 200) {
+  return new Response(JSON.stringify(data), {
+    status,
+    headers: { 'Content-Type': 'application/json' },
+  })
+}
+
+function limited(ip: string) {
+  const now = Date.now()
+  const current = hits.get(ip)
+  if (!current || now - current.t > 10 * 60 * 1000) {
+    hits.set(ip, { n: 1, t: now })
+    return false
+  }
+  current.n += 1
+  return current.n > 8
+}
+
+export default {
+  async fetch(request: Request, env: Env): Promise<Response> {
+    const url = new URL(request.url)
+    if (url.pathname === '/api/quote' && request.method === 'POST') {
+      return handleQuote(request, env)
+    }
+    return env.ASSETS.fetch(request)
+  },
+}
+
+async function handleQuote(request: Request, env: Env): Promise<Response> {
+  const ip = request.headers.get('cf-connecting-ip') || request.headers.get('x-forwarded-for') || 'unknown'
+  if (limited(ip)) {
+    return json({ ok: false, reason: 'network', error: 'Too many requests.' }, 429)
+  }
+
+  let body: Record<string, unknown>
+  try {
+    body = (await request.json()) as Record<string, unknown>
+  } catch {
+    return json({ ok: false, reason: 'validation', error: 'Invalid request.' }, 400)
+  }
+
+  const text = (value: unknown) => (typeof value === 'string' ? value : '')
+  if (text(body.company).trim() || text(body.fax).trim()) {
+    return json({ ok: true, method: 'resend' })
+  }
+
+  const payload = {
+    name: text(body.name),
+    email: text(body.email),
+    phone: text(body.phone),
+    service: text(body.service),
+    budget: text(body.budget),
+    need: text(body.need),
+    message: text(body.message),
+  }
+
+  if (!payload.service || !payload.name.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(payload.email.trim())) {
+    return json({ ok: false, reason: 'validation', error: 'Add your name, email, and a service.' }, 400)
+  }
+  if (`${payload.need} ${payload.message}`.trim().length < 4) {
+    return json({ ok: false, reason: 'validation', error: 'Add a bit more about what you need.' }, 400)
+  }
+
+  const apiKey = env.RESEND_API_KEY?.trim()
+  if (!apiKey) {
+    return json({ ok: false, reason: 'config' }, 503)
+  }
+
+  const to = env.CONTACT_TO_EMAIL?.trim() || 'admin@zachofalltrades.co.za'
+  const from = env.RESEND_FROM?.trim() || 'Zach of All Trades <admin@zachofalltrades.co.za>'
+  const inbox = mainInboxEmail(payload)
+  const client = mainClientEmail(payload)
+
+  try {
+    await sendResendEmail(apiKey, {
+      from,
+      to,
+      replyTo: payload.email.trim(),
+      subject: inbox.subject,
+      html: inbox.html,
+      text: inbox.text,
+    })
+    await sendResendEmail(apiKey, {
+      from,
+      to: payload.email.trim(),
+      subject: client.subject,
+      html: client.html,
+      text: client.text,
+    })
+    return json({ ok: true, method: 'resend' })
+  } catch {
+    return json({ ok: false, reason: 'network', error: 'Mail could not be sent.' }, 502)
+  }
+}

@@ -44,38 +44,19 @@ export function validateQuote(data: QuotePayload): string | null {
 }
 
 export async function submitQuote(data: QuotePayload): Promise<SubmitResult> {
-  const endpoint = import.meta.env.VITE_FORM_ENDPOINT?.trim()
-  const accessKey = import.meta.env.VITE_FORM_ACCESS_KEY?.trim()
-
-  const payload = {
-    ...data,
-    source: 'zach-of-all-trades',
-    subject: `Quote request — ${data.service}`,
-  }
-
   try {
-    if (accessKey) {
-      const res = await fetch('https://api.web3forms.com/submit', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify({ access_key: accessKey, ...payload }),
-      })
-      if (!res.ok) return { ok: false, reason: 'network' }
-      return { ok: true, method: 'web3forms' }
+    const res = await fetch('/api/quote', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+      body: JSON.stringify(data),
+    })
+    const json = (await res.json()) as { ok?: boolean; reason?: string }
+    if (json.ok) return { ok: true, method: 'endpoint' }
+    if (json.reason === 'config') {
+      return { ok: false, reason: 'config', whatsapp: quoteWhatsAppHref(data) }
     }
-
-    if (endpoint) {
-      const res = await fetch(endpoint, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify(payload),
-      })
-      if (!res.ok) return { ok: false, reason: 'network' }
-      return { ok: true, method: 'endpoint' }
-    }
-  } catch {
     return { ok: false, reason: 'network' }
+  } catch {
+    return { ok: false, reason: 'network', whatsapp: quoteWhatsAppHref(data) }
   }
-
-  return { ok: false, reason: 'config', whatsapp: quoteWhatsAppHref(data) }
 }
