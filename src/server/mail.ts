@@ -20,10 +20,13 @@ function row(label: string, value?: string) {
   const text = value?.trim()
   if (!text) return ''
   return `<tr>
-    <td style="padding:10px 0;border-bottom:1px solid #2a2d34;width:140px;color:#9aa0ab;font-size:13px;vertical-align:top;">${esc(label)}</td>
-    <td style="padding:10px 0;border-bottom:1px solid #2a2d34;color:#edecea;font-size:14px;">${esc(text).replace(/\n/g, '<br/>')}</td>
+    <td style="padding:10px 0;border-bottom:1px solid rgba(232,238,244,0.12);width:140px;color:#8b919a;font-size:13px;vertical-align:top;">${esc(label)}</td>
+    <td style="padding:10px 0;border-bottom:1px solid rgba(232,238,244,0.12);color:#e8eef4;font-size:14px;">${esc(text).replace(/\n/g, '<br/>')}</td>
   </tr>`
 }
+
+const COVER = 'https://zachofalltrades.co.za/email/cover.jpg'
+const WHATSAPP = 'https://wa.me/27603292708'
 
 function layout(opts: { preheader: string; heading: string; kicker: string; inner: string; footer: string }) {
   return `<!DOCTYPE html>
@@ -33,26 +36,85 @@ function layout(opts: { preheader: string; heading: string; kicker: string; inne
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>${esc(opts.heading)}</title>
 </head>
-<body style="margin:0;padding:0;background:#07080a;color:#edecea;font-family:Georgia,'Times New Roman',serif;">
+<body style="margin:0;padding:0;background:#07080a;color:#e8eef4;font-family:'Outfit','Segoe UI',Arial,sans-serif;">
   <div style="display:none;max-height:0;overflow:hidden;">${esc(opts.preheader)}</div>
-  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#07080a;padding:32px 16px;">
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#07080a;padding:28px 12px;">
     <tr>
       <td align="center">
-        <table role="presentation" width="560" cellpadding="0" cellspacing="0" style="max-width:560px;width:100%;">
+        <table role="presentation" width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;border:1px solid rgba(232,238,244,0.12);">
           <tr>
-            <td style="padding:0 8px 28px;font-family:Arial,Helvetica,sans-serif;font-size:11px;letter-spacing:0.22em;text-transform:uppercase;color:#cbb48c;">
+            <td style="padding:0 8px 18px;font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:11px;letter-spacing:0.22em;text-transform:uppercase;color:#4ee3ff;">
               ${esc(opts.kicker)}
             </td>
           </tr>
           <tr>
-            <td style="background:#12141a;border:1px solid #2a2d34;border-radius:16px;padding:36px 32px;">
-              <h1 style="margin:0 0 18px;font-size:28px;line-height:1.2;font-weight:normal;">${esc(opts.heading)}</h1>
+            <td style="background:#0c0e12;padding:32px 28px;">
+              <h1 style="margin:0 0 18px;font-family:'Syne','Segoe UI',Arial,sans-serif;font-size:28px;line-height:1.15;font-weight:700;color:#e8eef4;">${esc(opts.heading)}</h1>
               ${opts.inner}
             </td>
           </tr>
           <tr>
-            <td style="padding:22px 8px 0;font-family:Arial,Helvetica,sans-serif;font-size:12px;line-height:1.6;color:#9aa0ab;">
+            <td style="padding:20px 8px 0;font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:11px;letter-spacing:0.08em;line-height:1.7;color:#8b919a;">
               ${esc(opts.footer)}
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>`
+}
+
+function clientLayout(opts: { preheader: string; heading: string; kicker: string; inner: string; footer: string }) {
+  return `<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>${esc(opts.heading)}</title>
+</head>
+<body style="margin:0;padding:0;background:#07080a;color:#e8eef4;font-family:'Outfit','Segoe UI',Arial,sans-serif;">
+  <div style="display:none;max-height:0;overflow:hidden;">${esc(opts.preheader)}</div>
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#07080a;padding:0;">
+    <tr>
+      <td align="center" style="padding:24px 12px 36px;">
+        <table role="presentation" width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;background:#07080a;border:1px solid rgba(232,238,244,0.12);">
+          <tr>
+            <td style="padding:0;line-height:0;font-size:0;">
+              <img src="${COVER}" alt="Zach of All Trades — Technology. Built right." width="600" style="display:block;width:100%;max-width:600px;height:auto;border:0;" />
+            </td>
+          </tr>
+          <tr>
+            <td style="height:2px;background:#4ee3ff;font-size:0;line-height:0;">&nbsp;</td>
+          </tr>
+          <tr>
+            <td style="padding:28px 28px 8px;font-family:'IBM Plex Mono',ui-monospace,Consolas,monospace;font-size:11px;letter-spacing:0.28em;text-transform:uppercase;color:#4ee3ff;">
+              ${esc(opts.kicker)}
+            </td>
+          </tr>
+          <tr>
+            <td style="padding:8px 28px 28px;background:#07080a;">
+              <h1 style="margin:0 0 18px;font-family:'Syne','Segoe UI',Arial,sans-serif;font-size:32px;line-height:1.1;font-weight:700;color:#e8eef4;">${esc(opts.heading)}</h1>
+              ${opts.inner}
+            </td>
+          </tr>
+          <tr>
+            <td style="padding:0 28px 28px;">
+              <table role="presentation" cellpadding="0" cellspacing="0">
+                <tr>
+                  <td style="background:#4ee3ff;">
+                    <a href="${WHATSAPP}" style="display:inline-block;padding:12px 22px;font-family:'Outfit','Segoe UI',Arial,sans-serif;font-size:14px;font-weight:600;color:#07080a;text-decoration:none;">WhatsApp 060 329 2708</a>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding:0 28px 28px;border-top:1px solid rgba(232,238,244,0.12);">
+              <p style="margin:18px 0 0;font-family:'IBM Plex Mono',ui-monospace,Consolas,monospace;font-size:11px;letter-spacing:0.08em;line-height:1.7;color:#8b919a;">
+                ${esc(opts.footer)}
+              </p>
             </td>
           </tr>
         </table>
@@ -96,21 +158,21 @@ export function mainInboxEmail(data: QuoteMail) {
 
 export function mainClientEmail(data: QuoteMail) {
   const inner = `
-    <p style="margin:0 0 16px;font-size:16px;line-height:1.55;color:#c9cbc7;">Hi ${esc(data.name.split(' ')[0] || data.name)},</p>
-    <p style="margin:0 0 16px;font-size:16px;line-height:1.55;color:#c9cbc7;">We have your request for <strong style="color:#edecea;">${esc(data.service)}</strong>. We will reply with a clear next step.</p>
-    <p style="margin:0 0 22px;font-size:16px;line-height:1.55;color:#c9cbc7;">If you need to add anything, reply to this email or WhatsApp 060 329 2708.</p>
-    <p style="margin:0;font-size:14px;color:#9aa0ab;">This is a confirmation only. No payment has been taken.</p>
+    <p style="margin:0 0 14px;font-size:16px;line-height:1.55;color:#c5d0da;">Hi ${esc(data.name.split(' ')[0] || data.name)},</p>
+    <p style="margin:0 0 14px;font-size:16px;line-height:1.55;color:#c5d0da;">We have your request for <strong style="color:#e8eef4;">${esc(data.service)}</strong>. We will come back with a clear next step.</p>
+    <p style="margin:0 0 22px;font-size:16px;line-height:1.55;color:#c5d0da;">Reply to this email if you want to add anything, or tap WhatsApp below.</p>
+    <p style="margin:0;font-size:13px;color:#8b919a;">This is a confirmation only. No payment has been taken.</p>
   `
   return {
     subject: 'We received your request — Zach of All Trades',
-    html: layout({
+    html: clientLayout({
       preheader: 'Your request is in. We will reply with the next step.',
-      kicker: 'Zach of All Trades',
+      kicker: 'Technology. Built right.',
       heading: 'We have the request.',
       inner,
-      footer: 'Zach of All Trades · Cape Town · clients@zachofalltrades.co.za',
+      footer: 'Zach of All Trades · Cape Town · zachofalltrades.co.za · clients@zachofalltrades.co.za',
     }),
-    text: `Hi ${data.name},\n\nWe have your request for ${data.service}. We will reply with a clear next step.\n\nIf you need to add anything, reply to this email or WhatsApp 060 329 2708.\n\nThis is a confirmation only. No payment has been taken.\n\nZach of All Trades\nclients@zachofalltrades.co.za`,
+    text: `Hi ${data.name},\n\nWe have your request for ${data.service}. We will come back with a clear next step.\n\nReply to this email if you want to add anything, or WhatsApp 060 329 2708.\n\nThis is a confirmation only. No payment has been taken.\n\nZach of All Trades\nzachofalltrades.co.za\nclients@zachofalltrades.co.za`,
   }
 }
 
