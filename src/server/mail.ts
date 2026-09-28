@@ -108,9 +108,9 @@ export function mainClientEmail(data: QuoteMail) {
       kicker: 'Zach of All Trades',
       heading: 'We have the request.',
       inner,
-      footer: 'Zach of All Trades · Cape Town · admin@zachofalltrades.co.za',
+      footer: 'Zach of All Trades · Cape Town · clients@zachofalltrades.co.za',
     }),
-    text: `Hi ${data.name},\n\nWe have your request for ${data.service}. We will reply with a clear next step.\n\nIf you need to add anything, reply to this email or WhatsApp 067 008 3909.\n\nThis is a confirmation only. No payment has been taken.\n\nZach of All Trades\nadmin@zachofalltrades.co.za`,
+    text: `Hi ${data.name},\n\nWe have your request for ${data.service}. We will reply with a clear next step.\n\nIf you need to add anything, reply to this email or WhatsApp 067 008 3909.\n\nThis is a confirmation only. No payment has been taken.\n\nZach of All Trades\nclients@zachofalltrades.co.za`,
   }
 }
 

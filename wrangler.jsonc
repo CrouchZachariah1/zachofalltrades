@@ -13,7 +13,8 @@
   },
   "vars": {
     "CONTACT_TO_EMAIL": "admin@zachofalltrades.co.za",
-    "RESEND_FROM": "Zach of All Trades <admin@zachofalltrades.co.za>"
+    "RESEND_FROM": "Zach of All Trades <admin@zachofalltrades.co.za>",
+    "RESEND_CLIENT_FROM": "Zach of All Trades <clients@zachofalltrades.co.za>"
   },
   "routes": [
     { "pattern": "zachofalltrades.co.za", "custom_domain": true }

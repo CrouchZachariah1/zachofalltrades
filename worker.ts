@@ -5,6 +5,7 @@ export interface Env {
   RESEND_API_KEY?: string
   CONTACT_TO_EMAIL?: string
   RESEND_FROM?: string
+  RESEND_CLIENT_FROM?: string
 }
 
 const hits = new Map<string, { n: number; t: number }>()
@@ -79,6 +80,8 @@ async function handleQuote(request: Request, env: Env): Promise<Response> {
 
   const to = env.CONTACT_TO_EMAIL?.trim() || 'admin@zachofalltrades.co.za'
   const from = env.RESEND_FROM?.trim() || 'Zach of All Trades <admin@zachofalltrades.co.za>'
+  const clientFrom =
+    env.RESEND_CLIENT_FROM?.trim() || 'Zach of All Trades <clients@zachofalltrades.co.za>'
   const inbox = mainInboxEmail(payload)
   const client = mainClientEmail(payload)
 
@@ -92,8 +95,9 @@ async function handleQuote(request: Request, env: Env): Promise<Response> {
       text: inbox.text,
     })
     await sendResendEmail(apiKey, {
-      from,
+      from: clientFrom,
       to: payload.email.trim(),
+      replyTo: to,
       subject: client.subject,
       html: client.html,
       text: client.text,
