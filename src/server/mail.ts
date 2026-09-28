@@ -98,7 +98,7 @@ export function mainClientEmail(data: QuoteMail) {
   const inner = `
     <p style="margin:0 0 16px;font-size:16px;line-height:1.55;color:#c9cbc7;">Hi ${esc(data.name.split(' ')[0] || data.name)},</p>
     <p style="margin:0 0 16px;font-size:16px;line-height:1.55;color:#c9cbc7;">We have your request for <strong style="color:#edecea;">${esc(data.service)}</strong>. We will reply with a clear next step.</p>
-    <p style="margin:0 0 22px;font-size:16px;line-height:1.55;color:#c9cbc7;">If you need to add anything, reply to this email or WhatsApp 067 008 3909.</p>
+    <p style="margin:0 0 22px;font-size:16px;line-height:1.55;color:#c9cbc7;">If you need to add anything, reply to this email or WhatsApp 060 329 2708.</p>
     <p style="margin:0;font-size:14px;color:#9aa0ab;">This is a confirmation only. No payment has been taken.</p>
   `
   return {
@@ -110,7 +110,7 @@ export function mainClientEmail(data: QuoteMail) {
       inner,
       footer: 'Zach of All Trades · Cape Town · clients@zachofalltrades.co.za',
     }),
-    text: `Hi ${data.name},\n\nWe have your request for ${data.service}. We will reply with a clear next step.\n\nIf you need to add anything, reply to this email or WhatsApp 067 008 3909.\n\nThis is a confirmation only. No payment has been taken.\n\nZach of All Trades\nclients@zachofalltrades.co.za`,
+    text: `Hi ${data.name},\n\nWe have your request for ${data.service}. We will reply with a clear next step.\n\nIf you need to add anything, reply to this email or WhatsApp 060 329 2708.\n\nThis is a confirmation only. No payment has been taken.\n\nZach of All Trades\nclients@zachofalltrades.co.za`,
   }
 }
 

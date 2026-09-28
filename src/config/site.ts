@@ -4,7 +4,8 @@ export const site = {
   tagline: 'Technology. Built right.',
   line: 'Build it. Connect it. Protect it. Fix it.',
   email: 'admin@zachofalltrades.co.za',
-  whatsapp: '27670083909',
+  phoneDisplay: '060 329 2708',
+  whatsapp: '27603292708',
   description:
     'Custom PCs, repairs, upgrades, IT consulting, websites with hosting and maintenance, Facebook and Instagram ads, Windows setup, and Microsoft 365 configuration.',
 }
