@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState, type FormEvent } from 'react'
 import { requestOptions, resolveBrief } from '../config/request.ts'
 import { site } from '../config/site.ts'
-import { submitQuote, validateQuote } from '../lib/form.ts'
+import { quoteWhatsAppHref, submitQuote, validateQuote } from '../lib/form.ts'
 import { useExperience } from '../store/experience.ts'
 import { MagneticButton } from './MagneticButton.tsx'
 import { RequestBrief } from './RequestBrief.tsx'
@@ -41,6 +41,7 @@ export function Contact() {
   const [phone, setPhone] = useState('')
   const [status, setStatus] = useState<'idle' | 'sending' | 'sent' | 'config' | 'error'>('idle')
   const [error, setError] = useState('')
+  const [whatsapp, setWhatsapp] = useState('')
   const nameRef = useRef<HTMLInputElement>(null)
   const headingRef = useRef<HTMLHeadingElement>(null)
   const stepped = useRef(false)
@@ -149,6 +150,7 @@ export function Contact() {
     setPhone('')
     setStatus('idle')
     setError('')
+    setWhatsapp('')
   }
 
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -181,10 +183,12 @@ export function Contact() {
     setStatus('sending')
     const result = await submitQuote(payload)
     if (result.ok) setStatus('sent')
-    else if (result.reason === 'config') setStatus('config')
-    else {
+    else if (result.reason === 'config') {
+      setWhatsapp(result.whatsapp || quoteWhatsAppHref(payload))
+      setStatus('config')
+    } else {
       setStatus('error')
-      setError('The request could not be delivered. Try again or email directly.')
+      setError('The request could not be delivered. Try WhatsApp.')
     }
   }
 
@@ -476,7 +480,16 @@ export function Contact() {
                 </MagneticButton>
                 {status === 'config' && (
                   <p className="form-note">
-                    Form is ready. Requests open a mail to {site.email} if no form endpoint is set.
+                    Your brief is ready. Send it on WhatsApp.
+                    {whatsapp ? (
+                      <>
+                        {' '}
+                        <a href={whatsapp} target="_blank" rel="noopener noreferrer">
+                          Send on WhatsApp
+                        </a>
+                      </>
+                    ) : null}{' '}
+                    Or copy {site.email}.
                   </p>
                 )}
                 {status === 'error' && error && <p className="form-note warn">{error}</p>}

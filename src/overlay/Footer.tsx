@@ -23,7 +23,7 @@ export function Footer() {
         subscription. We do not sell Microsoft licenses.
       </p>
       <p className="footer-note">
-        <a href={`mailto:${site.email}`}>{site.email}</a>
+        {site.email}
       </p>
     </footer>
   )

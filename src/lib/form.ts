@@ -11,8 +11,25 @@ export type QuotePayload = {
 }
 
 export type SubmitResult =
-  | { ok: true; method: 'endpoint' | 'web3forms' | 'mailto' }
-  | { ok: false; reason: 'config' | 'network' | 'validation' }
+  | { ok: true; method: 'endpoint' | 'web3forms' }
+  | { ok: false; reason: 'config' | 'network' | 'validation'; whatsapp?: string }
+
+export function quoteWhatsAppHref(data: QuotePayload): string {
+  const body = [
+    'Hi Zach — request from zachofalltrades.co.za.',
+    `Name: ${data.name}`,
+    `Email: ${data.email}`,
+    data.phone ? `Phone: ${data.phone}` : null,
+    `Service: ${data.service}`,
+    data.need ? `Focus: ${data.need}` : null,
+    data.budget ? `Budget: ${data.budget}` : null,
+    '',
+    data.message || '—',
+  ]
+    .filter(Boolean)
+    .join('\n')
+  return `https://wa.me/${site.whatsapp}?text=${encodeURIComponent(body)}`
+}
 
 export function validateQuote(data: QuotePayload): string | null {
   if (!data.service) return 'Please choose at least one service.'
@@ -29,7 +46,6 @@ export function validateQuote(data: QuotePayload): string | null {
 export async function submitQuote(data: QuotePayload): Promise<SubmitResult> {
   const endpoint = import.meta.env.VITE_FORM_ENDPOINT?.trim()
   const accessKey = import.meta.env.VITE_FORM_ACCESS_KEY?.trim()
-  const email = import.meta.env.VITE_CONTACT_EMAIL?.trim() || site.email
 
   const payload = {
     ...data,
@@ -57,24 +73,9 @@ export async function submitQuote(data: QuotePayload): Promise<SubmitResult> {
       if (!res.ok) return { ok: false, reason: 'network' }
       return { ok: true, method: 'endpoint' }
     }
-
-    if (email) {
-      const body = [
-        `Name: ${data.name}`,
-        `Email: ${data.email}`,
-        `Phone: ${data.phone || '—'}`,
-        `Service: ${data.service}`,
-        `Focus: ${data.need || '—'}`,
-        `Budget: ${data.budget || '—'}`,
-        '',
-        data.message || '—',
-      ].join('\n')
-      window.location.href = `mailto:${email}?subject=${encodeURIComponent(payload.subject)}&body=${encodeURIComponent(body)}`
-      return { ok: true, method: 'mailto' }
-    }
   } catch {
     return { ok: false, reason: 'network' }
   }
 
-  return { ok: false, reason: 'config' }
+  return { ok: false, reason: 'config', whatsapp: quoteWhatsAppHref(data) }
 }
