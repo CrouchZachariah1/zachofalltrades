@@ -18,7 +18,7 @@ export function InspectCard() {
       <div className="inspect-actions">
         {item.service && (
           <MagneticButton className="primary" onClick={() => openQuote(item.service)}>
-            REQUEST THIS
+            GET A QUOTE
           </MagneticButton>
         )}
         {item.progress !== undefined && (

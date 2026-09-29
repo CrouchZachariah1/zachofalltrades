@@ -1,6 +1,8 @@
 import { services, site } from '../config/site.ts'
-import { openQuote } from '../lib/actions.ts'
+import { openQuote, openSection } from '../lib/actions.ts'
 import { BrandMark } from './Mark.tsx'
+
+const sectionIds = new Set(['web', 'ads', 'care'])
 
 export function Footer() {
   return (
@@ -31,7 +33,10 @@ export function Footer() {
       <ul className="footer-services">
         {services.map((s) => (
           <li key={s.id}>
-            <button type="button" onClick={() => openQuote(s.formValue)}>
+            <button
+              type="button"
+              onClick={() => (sectionIds.has(s.id) ? openSection(s.id) : openQuote(s.formValue))}
+            >
               {s.title}
             </button>
           </li>
@@ -39,7 +44,7 @@ export function Footer() {
       </ul>
       <p className="footer-about">
         {site.name} is a {site.city} practice for custom PCs, repairs, upgrades, IT consulting,
-        websites with hosting and maintenance, Facebook and Instagram ads, Windows setup, and
+        websites, website care, managed Facebook, Instagram and Google ads, Windows setup, and
         Microsoft 365 configuration. Windows and Microsoft 365 work uses the customer’s genuine
         license or subscription. We do not sell Microsoft licenses.
       </p>

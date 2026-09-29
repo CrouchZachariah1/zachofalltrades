@@ -1,7 +1,8 @@
 import { services, site } from '../config/site.ts'
-import { openQuote } from '../lib/actions.ts'
+import { openQuote, openSection } from '../lib/actions.ts'
 import { HexMark } from './Mark.tsx'
 import { MagneticButton } from './MagneticButton.tsx'
+import { OfferSections } from './OfferSections.tsx'
 
 type Props = {
   reason?: 'webgl' | 'motion'
@@ -35,26 +36,37 @@ const chapters = [
   },
 ] as const
 
-const modules = [
+const leads = [
   {
-    id: 'web',
+    target: 'web',
     index: '03',
     kicker: 'Web',
-    title: 'Your business. Your website.',
-    body: 'We build the site, host it, and keep it maintained so you are not left with a page that goes stale.',
-    service: 'Website Development',
+    title: 'Web Development',
+    body: 'Professional websites from R2,500.',
+    go: 'Explore Web Development',
   },
   {
-    id: 'ads',
+    target: 'ads',
     index: '04',
     kicker: 'Ads',
-    title: 'Facebook. Instagram. Seen.',
-    body: 'Campaigns set up and run on the platforms people already use. You pay the ad spend. We make it run properly.',
-    service: 'Advertising',
+    title: 'Advertising',
+    body: 'Managed digital advertising from R750/month.',
+    go: 'Explore Advertising',
   },
   {
-    id: 'consulting',
+    target: 'care',
     index: '05',
+    kicker: 'Care',
+    title: 'Website Care',
+    body: 'Ongoing website maintenance from R450/month.',
+    go: 'View Maintenance Plans',
+  },
+] as const
+
+const modules = [
+  {
+    id: 'consulting',
+    index: '06',
     kicker: 'Network',
     title: 'Don’t know what you need?',
     body: 'Tell us what you are trying to accomplish. We will help you figure out the technology before you buy, build, or rebuild.',
@@ -62,13 +74,15 @@ const modules = [
   },
   {
     id: 'systems',
-    index: '06',
+    index: '07',
     kicker: 'Systems',
     title: 'Your tech. Set up right.',
     body: 'Windows and Microsoft 365 installed and configured on your genuine licence or subscription. We do not sell Microsoft licences.',
     service: 'Windows',
   },
 ] as const
+
+const sectionIds = new Set(['web', 'ads', 'care'])
 
 export function Fallback2D({ reason }: Props) {
   return (
@@ -160,6 +174,21 @@ export function Fallback2D({ reason }: Props) {
         </section>
       ))}
 
+      <section className="stage-leads">
+        {leads.map((lead) => (
+          <button key={lead.target} type="button" className="stage-lead" onClick={() => openSection(lead.target)}>
+            <p className="kicker">
+              {lead.index} · {lead.kicker}
+            </p>
+            <h2>{lead.title}</h2>
+            <p className="body">{lead.body}</p>
+            <span className="stage-mod-go">{lead.go}</span>
+          </button>
+        ))}
+      </section>
+
+      <OfferSections />
+
       <section className="stage-modules">
         {modules.map((mod) => (
           <button
@@ -181,17 +210,24 @@ export function Fallback2D({ reason }: Props) {
 
       <section id="services" className="stage-catalog">
         <header className="stage-catalog-head">
-          <p className="kicker">07 · Services</p>
+          <p className="kicker">08 · Services</p>
           <h2>The whole machine.</h2>
           <p className="body">Pick a path. We quote the work, then we do it.</p>
         </header>
         <div className="stage-catalog-grid">
           {services.map((s, i) => (
-            <button key={s.id} type="button" className="stage-card" onClick={() => openQuote(s.formValue)}>
+            <button
+              key={s.id}
+              type="button"
+              className="stage-card"
+              onClick={() => (sectionIds.has(s.id) ? openSection(s.id) : openQuote(s.formValue))}
+            >
               <span className="stage-card-index">{String(i + 1).padStart(2, '0')}</span>
               <h3>{s.title}</h3>
               <p>{s.short}</p>
-              <span className="stage-card-go">Request this</span>
+              <span className="stage-card-go">
+                {s.id === 'web' ? 'Explore Web Development' : s.id === 'ads' ? 'Explore Advertising' : s.id === 'care' ? 'View Maintenance Plans' : 'Request this'}
+              </span>
             </button>
           ))}
         </div>

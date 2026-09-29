@@ -43,12 +43,29 @@ export const pricing: Record<ServiceId, PriceCard> = {
     bands: ['Just the advice', 'Advice then the work'],
   },
   'Website Development': {
-    note: 'Includes hosting and ongoing maintenance. Quoted with the build.',
-    bands: ['Under R6 000', 'R6 000–R15 000', 'R15 000–R30 000', 'R30 000+'],
+    note: 'Starting prices. Final pricing depends on project size, functionality and requirements.',
+    bands: [
+      'R2,500 – R5,000',
+      'R5,000 – R8,000',
+      'R8,000 – R12,000',
+      'R12,000 – R20,000',
+      'R20,000+',
+      "I'm not sure — I'd like a recommendation",
+    ],
+  },
+  'Website Care': {
+    note: 'Monthly plans cover agreed maintenance. New pages and major work are quoted separately.',
+    bands: ['R450/month', 'R750/month', 'R1,250/month', 'From R1,500/month', "I'm not sure — I'd like a recommendation"],
   },
   Advertising: {
-    note: 'Ad spend on the platforms is yours. This is the work to set up and run the campaigns.',
-    bands: ['Under R2 500', 'R2 500–R6 000', 'R6 000–R12 000', 'R12 000+'],
+    note: 'Monthly fee is management only. Advertising spend is paid separately to Meta or Google.',
+    bands: [
+      'R750/month management',
+      'R1,250/month management',
+      'R1,750/month management',
+      'R1,500–R2,250 combined',
+      'Custom / not sure',
+    ],
   },
   Windows: {
     note: '',
@@ -67,6 +84,7 @@ export const pricing: Record<ServiceId, PriceCard> = {
 const rank: ServiceId[] = [
   'PC Build',
   'Website Development',
+  'Website Care',
   'Advertising',
   'PC Upgrade',
   'PC Repair',
@@ -89,6 +107,7 @@ export function bandsFor(services: string[]): string[] {
   if (!id) return []
   const bands = pricing[id].bands
   if (!bands.length) return []
+  if (bands.some((band) => /not sure|prefer not/i.test(band))) return bands
   return [preferNot, ...bands]
 }
 

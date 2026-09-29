@@ -64,6 +64,12 @@ async function handleQuote(request: Request, env: Env): Promise<Response> {
     budget: text(body.budget),
     need: text(body.need),
     message: text(body.message),
+    business: text(body.business),
+    website: text(body.website),
+    deadline: text(body.deadline),
+    webNeed: text(body.webNeed),
+    pages: text(body.pages),
+    features: text(body.features),
   }
 
   if (!payload.service || !payload.name.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(payload.email.trim())) {

@@ -128,7 +128,7 @@ function WebsiteFrame() {
       onSelect={() =>
         inspect({
           title: 'Your website',
-          body: 'A professional site we build, host, and keep maintained.',
+          body: 'Professional websites from R2,500. Quoted around the pages and features you need.',
           service: 'Website Development',
           progress: 0.4,
           status: 'SYSTEM ONLINE',

@@ -1,4 +1,5 @@
 import { create } from 'zustand'
+import type { QuoteExtras } from '../config/offers.ts'
 import { sceneFromProgress, type SceneId } from '../config/scenes.ts'
 
 export type { SceneId }
@@ -25,6 +26,7 @@ type ExperienceState = {
   scene: SceneId
   compactNav: boolean
   prefillService: string
+  prefillExtras: QuoteExtras
   quoteTick: number
   hoveredNode: string | null
   nodeDesc: string
@@ -37,7 +39,7 @@ type ExperienceState = {
   setSceneFromProgress: (p: number) => void
   setCompactNav: (compactNav: boolean) => void
   setPrefillService: (prefillService: string) => void
-  requestQuote: (service?: string) => void
+  requestQuote: (service?: string, extras?: QuoteExtras) => void
   setHoveredNode: (hoveredNode: string | null, nodeDesc?: string) => void
   setHover: (hoveredLabel: string | null, hoveredStatus?: string) => void
   setInspect: (inspectItem: InspectItem | null) => void
@@ -49,6 +51,7 @@ export const useExperience = create<ExperienceState>((set, get) => ({
   scene: 'open',
   compactNav: false,
   prefillService: '',
+  prefillExtras: {},
   quoteTick: 0,
   hoveredNode: null,
   nodeDesc: '',
@@ -69,9 +72,10 @@ export const useExperience = create<ExperienceState>((set, get) => ({
     if (get().compactNav !== compactNav) set({ compactNav })
   },
   setPrefillService: (prefillService) => set({ prefillService }),
-  requestQuote: (service) =>
+  requestQuote: (service, extras) =>
     set((s) => ({
       prefillService: service ?? '',
+      prefillExtras: extras ?? {},
       quoteTick: s.quoteTick + 1,
       inspectItem: null,
       inspectAt: null,

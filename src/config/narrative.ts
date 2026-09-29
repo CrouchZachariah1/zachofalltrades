@@ -52,15 +52,15 @@ export const beats: NarrativeBeat[] = [
     range: [0.385, 0.448],
     kicker: 'WEB',
     title: ['YOUR BUSINESS.', 'YOUR WEBSITE.'],
-    cta: { label: 'BUILD MY WEBSITE', service: 'Website Development' },
+    cta: { label: 'GET A QUOTE', service: 'Website Development' },
   },
   {
     id: 'city2',
     range: [0.45, 0.475],
     kicker: 'WEB',
     title: ['ASSEMBLED IN PLACE.'],
-    body: 'We build the site, host it, and keep it maintained.',
-    cta: { label: 'BUILD MY WEBSITE', service: 'Website Development' },
+    body: 'Professional websites from R2,500. Quoted around the pages and features you need.',
+    cta: { label: 'GET A QUOTE', service: 'Website Development' },
   },
   {
     id: 'code',

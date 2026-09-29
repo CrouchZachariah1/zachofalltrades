@@ -17,7 +17,7 @@ export const site = {
   logo: 'https://zachofalltrades.co.za/logo.png',
   title: 'Zach of All Trades | Cape Town — PCs, Repair & Web',
   description:
-    'Custom PCs, repairs, upgrades, IT consulting, websites, Facebook and Instagram ads, Windows and Microsoft 365 in Cape Town. WhatsApp 060 329 2708.',
+    'Custom PCs, repairs, upgrades, IT consulting, websites from R2,500, Facebook, Instagram and Google ads, Windows and Microsoft 365 in Cape Town. WhatsApp 060 329 2708.',
 }
 
 export const navLinks = [
@@ -67,16 +67,24 @@ export const services = [
     id: 'web',
     formValue: 'Website Development',
     title: 'Web Development',
-    short: 'Websites, hosting, and ongoing maintenance — we keep the site up.',
-    body: 'Professional websites for businesses and individuals. We build it, host it, and maintain it so you are not left with a page that goes stale.',
+    short: 'Professional websites from R2,500.',
+    body: 'Custom websites for individuals, startups and businesses. Starting prices, quoted around the pages and functionality the project needs.',
+    progress: 0.4,
+  },
+  {
+    id: 'care',
+    formValue: 'Website Care',
+    title: 'Website Care',
+    short: 'Ongoing website maintenance from R450/month.',
+    body: 'Agreed maintenance and support for live sites. New pages, major redesigns and new functionality are quoted separately.',
     progress: 0.4,
   },
   {
     id: 'ads',
     formValue: 'Advertising',
     title: 'Advertising',
-    short: 'Facebook, Instagram, and other ads — set up and run so people actually see you.',
-    body: 'Campaign setup and management on Facebook, Instagram, and similar platforms. You pay the ad spend. We make the ads run properly.',
+    short: 'Managed digital advertising from R750/month.',
+    body: 'Facebook, Instagram and Google ads management. The monthly fee is for setup, management and optimisation. Advertising spend is paid separately to the platforms.',
     progress: 0.83,
   },
   {
@@ -111,6 +119,7 @@ export const formServices = [
   'PC Upgrade',
   'IT Consulting',
   'Website Development',
+  'Website Care',
   'Advertising',
   'Windows',
   'Microsoft 365',
@@ -151,8 +160,8 @@ export const consultNodes = [
   { id: 'REPAIR', desc: 'Find the fault. Replace what failed. Leave the rest.', service: 'PC Repair' },
   { id: 'MICROSOFT 365', desc: 'Your subscription, installed and configured correctly.', service: 'Microsoft 365' },
   { id: 'WINDOWS', desc: 'A clean install and a system that boots the way it should.', service: 'Windows' },
-  { id: 'WEBSITE', desc: 'A professional site we build, host, and keep running.', service: 'Website Development' },
-  { id: 'ADS', desc: 'Facebook, Instagram, and similar — campaigns set up so the business is actually seen.', service: 'Advertising' },
+  { id: 'WEBSITE', desc: 'A professional site, quoted around what the business actually needs.', service: 'Website Development' },
+  { id: 'ADS', desc: 'Facebook, Instagram and Google — campaigns managed so the business is actually seen. Ad spend stays on the platforms.', service: 'Advertising' },
   { id: 'NETWORK', desc: 'The unglamorous layer that makes everything else reliable.', service: 'Other' },
   { id: 'BUSINESS IT', desc: 'Practical technology decisions without the enterprise theatre.', service: 'IT Consulting' },
 ] as const

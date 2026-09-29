@@ -8,6 +8,12 @@ export type QuotePayload = {
   budget: string
   need: string
   message: string
+  business?: string
+  website?: string
+  deadline?: string
+  webNeed?: string
+  pages?: string
+  features?: string
 }
 
 export type SubmitResult =
@@ -18,11 +24,17 @@ export function quoteWhatsAppHref(data: QuotePayload): string {
   const body = [
     'Hi Zach — request from zachofalltrades.co.za.',
     `Name: ${data.name}`,
+    data.business ? `Business: ${data.business}` : null,
     `Email: ${data.email}`,
-    data.phone ? `Phone: ${data.phone}` : null,
+    data.phone ? `Phone / WhatsApp: ${data.phone}` : null,
     `Service: ${data.service}`,
+    data.webNeed ? `Website type: ${data.webNeed}` : null,
+    data.pages ? `Pages: ${data.pages}` : null,
+    data.features ? `Features: ${data.features}` : null,
     data.need ? `Focus: ${data.need}` : null,
     data.budget ? `Budget: ${data.budget}` : null,
+    data.website ? `Existing website: ${data.website}` : null,
+    data.deadline ? `Launch / deadline: ${data.deadline}` : null,
     '',
     data.message || '—',
   ]

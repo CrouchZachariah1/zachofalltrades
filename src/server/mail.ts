@@ -6,6 +6,12 @@ export type QuoteMail = {
   budget?: string
   need?: string
   message: string
+  business?: string
+  website?: string
+  deadline?: string
+  webNeed?: string
+  pages?: string
+  features?: string
 }
 
 function esc(value: string) {
@@ -128,16 +134,22 @@ function clientLayout(opts: { preheader: string; heading: string; kicker: string
 export function mainInboxEmail(data: QuoteMail) {
   const inner = `
     <p style="margin:0 0 22px;font-size:16px;line-height:1.5;color:#c9cbc7;">New service enquiry from the main site.</p>
-    <table role="presentation" width="100%" cellpadding="0" cellspacing="0">${row('Name', data.name)}${row('Email', data.email)}${row('Phone', data.phone)}${row('Service', data.service)}${row('Focus', data.need)}${row('Budget', data.budget)}${row('Brief', data.message)}</table>
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0">${row('Name', data.name)}${row('Business', data.business)}${row('Email', data.email)}${row('Phone / WhatsApp', data.phone)}${row('Service', data.service)}${row('Website type', data.webNeed)}${row('Pages', data.pages)}${row('Features', data.features)}${row('Focus', data.need)}${row('Budget', data.budget)}${row('Existing website', data.website)}${row('Launch / deadline', data.deadline)}${row('Brief', data.message)}</table>
   `
   const text = [
     'New service enquiry — Zach of All Trades',
     `Name: ${data.name}`,
+    data.business ? `Business: ${data.business}` : null,
     `Email: ${data.email}`,
-    data.phone ? `Phone: ${data.phone}` : null,
+    data.phone ? `Phone / WhatsApp: ${data.phone}` : null,
     `Service: ${data.service}`,
+    data.webNeed ? `Website type: ${data.webNeed}` : null,
+    data.pages ? `Pages: ${data.pages}` : null,
+    data.features ? `Features: ${data.features}` : null,
     data.need ? `Focus: ${data.need}` : null,
     data.budget ? `Budget: ${data.budget}` : null,
+    data.website ? `Existing website: ${data.website}` : null,
+    data.deadline ? `Launch / deadline: ${data.deadline}` : null,
     '',
     data.message,
   ]

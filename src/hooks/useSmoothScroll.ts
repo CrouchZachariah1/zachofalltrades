@@ -38,14 +38,17 @@ function pinTop(): void {
 export function useSmoothScroll(enabled: boolean): void {
   useEffect(() => {
     if ('scrollRestoration' in history) history.scrollRestoration = 'manual'
-    const wantsContact = window.location.hash.replace('#', '') === 'contact'
+    const hash = window.location.hash.replace('#', '')
+    const keepHash = new Set(['contact', 'web', 'ads', 'care', 'services', 'builds', 'repairs', 'consulting']).has(
+      hash,
+    )
     document.documentElement.classList.add('is-booting')
-    if (!wantsContact) pinTop()
+    if (!keepHash) pinTop()
 
     const { setSceneFromProgress, setCompactNav } = useExperience.getState()
 
     const apply = (progress: number, velocity: number) => {
-      const locked = !live.ready && !wantsContact
+      const locked = !live.ready && !keepHash
       const p = locked ? 0 : Math.max(0, Math.min(1, Number.isFinite(progress) ? progress : 0))
       live.progress = p
       live.velocity = locked ? 0 : velocity
@@ -61,10 +64,11 @@ export function useSmoothScroll(enabled: boolean): void {
     const releaseBoot = () => {
       if (released) return
       released = true
-      if (!wantsContact) pinTop()
-      apply(wantsContact ? readNativeProgress() : 0, 0)
+      if (!keepHash) pinTop()
+      apply(keepHash ? readNativeProgress() : 0, 0)
       document.documentElement.classList.remove('is-booting')
       scrollApi.lenis?.start()
+      if (keepHash && hash) window.requestAnimationFrame(() => scrollApi.toElement(hash))
     }
 
     if (!enabled) {
@@ -94,7 +98,7 @@ export function useSmoothScroll(enabled: boolean): void {
     })
     scrollApi.lenis = lenis
     lenis.stop()
-    if (!wantsContact) pinTop()
+    if (!keepHash) pinTop()
 
     const onScroll = (instance: Lenis) => {
       apply(instance.limit <= 0 ? 0 : instance.scroll / instance.limit, instance.velocity)
