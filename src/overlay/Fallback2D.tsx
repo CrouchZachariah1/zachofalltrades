@@ -10,7 +10,7 @@ export function Fallback2D({ reason }: Props) {
   return (
     <main className="fallback">
       <section className="fall-hero">
-        <p className="kicker">ZACH OF ALL TRADES</p>
+        <p className="kicker">CAPE TOWN</p>
         <h1>
           <span>ZACH</span>
           <span>OF ALL</span>

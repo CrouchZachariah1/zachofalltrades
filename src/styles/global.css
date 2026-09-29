@@ -308,6 +308,7 @@ html.has-cursor.is-native-cursor textarea {
 
 html.has-domain-note .nav { top: 64px; }
 html.has-domain-note .beat { top: 140px; }
+.beat h1 { font-weight: 800; }
 
 .nav {
   position: fixed;
@@ -454,6 +455,7 @@ html.has-domain-note .beat { top: 140px; }
   overflow: hidden;
   will-change: opacity, transform;
 }
+.beat h1,
 .beat h2 {
   margin: 0;
   width: 100%;
@@ -464,6 +466,7 @@ html.has-domain-note .beat { top: 140px; }
   letter-spacing: -0.05em;
   text-align: center;
 }
+.beat h1 span,
 .beat h2 span {
   display: block;
   white-space: nowrap;
@@ -1001,6 +1004,19 @@ html.has-domain-note .beat { top: 140px; }
   letter-spacing: 0.12em;
 }
 .footer-brand p { color: var(--mute); }
+.footer-meta {
+  list-style: none;
+  margin: 14px 0 0;
+  padding: 0;
+  display: grid;
+  gap: 6px;
+  color: var(--mute);
+  font-size: 0.9rem;
+}
+.footer-meta a:hover,
+.footer-meta a:focus-visible {
+  color: var(--cyan);
+}
 .footer-services {
   display: flex;
   flex-wrap: wrap;
@@ -1015,10 +1031,15 @@ html.has-domain-note .beat { top: 140px; }
   letter-spacing: 0.12em;
   color: var(--mute);
 }
+.footer-about,
 .footer-note {
   grid-column: 1 / -1;
   color: var(--mute);
   font-size: 0.85rem;
+}
+.footer-about {
+  max-width: 68ch;
+  line-height: 1.5;
 }
 
 .fallback {

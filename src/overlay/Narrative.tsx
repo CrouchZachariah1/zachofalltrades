@@ -49,11 +49,19 @@ export function Narrative() {
           style={{ opacity: 0 }}
         >
           {beat.kicker && <p className="kicker">{beat.kicker}</p>}
-          <h2>
-            {beat.title.map((line) => (
-              <span key={line}>{line}</span>
-            ))}
-          </h2>
+          {i === 0 ? (
+            <h1>
+              {beat.title.map((line) => (
+                <span key={line}>{line}</span>
+              ))}
+            </h1>
+          ) : (
+            <h2>
+              {beat.title.map((line) => (
+                <span key={line}>{line}</span>
+              ))}
+            </h2>
+          )}
           {beat.body && <p className="body">{beat.body}</p>}
           {beat.items && (
             <ul className="chips">

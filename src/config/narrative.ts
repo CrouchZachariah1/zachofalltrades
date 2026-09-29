@@ -13,7 +13,7 @@ export const beats: NarrativeBeat[] = [
   {
     id: 'open',
     range: [0.018, 0.086],
-    kicker: 'ZACH OF ALL TRADES',
+    kicker: 'CAPE TOWN',
     title: ['ZACH', 'OF ALL', 'TRADES'],
     body: 'Build it. Connect it. Protect it. Fix it.',
   },

@@ -3,11 +3,21 @@ export const site = {
   short: 'ZOAT',
   tagline: 'Technology. Built right.',
   line: 'Build it. Connect it. Protect it. Fix it.',
+  url: 'https://zachofalltrades.co.za',
+  studioUrl: 'https://studio.zachofalltrades.co.za',
   email: 'admin@zachofalltrades.co.za',
   phoneDisplay: '060 329 2708',
+  phoneTel: '+27603292708',
   whatsapp: '27603292708',
+  city: 'Cape Town',
+  region: 'Western Cape',
+  country: 'South Africa',
+  countryCode: 'ZA',
+  ogImage: 'https://zachofalltrades.co.za/og.jpg',
+  logo: 'https://zachofalltrades.co.za/logo.png',
+  title: 'Zach of All Trades | Cape Town — PCs, Repair & Web',
   description:
-    'Custom PCs, repairs, upgrades, IT consulting, websites with hosting and maintenance, Facebook and Instagram ads, Windows setup, and Microsoft 365 configuration.',
+    'Custom PCs, repairs, upgrades, IT consulting, websites, Facebook and Instagram ads, Windows and Microsoft 365 in Cape Town. WhatsApp 060 329 2708.',
 }
 
 export const navLinks = [

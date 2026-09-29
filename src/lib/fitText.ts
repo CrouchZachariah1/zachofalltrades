@@ -1,8 +1,8 @@
 export function fitBeat(el: HTMLElement): void {
-  const h2 = el.querySelector('h2')
-  if (!(h2 instanceof HTMLElement)) return
+  const heading = el.querySelector('h1, h2')
+  if (!(heading instanceof HTMLElement)) return
 
-  const spans = Array.from(h2.querySelectorAll('span'))
+  const spans = Array.from(heading.querySelectorAll('span'))
   if (spans.length === 0) return
 
   spans.forEach((span) => {
@@ -15,7 +15,7 @@ export function fitBeat(el: HTMLElement): void {
 
   let extraH = 0
   Array.from(el.children).forEach((child) => {
-    if (child === h2) return
+    if (child === heading) return
     const node = child as HTMLElement
     const cs = getComputedStyle(node)
     extraH += node.offsetHeight + parseFloat(cs.marginTop) + parseFloat(cs.marginBottom)
@@ -25,11 +25,11 @@ export function fitBeat(el: HTMLElement): void {
   const maxH = Math.max(64, el.clientHeight - extraH)
   if (maxW < 48) return
 
-  h2.style.fontSize = '100px'
+  heading.style.fontSize = '100px'
   const textW = Math.max(1, ...spans.map((span) => span.scrollWidth))
-  const textH = Math.max(1, h2.scrollHeight)
+  const textH = Math.max(1, heading.scrollHeight)
   const size = 100 * Math.min(maxW / textW, maxH / textH) * 0.96
-  h2.style.fontSize = `${Math.max(16, Math.min(size, 140))}px`
+  heading.style.fontSize = `${Math.max(16, Math.min(size, 140))}px`
 }
 
 export function watchBeats(getElements: () => Array<HTMLElement | null>): () => void {

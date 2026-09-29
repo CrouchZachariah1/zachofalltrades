@@ -1,2 +1,8 @@
+Sitemap: https://zachofalltrades.co.za/sitemap.xml
+
 User-agent: *
 Allow: /
+Disallow: /ad
+Disallow: /ad/
+Disallow: /email/
+Disallow: /api/
