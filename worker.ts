@@ -84,8 +84,8 @@ async function handleQuote(request: Request, env: Env): Promise<Response> {
     return json({ ok: false, reason: 'config' }, 503)
   }
 
-  const to = env.CONTACT_TO_EMAIL?.trim() || 'admin@zachofalltrades.co.za'
-  const from = env.RESEND_FROM?.trim() || 'Zach of All Trades <admin@zachofalltrades.co.za>'
+  const to = env.CONTACT_TO_EMAIL?.trim() || 'support@zachofalltrades.co.za'
+  const from = env.RESEND_FROM?.trim() || 'Zach of All Trades <support@zachofalltrades.co.za>'
   const clientFrom =
     env.RESEND_CLIENT_FROM?.trim() || 'Zach of All Trades <clients@zachofalltrades.co.za>'
   const inbox = mainInboxEmail(payload)

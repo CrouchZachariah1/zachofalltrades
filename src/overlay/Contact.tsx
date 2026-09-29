@@ -375,7 +375,7 @@ export function Contact() {
           <h3>We have the request.</h3>
           <p>
             {joined ? `${joined}. ` : ''}
-            A confirmation is on its way to {email}. We will reply from admin@zachofalltrades.co.za.
+            A confirmation is on its way to {email}. We will reply from {site.email}.
           </p>
           <MagneticButton className="ghost" onClick={reset}>
             SEND ANOTHER

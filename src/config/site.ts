@@ -5,7 +5,7 @@ export const site = {
   line: 'Build it. Connect it. Protect it. Fix it.',
   url: 'https://zachofalltrades.co.za',
   studioUrl: 'https://studio.zachofalltrades.co.za',
-  email: 'admin@zachofalltrades.co.za',
+  email: 'support@zachofalltrades.co.za',
   phoneDisplay: '060 329 2708',
   phoneTel: '+27603292708',
   whatsapp: '27603292708',
