@@ -5,15 +5,15 @@ import { BrandMark } from './Mark.tsx'
 export function Footer() {
   return (
     <footer className="footer">
-      <div className="footer-brand">
-        <BrandMark className="footer-mark" />
-        <strong>{site.name}</strong>
-        <p>
-          {site.city}, {site.country}
-        </p>
-        <p>{site.line}</p>
-        <p>{site.tagline}</p>
+      <div className="footer-top">
+        <div className="footer-brand">
+          <BrandMark className="footer-mark" />
+          <strong>{site.name}</strong>
+        </div>
         <ul className="footer-meta">
+          <li>
+            {site.city}, {site.country}
+          </li>
           <li>{site.email}</li>
           <li>
             <a href={`tel:${site.phoneTel}`}>{site.phoneDisplay}</a>
@@ -40,11 +40,8 @@ export function Footer() {
       <p className="footer-about">
         {site.name} is a {site.city} practice for custom PCs, repairs, upgrades, IT consulting,
         websites with hosting and maintenance, Facebook and Instagram ads, Windows setup, and
-        Microsoft 365 configuration.
-      </p>
-      <p className="footer-note">
-        Windows and Microsoft 365 work is performed with the customer’s genuine license or
-        subscription. We do not sell Microsoft licenses.
+        Microsoft 365 configuration. Windows and Microsoft 365 work uses the customer’s genuine
+        license or subscription. We do not sell Microsoft licenses.
       </p>
     </footer>
   )
