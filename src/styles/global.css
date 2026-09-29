@@ -20,6 +20,14 @@ html {
   color: var(--ink);
   color-scheme: dark;
   overscroll-behavior: none;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  display: none;
 }
 html.is-booting,
 html.is-booting body {
@@ -31,6 +39,7 @@ body {
   background: var(--bg);
   overflow-x: hidden;
   cursor: none;
+  -ms-overflow-style: none;
 }
 .is-2d body, .is-mobile body { cursor: auto; }
 a { color: inherit; }
@@ -101,6 +110,44 @@ img { max-width: 100%; }
   background: var(--accent);
   transform: scaleX(0);
   transform-origin: left center;
+}
+.scroll-bar {
+  position: fixed;
+  top: 72px;
+  right: 4px;
+  bottom: 18px;
+  z-index: 28;
+  width: 14px;
+  background: transparent;
+  pointer-events: auto;
+  cursor: pointer;
+}
+.scroll-bar::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 1px;
+  margin-left: -0.5px;
+  background: rgba(232, 238, 244, 0.14);
+}
+.scroll-bar span {
+  position: absolute;
+  left: 50%;
+  width: 3px;
+  margin-left: -1.5px;
+  background: var(--cyan);
+  box-shadow: 0 0 10px rgba(78, 227, 255, 0.45);
+  pointer-events: none;
+  border-radius: 1px;
+}
+.scroll-bar:focus-visible {
+  outline: 1px solid rgba(78, 227, 255, 0.55);
+  outline-offset: -2px;
+}
+.is-mobile .scroll-bar {
+  display: none;
 }
 .scroll-cue {
   position: fixed;
@@ -1693,6 +1740,7 @@ html.is-2d { scroll-behavior: smooth; }
   .stage-end { padding: 12vh 6vw; }
   body { cursor: auto; }
   .cursor { display: none; }
+  .scroll-bar { display: none; }
 }
 
 @media (max-height: 800px) {

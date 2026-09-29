@@ -60,6 +60,7 @@ export const useExperience = create<ExperienceState>((set, get) => ({
   inspectItem: null,
   inspectAt: null,
   setReady: (ready) => {
+    live.ready = ready
     if (get().ready === ready) return
     set({ ready })
   },

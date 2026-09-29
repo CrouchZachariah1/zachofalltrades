@@ -13,6 +13,7 @@ import { Loader } from './overlay/Loader.tsx'
 import { Narrative } from './overlay/Narrative.tsx'
 import { Nav } from './overlay/Nav.tsx'
 import { ProgressRail } from './overlay/ProgressRail.tsx'
+import { ScrollBar } from './overlay/ScrollBar.tsx'
 import { useExperience } from './store/experience.ts'
 
 const CanvasRoot = lazy(() =>
@@ -65,6 +66,7 @@ export default function App() {
         <>
           <Fallback2D reason={mode.reason} />
           <InspectCard />
+          <ScrollBar />
         </>
       )}
       <Contact />
