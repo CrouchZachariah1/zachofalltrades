@@ -9,7 +9,7 @@ type Props = {
 export function Fallback2D({ reason }: Props) {
   return (
     <main className="fallback">
-      <section className="fall-hero">
+      <section className="fall-hero" id="top">
         <p className="kicker">CAPE TOWN</p>
         <h1>
           <span>ZACH</span>
@@ -21,12 +21,17 @@ export function Fallback2D({ reason }: Props) {
         {reason === 'motion' && (
           <p className="fall-note">Motion is reduced. This is the still version of the studio.</p>
         )}
-        {reason === 'webgl' && (
-          <p className="fall-note">This device skipped the 3D layer. The work is still here.</p>
-        )}
+        <div className="beat-actions">
+          <MagneticButton className="primary" onClick={() => openQuote()}>
+            GET A QUOTE
+          </MagneticButton>
+          <MagneticButton className="ghost" href={`https://wa.me/${site.whatsapp}`}>
+            WHATSAPP
+          </MagneticButton>
+        </div>
       </section>
 
-      <section>
+      <section id="builds">
         <p className="kicker">HARDWARE</p>
         <h2>BUILT FOR YOU.</h2>
         <p>Custom PCs designed around your performance, budget and goals.</p>
@@ -44,7 +49,7 @@ export function Fallback2D({ reason }: Props) {
         </h2>
       </section>
 
-      <section>
+      <section id="repairs">
         <p className="kicker">DIAGNOSTICS</p>
         <h2>
           SOMETHING BROKE?
@@ -68,7 +73,7 @@ export function Fallback2D({ reason }: Props) {
         </MagneticButton>
       </section>
 
-      <section>
+      <section id="web">
         <p className="kicker">WEB</p>
         <h2>
           YOUR BUSINESS.
@@ -81,7 +86,7 @@ export function Fallback2D({ reason }: Props) {
         </MagneticButton>
       </section>
 
-      <section>
+      <section id="ads">
         <p className="kicker">ADS</p>
         <h2>
           FACEBOOK.
@@ -105,7 +110,7 @@ export function Fallback2D({ reason }: Props) {
         </h2>
       </section>
 
-      <section>
+      <section id="consulting">
         <p className="kicker">NETWORK</p>
         <h2>
           DON’T KNOW WHAT YOU NEED?
@@ -148,7 +153,7 @@ export function Fallback2D({ reason }: Props) {
         </ul>
       </section>
 
-      <section>
+      <section id="services">
         <p className="kicker">SERVICES</p>
         <h2>ZACH OF ALL TRADES</h2>
         <div className="fall-grid">
@@ -169,9 +174,7 @@ export function Fallback2D({ reason }: Props) {
           <br />
           SOMETHING BETTER?
         </h2>
-        <p>
-          {site.line}
-        </p>
+        <p>{site.line}</p>
         <MagneticButton className="primary" onClick={() => openQuote()}>
           GET A QUOTE
         </MagneticButton>

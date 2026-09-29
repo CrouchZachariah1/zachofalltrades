@@ -1042,12 +1042,39 @@ html.has-domain-note .beat { top: 140px; }
   line-height: 1.5;
 }
 
+html.is-2d {
+  scroll-behavior: smooth;
+}
+.is-2d body {
+  background-image:
+    linear-gradient(rgba(78, 227, 255, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(78, 227, 255, 0.045) 1px, transparent 1px);
+  background-size: 56px 56px;
+}
+.is-2d .app::after { opacity: 0.03; }
+.fallback .kicker { text-align: left; }
+
 .fallback {
   position: relative;
   z-index: 2;
-  padding: 18vh 8vw 8vh;
+  padding: 0 8vw 8vh;
 }
-.fallback section { min-height: 70vh; padding: 8vh 0; border-top: 1px solid var(--line); }
+.fallback section {
+  padding: 9vh 0;
+  border-top: 1px solid var(--line);
+  scroll-margin-top: 88px;
+  content-visibility: auto;
+  contain-intrinsic-size: 1px 420px;
+}
+.fall-hero {
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-top: 0;
+  content-visibility: visible;
+  padding-top: 14vh;
+}
 .fall-hero h1,
 .fallback h2 {
   font-family: var(--display);
@@ -1055,12 +1082,18 @@ html.has-domain-note .beat { top: 140px; }
   line-height: 0.88;
   letter-spacing: -0.045em;
 }
-.fall-hero h1 { font-size: clamp(2.6rem, min(14vw, 18vh), 8rem); margin: 0; }
+.fall-hero h1 {
+  font-size: clamp(2.6rem, min(14vw, 18vh), 8rem);
+  margin: 0;
+  text-shadow: 0 0 64px rgba(78, 227, 255, 0.16);
+}
 .fall-hero h1 span { display: block; }
 .fallback h2 { font-size: clamp(2.2rem, 6vw, 5.4rem); margin: 0 0 18px; }
 .lede { font-size: 1.3rem; color: var(--mute); }
 .fallback .body { color: var(--mute); max-width: 46ch; }
 .fall-note { color: var(--gold); font-family: var(--mono); font-size: 12px; }
+.fallback .beat-actions { justify-content: flex-start; }
+.fallback > section > .magnet { margin-top: 18px; }
 .fall-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -1073,10 +1106,15 @@ html.has-domain-note .beat { top: 140px; }
   text-align: left;
   padding: 18px;
   border: 1px solid var(--line);
-  background: transparent;
+  background: rgba(7, 8, 10, 0.55);
   color: inherit;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
-.fall-card:hover { border-color: var(--cyan); }
+.fall-card:hover,
+.fall-card:focus-visible {
+  border-color: var(--cyan);
+  box-shadow: 0 0 24px rgba(78, 227, 255, 0.08);
+}
 .fall-grid h3,
 .fall-card h3 { margin: 0; font-family: var(--display); }
 .fall-grid p,
@@ -1086,6 +1124,30 @@ html.has-domain-note .beat { top: 140px; }
   font-size: 10px;
   letter-spacing: 0.16em;
   color: var(--cyan);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .is-2d body {
+    animation: grid-drift 64s linear infinite;
+  }
+  .fallback section {
+    animation: rise 0.55s ease both;
+  }
+  .fallback section:nth-child(1) { animation-delay: 0.04s; }
+  .fallback section:nth-child(2) { animation-delay: 0.08s; }
+  .fallback section:nth-child(3) { animation-delay: 0.1s; }
+}
+@keyframes grid-drift {
+  to { background-position: 56px 56px; }
+}
+@keyframes rise {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.is-2d { scroll-behavior: auto; }
+  .loader-mark { animation: none; }
 }
 
 @media (max-width: 1180px) {

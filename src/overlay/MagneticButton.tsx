@@ -23,6 +23,7 @@ export function MagneticButton({
   const move = (e: MouseEvent) => {
     const el = ref.current
     if (!el) return
+    if (window.matchMedia('(pointer: coarse), (prefers-reduced-motion: reduce)').matches) return
     const r = el.getBoundingClientRect()
     gsap.to(el, {
       x: (e.clientX - (r.left + r.width / 2)) * 0.22,
@@ -34,10 +35,12 @@ export function MagneticButton({
 
   const leave = () => {
     if (!ref.current) return
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
     gsap.to(ref.current, { x: 0, y: 0, duration: 0.6, ease: 'elastic.out(1, 0.45)' })
   }
 
   if (href) {
+    const external = href.startsWith('http')
     return (
       <a
         ref={ref as RefObject<HTMLAnchorElement>}
@@ -46,6 +49,8 @@ export function MagneticButton({
         onMouseMove={move}
         onMouseLeave={leave}
         onClick={onClick}
+        target={external ? '_blank' : undefined}
+        rel={external ? 'noreferrer' : undefined}
       >
         <span>{children}</span>
       </a>

@@ -31,8 +31,10 @@ export function Nav() {
             type="button"
             onClick={() => {
               setOpen(false)
-              if ('href' in link && link.href) scrollApi.toElement(link.href.slice(1))
+              const twoD = document.documentElement.classList.contains('is-2d')
+              if (twoD && 'href' in link && link.href) scrollApi.toElement(link.href.slice(1))
               else if ('progress' in link) scrollApi.toProgress(link.progress)
+              else if ('href' in link && link.href) scrollApi.toElement(link.href.slice(1))
             }}
           >
             {link.label}

@@ -21,12 +21,12 @@ export const site = {
 }
 
 export const navLinks = [
-  { id: 'services', label: 'SERVICES', progress: 0.83 },
-  { id: 'builds', label: 'PC BUILDS', progress: 0.1 },
-  { id: 'repairs', label: 'REPAIRS', progress: 0.3 },
-  { id: 'consulting', label: 'CONSULTING', progress: 0.57 },
-  { id: 'web', label: 'WEB', progress: 0.4 },
-  { id: 'ads', label: 'ADS', progress: 0.83 },
+  { id: 'services', label: 'SERVICES', progress: 0.83, href: '#services' },
+  { id: 'builds', label: 'PC BUILDS', progress: 0.1, href: '#builds' },
+  { id: 'repairs', label: 'REPAIRS', progress: 0.3, href: '#repairs' },
+  { id: 'consulting', label: 'CONSULTING', progress: 0.57, href: '#consulting' },
+  { id: 'web', label: 'WEB', progress: 0.4, href: '#web' },
+  { id: 'ads', label: 'ADS', progress: 0.83, href: '#ads' },
   { id: 'contact', label: 'CONTACT', href: '#contact' },
 ] as const
 

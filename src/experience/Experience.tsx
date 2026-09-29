@@ -1,12 +1,9 @@
-import { Environment, Lightformer } from '@react-three/drei'
 import { useFrame } from '@react-three/fiber'
 import { useRef } from 'react'
 import { scrollApi } from '../hooks/useSmoothScroll.ts'
 import { degradeQuality, type Quality } from '../lib/quality.ts'
 import { live, useExperience } from '../store/experience.ts'
 import { CameraRig } from './CameraRig.tsx'
-import { Dust } from './particles/Dust.tsx'
-import { PostFX } from './PostFX.tsx'
 import { CodeWorld } from './scenes/CodeWorld.tsx'
 import { ConsultingNetwork } from './scenes/ConsultingNetwork.tsx'
 import { DigitalCity } from './scenes/DigitalCity.tsx'
@@ -23,18 +20,14 @@ import { NetworkSpine } from './objects/NetworkSpine.tsx'
 type Props = {
   quality: Quality
   onQuality: (next: Quality) => void
+  onFail: () => void
 }
 
-export function Experience({ quality, onQuality }: Props) {
+export function Experience({ quality, onQuality, onFail }: Props) {
   return (
     <>
       <LenisPump />
       <CameraRig quality={quality} />
-      <Environment resolution={quality.tier === 'high' ? 128 : 64} environmentIntensity={0.12}>
-        <Lightformer intensity={0.95} rotation-x={Math.PI / 2} position={[0, 4, 0]} scale={[8, 8, 1]} />
-        <Lightformer intensity={0.28} position={[3.5, 1.4, 2]} scale={[2, 3, 1]} color="#d7e8ff" />
-        <Lightformer intensity={0.1} position={[-2.5, 1, -1.5]} scale={[2, 2, 1]} color="#4ee3ff" />
-      </Environment>
       <Workshop quality={quality} />
       <NetworkSpine quality={quality} />
       <SpaceLogo />
@@ -47,9 +40,7 @@ export function Experience({ quality, onQuality }: Props) {
       <OsDesktop />
       <HardwarePlanet quality={quality} />
       <ServiceUniverse />
-      <Dust quality={quality} />
-      <PostFX quality={quality} />
-      <FpsGuard key={quality.tier} quality={quality} onQuality={onQuality} />
+      <FpsGuard key={quality.tier} quality={quality} onQuality={onQuality} onFail={onFail} />
       <BootMarker />
     </>
   )
@@ -83,21 +74,23 @@ function LenisPump() {
   return null
 }
 
-function FpsGuard({ quality, onQuality }: Props) {
+function FpsGuard({ quality, onQuality, onFail }: Props) {
   const warm = useRef(0)
   const bad = useRef(0)
   const dropped = useRef(false)
   useFrame((_, dt) => {
-    if (dropped.current || quality.tier === 'low') return
-    if (warm.current < 30) {
+    if (dropped.current) return
+    if (document.hidden) return
+    if (warm.current < 24) {
       warm.current += 1
       return
     }
-    if (dt > 1 / 42) bad.current += 1
+    if (dt > 1 / 32) bad.current += 1
     else bad.current = Math.max(0, bad.current - 2)
-    if (bad.current > 10) {
+    if (bad.current > 8) {
       dropped.current = true
-      onQuality(degradeQuality(quality))
+      if (quality.tier === 'low') onFail()
+      else onQuality(degradeQuality(quality))
     }
   })
   return null

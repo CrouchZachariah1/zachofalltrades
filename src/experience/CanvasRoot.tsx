@@ -1,14 +1,15 @@
 import { Canvas } from '@react-three/fiber'
 import * as THREE from 'three'
-import type { Quality } from '../lib/quality.ts'
+import { isSoftwareRenderer, type Quality } from '../lib/quality.ts'
 import { Experience } from './Experience.tsx'
 
 type Props = {
   quality: Quality
   onQuality: (next: Quality) => void
+  onFail: () => void
 }
 
-export function CanvasRoot({ quality, onQuality }: Props) {
+export function CanvasRoot({ quality, onQuality, onFail }: Props) {
   return (
     <div className="canvas-root">
       <Canvas
@@ -16,11 +17,12 @@ export function CanvasRoot({ quality, onQuality }: Props) {
         shadows={false}
         eventPrefix="client"
         gl={{
-          antialias: quality.antialias,
+          antialias: false,
           alpha: false,
-          powerPreference: 'high-performance',
+          powerPreference: 'default',
           stencil: false,
           depth: true,
+          failIfMajorPerformanceCaveat: true,
         }}
         camera={{ fov: 36, near: 0.04, far: 240, position: [0.95, 0.68, 1.28] }}
         onCreated={({ gl, camera }) => {
@@ -29,9 +31,19 @@ export function CanvasRoot({ quality, onQuality }: Props) {
           gl.outputColorSpace = THREE.SRGBColorSpace
           gl.setClearColor('#07080a')
           camera.lookAt(0, 0.52, 0.06)
+          if (isSoftwareRenderer(gl.getContext() as WebGLRenderingContext)) {
+            onFail()
+            return
+          }
+          const canvas = gl.domElement
+          const lost = (event: Event) => {
+            event.preventDefault()
+            onFail()
+          }
+          canvas.addEventListener('webglcontextlost', lost, { once: true })
         }}
       >
-        <Experience quality={quality} onQuality={onQuality} />
+        <Experience quality={quality} onQuality={onQuality} onFail={onFail} />
       </Canvas>
     </div>
   )

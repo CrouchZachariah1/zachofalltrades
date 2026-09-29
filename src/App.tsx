@@ -1,5 +1,4 @@
-import { useEffect, useState } from 'react'
-import { CanvasRoot } from './experience/CanvasRoot.tsx'
+import { lazy, Suspense, useEffect, useState } from 'react'
 import { usePointer } from './hooks/usePointer.ts'
 import { useSmoothScroll } from './hooks/useSmoothScroll.ts'
 import { detectAppMode, type Quality } from './lib/quality.ts'
@@ -16,6 +15,10 @@ import { Nav } from './overlay/Nav.tsx'
 import { ProgressRail } from './overlay/ProgressRail.tsx'
 import { useExperience } from './store/experience.ts'
 
+const CanvasRoot = lazy(() =>
+  import('./experience/CanvasRoot.tsx').then((mod) => ({ default: mod.CanvasRoot })),
+)
+
 export default function App() {
   const [mode] = useState(() => detectAppMode())
   const [quality, setQuality] = useState<Quality>(mode.quality)
@@ -29,9 +32,9 @@ export default function App() {
   useEffect(() => {
     document.documentElement.classList.toggle('is-2d', !use3d)
     document.documentElement.classList.toggle('is-mobile', quality.mobile)
-    const failsafe = window.setTimeout(() => setReady(true), 3500)
+    const failsafe = window.setTimeout(() => setReady(true), use3d ? 2500 : 400)
     if (!use3d) {
-      const t = window.setTimeout(() => setReady(true), 900)
+      const t = window.setTimeout(() => setReady(true), 120)
       return () => {
         window.clearTimeout(t)
         window.clearTimeout(failsafe)
@@ -49,8 +52,10 @@ export default function App() {
       <DomainNote />
       <Nav />
       {use3d ? (
-        <ErrorBoundary fallback={<Fallback2D reason="webgl" />} onError={() => setForce2d(true)}>
-          <CanvasRoot quality={quality} onQuality={setQuality} />
+        <ErrorBoundary fallback={<Fallback2D />} onError={() => setForce2d(true)}>
+          <Suspense fallback={null}>
+            <CanvasRoot quality={quality} onQuality={setQuality} onFail={() => setForce2d(true)} />
+          </Suspense>
           <Narrative />
           <InspectCard />
           <ProgressRail />
@@ -58,7 +63,7 @@ export default function App() {
         </ErrorBoundary>
       ) : (
         <>
-          <Fallback2D reason={mode.reason ?? 'webgl'} />
+          <Fallback2D reason={mode.reason} />
           <InspectCard />
         </>
       )}
