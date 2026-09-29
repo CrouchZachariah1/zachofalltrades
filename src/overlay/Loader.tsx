@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useExperience } from '../store/experience.ts'
+import { BrandMark } from './Mark.tsx'
 
 export function Loader() {
   const ready = useExperience((s) => s.ready)
@@ -28,15 +29,7 @@ export function Loader() {
   return (
     <div className={`loader ${phase === 'ready' ? 'is-ready' : ''}`}>
       <div className="loader-mark">
-        <svg viewBox="0 0 80 80" width="72" height="72">
-          <polygon
-            points="40,4 74,23 74,57 40,76 6,57 6,23"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-          />
-          <path d="M26 26h28M26 54h28M28 26l24 28" fill="none" stroke="currentColor" strokeWidth="3" />
-        </svg>
+        <BrandMark />
       </div>
       <p className="loader-brand">ZACH OF ALL TRADES</p>
       <p className="loader-line">{line}</p>

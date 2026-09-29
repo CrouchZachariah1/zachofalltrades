@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en-ZA">
+  <head>
+    <meta charset="utf-8" />
+    <title>ZOAT share card</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500&family=Outfit:wght@400;500&family=Syne:wght@700;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * { box-sizing: border-box; margin: 0; padding: 0; }
+      html, body {
+        width: 1200px;
+        height: 630px;
+        overflow: hidden;
+        background: #07080a;
+        color: #e8eef4;
+        font-family: Outfit, "Segoe UI", sans-serif;
+      }
+      .bg {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: 72% 50%;
+      }
+      .shade {
+        position: absolute;
+        inset: 0;
+        background:
+          linear-gradient(90deg, rgba(7, 8, 10, 0.94) 0%, rgba(7, 8, 10, 0.7) 42%, rgba(7, 8, 10, 0.22) 100%),
+          linear-gradient(180deg, rgba(7, 8, 10, 0.35) 0%, transparent 28%, rgba(7, 8, 10, 0.82) 100%);
+      }
+      .grid {
+        position: absolute;
+        inset: 0;
+        opacity: 0.14;
+        background-image:
+          linear-gradient(rgba(78, 227, 255, 0.16) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(78, 227, 255, 0.16) 1px, transparent 1px);
+        background-size: 72px 72px;
+        mask-image: linear-gradient(180deg, transparent, #000 22%, #000 78%, transparent);
+      }
+      .hex {
+        position: absolute;
+        right: 48px;
+        top: 78px;
+        width: 420px;
+        height: 420px;
+        color: rgba(78, 227, 255, 0.16);
+      }
+      .inner {
+        position: relative;
+        z-index: 2;
+        height: 630px;
+        padding: 56px 64px 48px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+      .mark {
+        width: 84px;
+        height: 84px;
+        margin-bottom: 28px;
+        filter: drop-shadow(0 10px 24px rgba(0, 0, 0, 0.45));
+      }
+      .kicker {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-family: "IBM Plex Mono", ui-monospace, monospace;
+        font-size: 15px;
+        letter-spacing: 0.28em;
+        text-transform: uppercase;
+        color: #4ee3ff;
+        margin-bottom: 16px;
+      }
+      .pip {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #4ee3ff;
+        box-shadow: 0 0 12px #4ee3ff;
+      }
+      h1 {
+        font-family: Syne, "Segoe UI", sans-serif;
+        font-weight: 800;
+        font-size: 118px;
+        line-height: 0.78;
+        letter-spacing: -0.06em;
+        text-shadow: 0 0 80px rgba(78, 227, 255, 0.2);
+      }
+      h1 span { display: block; }
+      .of {
+        font-family: "IBM Plex Mono", ui-monospace, monospace;
+        font-weight: 500;
+        font-size: 18px;
+        letter-spacing: 0.62em;
+        color: #4ee3ff;
+        margin: 10px 0 8px 6px;
+      }
+      .tag {
+        margin-top: 22px;
+        font-family: Syne, "Segoe UI", sans-serif;
+        font-weight: 700;
+        font-size: 28px;
+        letter-spacing: -0.03em;
+      }
+      .line {
+        margin-top: 8px;
+        font-size: 20px;
+        color: #8b919a;
+      }
+      .foot {
+        position: absolute;
+        left: 64px;
+        right: 64px;
+        bottom: 36px;
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        font-family: "IBM Plex Mono", ui-monospace, monospace;
+        font-size: 13px;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: #8b919a;
+        z-index: 2;
+      }
+      .foot strong { color: #4ee3ff; font-weight: 500; }
+    </style>
+  </head>
+  <body>
+    <img class="bg" src="../public/media/hangar.jpg" alt="" />
+    <div class="shade"></div>
+    <div class="grid"></div>
+    <svg class="hex" viewBox="0 0 80 80" aria-hidden="true">
+      <polygon points="40,6 72,24 72,56 40,74 8,56 8,24" fill="none" stroke="currentColor" stroke-width="3" />
+      <path d="M26 26h28M26 54h28M28 26l24 28" fill="none" stroke="currentColor" stroke-width="4" />
+    </svg>
+    <div class="inner">
+      <svg class="mark" viewBox="0 0 36 36" aria-hidden="true">
+        <rect width="36" height="36" rx="6" fill="#e8eef4" />
+        <g transform="translate(8 8) scale(0.625)">
+          <path d="M7 8h18l-8.2 8H25v8H7l8.2-8H7V8Z" fill="#07080a" />
+          <path d="M21.5 8h3.5v3.2L21.5 8Z" fill="#4ee3ff" />
+        </g>
+      </svg>
+      <p class="kicker"><span class="pip"></span> Cape Town · Systems online</p>
+      <h1>
+        <span>ZACH</span>
+        <span class="of">OF ALL</span>
+        <span>TRADES</span>
+      </h1>
+      <p class="tag">Technology. Built right.</p>
+      <p class="line">Build it. Connect it. Protect it. Fix it.</p>
+    </div>
+    <p class="foot">
+      <span>PCs · Repairs · Consulting · Web · Ads · Windows · Microsoft 365</span>
+      <strong>zachofalltrades.co.za</strong>
+    </p>
+  </body>
+</html>

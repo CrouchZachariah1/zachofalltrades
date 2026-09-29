@@ -14,13 +14,14 @@ export function HexMark({ className }: Props) {
   )
 }
 
+/** Desktop ZOAT icon, site palette: ink tile, dark Z, cyan corner. */
 export function BrandMark({ className }: Props) {
   return (
     <svg className={className} viewBox="0 0 36 36" aria-hidden="true">
-      <rect width="36" height="36" rx="8" fill="#EDECEA" />
+      <rect width="36" height="36" rx="6" fill="#e8eef4" />
       <g transform="translate(8 8) scale(0.625)">
-        <path d="M7 8h18l-8.2 8H25v8H7l8.2-8H7V8Z" fill="#12141A" />
-        <path d="M21.5 8h3.5v3.2L21.5 8Z" fill="#CBB48C" />
+        <path d="M7 8h18l-8.2 8H25v8H7l8.2-8H7V8Z" fill="#07080a" />
+        <path d="M21.5 8h3.5v3.2L21.5 8Z" fill="#4ee3ff" />
       </g>
     </svg>
   )

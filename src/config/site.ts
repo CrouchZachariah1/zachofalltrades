@@ -13,7 +13,7 @@ export const site = {
   region: 'Western Cape',
   country: 'South Africa',
   countryCode: 'ZA',
-  ogImage: 'https://zachofalltrades.co.za/og.jpg',
+  ogImage: 'https://zachofalltrades.co.za/share.jpg',
   logo: 'https://zachofalltrades.co.za/logo.png',
   title: 'Zach of All Trades | Cape Town — PCs, Repair & Web',
   description:

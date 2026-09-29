@@ -3,7 +3,7 @@ import { navLinks, site } from '../config/site.ts'
 import { openQuote } from '../lib/actions.ts'
 import { scrollApi } from '../hooks/useSmoothScroll.ts'
 import { useExperience } from '../store/experience.ts'
-import { HexMark } from './Mark.tsx'
+import { BrandMark } from './Mark.tsx'
 import { MagneticButton } from './MagneticButton.tsx'
 
 export function Nav() {
@@ -22,7 +22,7 @@ export function Nav() {
         aria-label="Back to start"
       >
         <span className="nav-mark">
-          <HexMark />
+          <BrandMark />
         </span>
         <span className="nav-word">{site.name}</span>
       </button>
