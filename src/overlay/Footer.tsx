@@ -1,10 +1,12 @@
 import { services, site } from '../config/site.ts'
 import { openQuote } from '../lib/actions.ts'
+import { BrandMark } from './Mark.tsx'
 
 export function Footer() {
   return (
     <footer className="footer">
       <div className="footer-brand">
+        <BrandMark className="footer-mark" />
         <strong>{site.name}</strong>
         <p>
           {site.city}, {site.country}

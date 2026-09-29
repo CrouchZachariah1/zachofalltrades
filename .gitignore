@@ -15,4 +15,5 @@ resume.txt
 Screenshot*.png
 *.png
 !public/**/*.png
+tmp-shot/
 .vercel
