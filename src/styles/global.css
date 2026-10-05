@@ -38,7 +38,7 @@
   --rail: rgba(255, 255, 255, 0.06);
   --frame-gold: #cbb48c;
   --mark-tile: #e8eef4;
-  --mark-z: #07080a;
+  --mark-z: #e8eef4;
   --mark-accent: #4ee3ff;
   --corner: rgba(232, 238, 244, 0.28);
   --scroll-edge: rgba(232, 238, 244, 0.14);
@@ -101,7 +101,7 @@ html.theme-light {
   --loader-track: rgba(16, 19, 24, 0.12);
   --rail: rgba(16, 19, 24, 0.08);
   --mark-tile: #101318;
-  --mark-z: #e8eef4;
+  --mark-z: #101318;
   --mark-accent: #4ee3ff;
   --corner: rgba(16, 19, 24, 0.28);
   --scroll-edge: rgba(16, 19, 24, 0.16);
@@ -1362,7 +1362,8 @@ html.theme-light .stage-hero-photo {
   top: 16%;
   width: min(46vw, 520px);
   height: min(46vw, 520px);
-  color: var(--hex-mark);
+  color: var(--ink);
+  opacity: 0.16;
   pointer-events: none;
 }
 .stage-hero-inner {
@@ -1782,12 +1783,11 @@ html.theme-light .stage-hero-photo {
 .stage-end-mark {
   width: 64px;
   height: 64px;
-  color: var(--cyan);
+  color: var(--ink);
   margin-bottom: 22px;
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .stage-hero-hex { animation: spin 72s linear infinite; }
   .stage-ticker-track { animation: ticker 32s linear infinite; }
   .stage-hero-photo { animation: drift 28s ease-in-out infinite alternate; }
   .stage-pip { animation: pulse 1.8s ease-in-out infinite; }
@@ -1864,7 +1864,7 @@ html.theme-light .stage-hero-photo {
   .service-chip { min-height: 0; padding: 12px; }
   .request-recap { grid-template-columns: 1fr; }
   .stage-hero-inner { padding: 16vh 6vw 8vh; }
-  .stage-hero-hex { width: 70vw; height: 70vw; right: -12vw; top: 28%; opacity: 0.7; }
+  .stage-hero-hex { width: 70vw; height: 70vw; right: -12vw; top: 28%; opacity: 0.12; }
   .stage-hero-copy h1 {
     font-size: clamp(2.45rem, 12vw, 3.2rem);
     letter-spacing: -0.05em;
