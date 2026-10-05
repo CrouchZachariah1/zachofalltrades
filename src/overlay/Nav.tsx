@@ -5,6 +5,7 @@ import { scrollApi } from '../hooks/useSmoothScroll.ts'
 import { useExperience } from '../store/experience.ts'
 import { BrandMark } from './Mark.tsx'
 import { MagneticButton } from './MagneticButton.tsx'
+import { ThemeToggle } from './ThemeToggle.tsx'
 
 export function Nav() {
   const compact = useExperience((s) => s.compactNav)
@@ -44,6 +45,7 @@ export function Nav() {
           </button>
         ))}
       </nav>
+      <ThemeToggle />
       <button
         type="button"
         className="nav-menu"

@@ -18,10 +18,10 @@ export function HexMark({ className }: Props) {
 export function BrandMark({ className }: Props) {
   return (
     <svg className={className} viewBox="0 0 36 36" aria-hidden="true">
-      <rect width="36" height="36" rx="6" fill="#e8eef4" />
+      <rect width="36" height="36" rx="6" fill="var(--mark-tile)" />
       <g transform="translate(8 8) scale(0.625)">
-        <path d="M7 8h18l-8.2 8H25v8H7l8.2-8H7V8Z" fill="#07080a" />
-        <path d="M21.5 8h3.5v3.2L21.5 8Z" fill="#4ee3ff" />
+        <path d="M7 8h18l-8.2 8H25v8H7l8.2-8H7V8Z" fill="var(--mark-z)" />
+        <path d="M21.5 8h3.5v3.2L21.5 8Z" fill="var(--mark-accent)" />
       </g>
     </svg>
   )

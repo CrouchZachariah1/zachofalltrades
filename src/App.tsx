@@ -2,6 +2,7 @@ import { lazy, Suspense, useEffect, useState } from 'react'
 import { usePointer } from './hooks/usePointer.ts'
 import { useSmoothScroll } from './hooks/useSmoothScroll.ts'
 import { detectAppMode, type Quality } from './lib/quality.ts'
+import { applyTheme, readTheme } from './lib/theme.ts'
 import { Contact } from './overlay/Contact.tsx'
 import { DomainNote } from './overlay/DomainNote.tsx'
 import { Cursor } from './overlay/Cursor.tsx'
@@ -29,6 +30,10 @@ export default function App() {
 
   useSmoothScroll(use3d)
   usePointer(use3d)
+
+  useEffect(() => {
+    applyTheme(readTheme())
+  }, [])
 
   useEffect(() => {
     document.documentElement.classList.toggle('is-2d', !use3d)

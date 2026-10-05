@@ -2,6 +2,17 @@
 <html lang="en-ZA" class="is-booting">
   <head>
     <meta charset="UTF-8" />
+    <script>
+      try {
+        if (localStorage.getItem('zoat-theme') === 'light') {
+          document.documentElement.classList.add('theme-light')
+        }
+      } catch (e) {}
+    </script>
+    <style>
+      html { background: #07080a; color: #e8eef4; }
+      html.theme-light { background: #e8eef4; color: #101318; }
+    </style>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
     <link rel="preload" as="image" href="/media/hangar.jpg" />
@@ -10,6 +21,13 @@
     <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#07080a" />
+    <script>
+      try {
+        if (document.documentElement.classList.contains('theme-light')) {
+          document.querySelector('meta[name="theme-color"]')?.setAttribute('content', '#e8eef4')
+        }
+      } catch (e) {}
+    </script>
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
     <meta name="googlebot" content="index, follow" />
     <meta name="author" content="Zach of All Trades" />
