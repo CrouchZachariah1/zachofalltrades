@@ -8,6 +8,8 @@ type Props = {
   href?: string
   type?: 'button' | 'submit'
   disabled?: boolean
+  title?: string
+  'aria-label'?: string
 }
 
 export function MagneticButton({
@@ -17,6 +19,8 @@ export function MagneticButton({
   href,
   type = 'button',
   disabled,
+  title,
+  'aria-label': ariaLabel,
 }: Props) {
   const ref = useRef<HTMLButtonElement | HTMLAnchorElement>(null)
 
@@ -51,6 +55,8 @@ export function MagneticButton({
         onClick={onClick}
         target={external ? '_blank' : undefined}
         rel={external ? 'noreferrer' : undefined}
+        title={title}
+        aria-label={ariaLabel}
       >
         <span>{children}</span>
       </a>
@@ -66,6 +72,8 @@ export function MagneticButton({
       onMouseLeave={leave}
       onClick={onClick}
       disabled={disabled}
+      title={title}
+      aria-label={ariaLabel}
     >
       <span>{children}</span>
     </button>

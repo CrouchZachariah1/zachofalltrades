@@ -1041,6 +1041,8 @@ html.has-domain-note .beat { top: 140px; }
 .form-foot { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 16px; align-items: center; }
 .service-pick .form-foot { margin-top: 8px; }
 .form-note { margin: 0; color: var(--mute); font-size: 0.9rem; grid-column: 1 / -1; }
+.form-note p { margin: 0 0 10px; }
+.form-note .beat-actions { justify-content: flex-start; margin-top: 10px; }
 .form-note.warn { color: #ff8d82; }
 .form-note code { color: var(--cyan); }
 .contact, .footer, .contact *, .footer * { cursor: auto; }
@@ -1083,8 +1085,18 @@ html.has-domain-note .beat { top: 140px; }
   color: var(--mute);
   font-size: 0.8rem;
 }
+.footer-meta button {
+  background: none;
+  border: 0;
+  padding: 0;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
 .footer-meta a:hover,
-.footer-meta a:focus-visible {
+.footer-meta a:focus-visible,
+.footer-meta button:hover,
+.footer-meta button:focus-visible {
   color: var(--cyan);
 }
 .footer-services {

@@ -9,6 +9,7 @@ import { requestOptions, resolveBrief } from '../config/request.ts'
 import { site } from '../config/site.ts'
 import { quoteWhatsAppHref, submitQuote, validateQuote } from '../lib/form.ts'
 import { useExperience } from '../store/experience.ts'
+import { ContactActions } from './ContactActions.tsx'
 import { MagneticButton } from './MagneticButton.tsx'
 import { RequestBrief } from './RequestBrief.tsx'
 
@@ -694,20 +695,21 @@ export function Contact() {
                   {status === 'sending' ? 'SENDING' : 'SEND REQUEST'}
                 </MagneticButton>
                 {status === 'config' && (
-                  <p className="form-note">
-                    Your brief is ready. Send it on WhatsApp.
-                    {whatsapp ? (
-                      <>
-                        {' '}
-                        <a href={whatsapp} target="_blank" rel="noopener noreferrer">
-                          Send on WhatsApp
-                        </a>
-                      </>
-                    ) : null}{' '}
-                    Or copy {site.email}.
-                  </p>
+                  <div className="form-note">
+                    <p>Your brief is ready. Send it on WhatsApp, email, or call.</p>
+                    <div className="beat-actions">
+                      <ContactActions whatsappHref={whatsapp || undefined} />
+                    </div>
+                  </div>
                 )}
-                {status === 'error' && error && <p className="form-note warn">{error}</p>}
+                {status === 'error' && error && (
+                  <div className="form-note warn">
+                    <p>{error}</p>
+                    <div className="beat-actions">
+                      <ContactActions />
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           )}

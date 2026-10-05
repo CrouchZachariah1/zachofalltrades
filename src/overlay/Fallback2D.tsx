@@ -1,5 +1,6 @@
 import { services, site } from '../config/site.ts'
 import { openQuote, openSection } from '../lib/actions.ts'
+import { ContactActions } from './ContactActions.tsx'
 import { HexMark } from './Mark.tsx'
 import { MagneticButton } from './MagneticButton.tsx'
 import { OfferSections } from './OfferSections.tsx'
@@ -120,16 +121,10 @@ export function Fallback2D({ reason }: Props) {
               <MagneticButton className="primary" onClick={() => openQuote()}>
                 Get a quote
               </MagneticButton>
-              <MagneticButton className="ghost" href={`https://wa.me/${site.whatsapp}`}>
-                WhatsApp
-              </MagneticButton>
+              <ContactActions />
             </div>
             <ul className="stage-meta">
               <li>{site.city}</li>
-              <li>{site.email}</li>
-              <li>
-                <a href={`tel:${site.phoneTel}`}>{site.phoneDisplay}</a>
-              </li>
             </ul>
           </div>
         </div>
@@ -246,9 +241,7 @@ export function Fallback2D({ reason }: Props) {
           <MagneticButton className="primary" onClick={() => openQuote()}>
             Get a quote
           </MagneticButton>
-          <MagneticButton className="ghost" href={`https://wa.me/${site.whatsapp}`}>
-            WhatsApp {site.phoneDisplay}
-          </MagneticButton>
+          <ContactActions />
         </div>
       </section>
     </main>

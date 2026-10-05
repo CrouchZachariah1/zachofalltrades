@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { services, site } from '../config/site.ts'
 import { openQuote, openSection } from '../lib/actions.ts'
 import { BrandMark } from './Mark.tsx'
@@ -5,6 +6,8 @@ import { BrandMark } from './Mark.tsx'
 const sectionIds = new Set(['web', 'ads', 'care'])
 
 export function Footer() {
+  const [copied, setCopied] = useState(false)
+
   return (
     <footer className="footer">
       <div className="footer-top">
@@ -16,12 +19,37 @@ export function Footer() {
           <li>
             {site.city}, {site.country}
           </li>
-          <li>{site.email}</li>
           <li>
-            <a href={`tel:${site.phoneTel}`}>{site.phoneDisplay}</a>
+            <button
+              type="button"
+              title={copied ? 'Email address copied' : site.email}
+              aria-label={copied ? 'Email address copied' : `Copy ${site.email}`}
+              onClick={() => {
+                void navigator.clipboard.writeText(site.email).then(
+                  () => {
+                    setCopied(true)
+                    window.setTimeout(() => setCopied(false), 1600)
+                  },
+                  () => {},
+                )
+              }}
+            >
+              {copied ? 'Copied' : 'Email'}
+            </button>
           </li>
           <li>
-            <a href={`https://wa.me/${site.whatsapp}`} target="_blank" rel="noreferrer">
+            <a href={`tel:${site.phoneTel}`} title={`Call ${site.phoneDisplay}`} aria-label={`Call ${site.phoneDisplay}`}>
+              Call
+            </a>
+          </li>
+          <li>
+            <a
+              href={`https://wa.me/${site.whatsapp}`}
+              target="_blank"
+              rel="noreferrer"
+              title={`WhatsApp ${site.phoneDisplay}`}
+              aria-label={`WhatsApp ${site.phoneDisplay}`}
+            >
               WhatsApp
             </a>
           </li>
