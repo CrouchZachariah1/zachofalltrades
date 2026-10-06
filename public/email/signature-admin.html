@@ -6,7 +6,15 @@
   <meta name="robots" content="noindex,nofollow" />
   <title>admin@zachofalltrades.co.za signature</title>
 </head>
-<body style="margin:0;padding:32px;background:#ffffff;">
+<body style="margin:0;padding:32px;background:#ffffff;font-family:Arial,Helvetica,sans-serif;">
+<p style="margin:0 0 16px;font-size:13px;color:#5c646e;max-width:52ch;">
+  Workplace: copy the HTML below, then in Settings → Mail → Signatures open
+  <strong>source / HTML / &lt;&gt;</strong> and paste. Pasting into the visual box shows the tags as text.
+</p>
+<p>
+  <button type="button" id="copy" style="appearance:none;border:0;border-radius:999px;background:#0a7082;color:#fff;font:600 13px Arial,Helvetica,sans-serif;padding:10px 16px;cursor:pointer;">Copy HTML code</button>
+</p>
+<div id="sig">
 <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse;font-family:Arial,Helvetica,sans-serif;">
   <tr>
     <td valign="top" style="padding:2px 16px 0 0;">
@@ -35,5 +43,20 @@
     </td>
   </tr>
 </table>
+</div>
+<textarea id="code" readonly spellcheck="false" style="display:block;width:100%;max-width:720px;min-height:120px;margin:24px 0 0;padding:10px;font:11px Consolas,monospace;color:#101318;"></textarea>
+<script>
+  var table = document.querySelector('#sig table')
+  var ta = document.getElementById('code')
+  var btn = document.getElementById('copy')
+  ta.value = table.outerHTML
+  btn.addEventListener('click', function () {
+    function done() { btn.textContent = 'Copied' }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(table.outerHTML).then(done).catch(function () { ta.focus(); ta.select() })
+    } else { ta.focus(); ta.select(); try { document.execCommand('copy'); done() } catch (e) {} }
+  })
+</script>
 </body>
 </html>
+

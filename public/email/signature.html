@@ -68,7 +68,41 @@
     .mail {
       font-size: 13px;
       color: var(--mute);
-      margin: 0 0 16px;
+      margin: 0 0 12px;
+    }
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 0 0 12px;
+    }
+    button {
+      appearance: none;
+      border: 0;
+      border-radius: 999px;
+      background: #4ee3ff;
+      color: #07080a;
+      font: 600 13px Arial, Helvetica, sans-serif;
+      padding: 10px 16px;
+      cursor: pointer;
+    }
+    button.ghost {
+      background: transparent;
+      color: var(--ink);
+      box-shadow: inset 0 0 0 1px rgba(232, 238, 244, 0.28);
+    }
+    button.ok { background: #1f8a5b; color: #fff; }
+    textarea {
+      display: block;
+      width: 100%;
+      min-height: 88px;
+      margin: 0 0 28px;
+      padding: 10px 12px;
+      border: 1px solid rgba(232, 238, 244, 0.14);
+      background: #101214;
+      color: #c5d0da;
+      font: 11px/1.45 Consolas, "Courier New", monospace;
+      resize: vertical;
     }
   </style>
 </head>
@@ -77,20 +111,22 @@
     <p class="kicker">Zach of All Trades</p>
     <h1>Email signatures</h1>
     <p class="lead">
-      Same mark and contact block for every mailbox. Open this page, highlight the
-      white signature, copy, then paste into the HTML signature field for that identity.
-      Images load from zachofalltrades.co.za.
+      Truehost Workplace (OX App Suite) shows the tags as text if you paste HTML
+      into the visual box. Copy the HTML code with the button, then paste it in
+      <strong style="color:#e8eef4">source / HTML</strong> view.
     </p>
 
-    <h2>How to install</h2>
+    <h2>Install in Workplace</h2>
     <div class="how">
       <ol>
-        <li>Open webmail for zachofalltrades.co.za and edit the identity for that address.</li>
-        <li>Turn the signature field to HTML if it offers a choice.</li>
-        <li>Copy the signature on the white card below — not this dark page chrome.</li>
-        <li>Paste, save, then send a test to yourself.</li>
+        <li>On this page, click <strong style="color:#e8eef4">Copy HTML code</strong> for that mailbox.</li>
+        <li>In Workplace: the three-dot menu → Settings → Mail → Signatures → Add new signature.</li>
+        <li>In the signature editor toolbar, click the source control — labelled <strong style="color:#e8eef4">&lt;&gt;</strong>, HTML, or Source. That switches off the visual box.</li>
+        <li>Paste (Ctrl+V), then switch back to the visual view. You should see the Z and the layout, not the tags.</li>
+        <li>Name it, save.</li>
+        <li>When you compose: Options → <strong style="color:#e8eef4">HTML</strong> (not Text), then pick this signature. Settings → Mail can also set the default compose format to HTML.</li>
       </ol>
-      <p>Outlook desktop: File → Options → Mail → Signatures. Paste the copied block. Allow images when you test.</p>
+      <p>If the editor still shows <code>&lt;table&gt;</code> after you paste, you were in visual mode. Delete it, switch to source, paste again.</p>
     </div>
 
     <p class="label">admin@zachofalltrades.co.za</p>
@@ -127,6 +163,11 @@
       </table>
       <!-- /SIGNATURE:admin -->
     </div>
+    <div class="actions">
+      <button type="button" data-copy="admin">Copy HTML code</button>
+      <button type="button" class="ghost" data-select="code-admin">Select code</button>
+    </div>
+    <textarea id="code-admin" readonly spellcheck="false" aria-label="admin signature HTML"></textarea>
 
     <p class="label">support@zachofalltrades.co.za</p>
     <p class="mail">Public inbox on the main site.</p>
@@ -160,6 +201,11 @@
         </tr>
       </table>
     </div>
+    <div class="actions">
+      <button type="button" data-copy="support">Copy HTML code</button>
+      <button type="button" class="ghost" data-select="code-support">Select code</button>
+    </div>
+    <textarea id="code-support" readonly spellcheck="false" aria-label="support signature HTML"></textarea>
 
     <p class="label">studio@zachofalltrades.co.za</p>
     <p class="mail">ZOAT Studio quotes and web work.</p>
@@ -193,6 +239,11 @@
         </tr>
       </table>
     </div>
+    <div class="actions">
+      <button type="button" data-copy="studio">Copy HTML code</button>
+      <button type="button" class="ghost" data-select="code-studio">Select code</button>
+    </div>
+    <textarea id="code-studio" readonly spellcheck="false" aria-label="studio signature HTML"></textarea>
 
     <p class="label">clients@zachofalltrades.co.za</p>
     <p class="mail">From-address on confirmations. Paste this if that identity also sends from webmail.</p>
@@ -224,6 +275,53 @@
         </tr>
       </table>
     </div>
+    <div class="actions">
+      <button type="button" data-copy="clients">Copy HTML code</button>
+      <button type="button" class="ghost" data-select="code-clients">Select code</button>
+    </div>
+    <textarea id="code-clients" readonly spellcheck="false" aria-label="clients signature HTML"></textarea>
   </div>
+  <script>
+    function sigHtml(id) {
+      var table = document.querySelector('#' + id + ' table')
+      return table ? table.outerHTML : ''
+    }
+    ;['admin', 'support', 'studio', 'clients'].forEach(function (id) {
+      var ta = document.getElementById('code-' + id)
+      if (ta) ta.value = sigHtml(id)
+    })
+    document.querySelectorAll('[data-copy]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var html = sigHtml(btn.getAttribute('data-copy'))
+        var ta = document.getElementById('code-' + btn.getAttribute('data-copy'))
+        function done() {
+          btn.textContent = 'Copied'
+          btn.classList.add('ok')
+          setTimeout(function () {
+            btn.textContent = 'Copy HTML code'
+            btn.classList.remove('ok')
+          }, 2000)
+        }
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(html).then(done).catch(function () {
+            if (ta) { ta.focus(); ta.select() }
+          })
+        } else if (ta) {
+          ta.focus()
+          ta.select()
+          try { document.execCommand('copy'); done() } catch (e) {}
+        }
+      })
+    })
+    document.querySelectorAll('[data-select]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var ta = document.getElementById(btn.getAttribute('data-select'))
+        if (!ta) return
+        ta.focus()
+        ta.select()
+      })
+    })
+  </script>
 </body>
 </html>
+
