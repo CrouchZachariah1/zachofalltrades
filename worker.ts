@@ -53,6 +53,37 @@ function limited(ip: string) {
   return current.n > 8
 }
 
+function isCrawler(ua: string) {
+  return /Googlebot|AdsBot|APIs-Google|Mediapartners-Google|bingbot|BingPreview|DuckDuckBot|Yandex|Baiduspider|Slurp|facebookexternalhit|LinkedInBot|Twitterbot|Applebot|SemrushBot|AhrefsBot|DotBot/i.test(
+    ua,
+  )
+}
+
+function wantsHtmlPage(request: Request) {
+  if (isCrawler(request.headers.get('user-agent') || '')) return false
+  const accept = request.headers.get('accept') || ''
+  return accept.includes('text/html')
+}
+
+async function sitemapHtmlPage(env: Env, request: Request) {
+  const file = new URL(request.url)
+  file.pathname = '/sitemap.html'
+  file.search = ''
+  let page = await env.ASSETS.fetch(new Request(file.toString(), { method: 'GET', redirect: 'manual' }))
+  if (page.status >= 300 && page.status < 400) {
+    const loc = page.headers.get('Location')
+    if (loc) {
+      page = await env.ASSETS.fetch(new Request(new URL(loc, file).toString(), { method: 'GET', redirect: 'manual' }))
+    }
+  }
+  return withHeaders(page, {
+    'Content-Type': 'text/html; charset=utf-8',
+    'Cache-Control': 'no-store',
+    'X-Robots-Tag': 'noindex, follow',
+    'Strict-Transport-Security': 'max-age=31536000',
+  })
+}
+
 export default {
   async fetch(request: Request, env: Env): Promise<Response> {
     const url = new URL(request.url)
@@ -73,11 +104,25 @@ export default {
     if (url.pathname === '/api/quote' && request.method === 'POST') {
       return handleQuote(request, env)
     }
-    const asset = await env.ASSETS.fetch(request)
-    if (url.hostname !== CANONICAL_HOST) {
-      return withHeaders(asset, { 'X-Robots-Tag': 'noindex, follow' })
+    if (url.pathname === '/sitemap' || url.pathname === '/sitemap/' || url.pathname === '/sitemap.html') {
+      return sitemapHtmlPage(env, request)
     }
-    return withHeaders(asset, { 'Strict-Transport-Security': 'max-age=31536000' })
+    if (url.pathname === '/sitemap.xml' && wantsHtmlPage(request)) {
+      return sitemapHtmlPage(env, request)
+    }
+    const asset = await env.ASSETS.fetch(request)
+    const extra: Record<string, string> = {}
+    if (url.pathname === '/sitemap.xml') {
+      extra['Cache-Control'] = 'no-store'
+      extra['CDN-Cache-Control'] = 'no-store'
+      extra['Cloudflare-CDN-Cache-Control'] = 'no-store'
+    }
+    if (url.hostname !== CANONICAL_HOST) {
+      extra['X-Robots-Tag'] = 'noindex, follow'
+    } else {
+      extra['Strict-Transport-Security'] = 'max-age=31536000'
+    }
+    return withHeaders(asset, extra)
   },
 }
 
