@@ -13,20 +13,27 @@ export function Nav() {
 
   return (
     <header className={`nav ${compact ? 'is-compact' : ''} ${open ? 'is-open' : ''}`}>
-      <button
-        type="button"
+      <a
         className="nav-logo"
-        onClick={() => {
+        href="#top"
+        onClick={(e) => {
+          e.preventDefault()
           setOpen(false)
+          const twoD = document.documentElement.classList.contains('is-2d')
+          if (twoD) {
+            if (window.location.hash !== '#top') history.pushState(null, '', '#top')
+            scrollApi.toElement('top')
+            return
+          }
           scrollApi.toProgress(0)
         }}
-        aria-label="Back to start"
+        aria-label="Zach of All Trades — back to start"
       >
         <span className="nav-mark">
           <BrandMark />
         </span>
         <span className="nav-word">{site.name}</span>
-      </button>
+      </a>
       <span className="nav-status">SYSTEMS ONLINE</span>
       <nav className="nav-links" aria-label="Primary">
         {navLinks.map((link) => (

@@ -14,6 +14,8 @@ const mime = {
   '.css': 'text/css; charset=utf-8',
   '.svg': 'image/svg+xml',
   '.png': 'image/png',
+  '.jpg': 'image/jpeg',
+  '.jpeg': 'image/jpeg',
   '.webp': 'image/webp',
   '.ico': 'image/x-icon',
   '.json': 'application/json',
@@ -43,13 +45,18 @@ const server = http.createServer((req, res) => {
     send(res, 200, requested)
     return
   }
-  const index = path.join(root, 'index.html')
-  if (fs.existsSync(index)) {
-    send(res, 200, index)
+  const indexed = path.join(requested, 'index.html')
+  if (fs.existsSync(indexed) && fs.statSync(indexed).isFile()) {
+    send(res, 200, indexed)
+    return
+  }
+  const missing = path.join(root, '404.html')
+  if (fs.existsSync(missing)) {
+    send(res, 404, missing)
     return
   }
   res.writeHead(404, { 'Content-Type': 'text/plain; charset=utf-8' })
-  res.end('Build the site first: npm run build')
+  res.end('Not found')
 })
 
 server.listen(port, host, () => {

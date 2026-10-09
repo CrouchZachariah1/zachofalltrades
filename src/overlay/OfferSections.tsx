@@ -74,10 +74,10 @@ export function OfferSections() {
       <section id="web" className="offer">
         <header className="offer-head">
           <p className="kicker">03 · Web Development</p>
-          <h2>Professional work at accessible pricing.</h2>
+          <h2>Website design and development</h2>
           <p className="body">
-            Websites are quoted around the project — pages, functionality and integrations — from clear starting prices.
-            Advertising is a separate service.
+            Website design and development is quoted around the project — pages, functionality and
+            integrations — from clear starting prices. Advertising is a separate service.
           </p>
           <p className="offer-work">
             <a href={site.studioUrl}>View our work</a>
@@ -93,8 +93,8 @@ export function OfferSections() {
       <section id="care" className="offer">
         <header className="offer-head">
           <p className="kicker">Website Care</p>
-          <h2>Keep the site looked after.</h2>
-          <p className="body">Ongoing maintenance for live websites, as an agreed monthly plan.</p>
+          <h2>Website maintenance</h2>
+          <p className="body">Ongoing website maintenance for live sites, as an agreed monthly plan.</p>
         </header>
         <OfferGrid offers={carePackages} />
         <aside className="offer-disclaimer">
@@ -105,10 +105,10 @@ export function OfferSections() {
       <section id="ads" className="offer">
         <header className="offer-head">
           <p className="kicker">04 · Advertising</p>
-          <h2>Managed digital advertising.</h2>
+          <h2>Facebook, Instagram and Google advertising</h2>
           <p className="body">
-            An ongoing service from Zach of All Trades: setup, management, monitoring and optimisation on Meta and
-            Google.
+            Facebook, Instagram and Google advertising management from Zach of All Trades: setup,
+            monitoring and optimisation on Meta and Google.
           </p>
         </header>
         <aside className="offer-callout">

@@ -1,10 +1,8 @@
 import { useState } from 'react'
-import { services, site } from '../config/site.ts'
-import { openQuote, openSection } from '../lib/actions.ts'
+import { serviceHref, services, site } from '../config/site.ts'
+import { onHashLinkClick } from '../lib/actions.ts'
 import { copySupportEmail } from './ContactActions.tsx'
 import { BrandMark } from './Mark.tsx'
-
-const sectionIds = new Set(['web', 'ads', 'care'])
 
 export function Footer() {
   const [copied, setCopied] = useState(false)
@@ -68,20 +66,17 @@ export function Footer() {
       <ul className="footer-services">
         {services.map((s) => (
           <li key={s.id}>
-            <button
-              type="button"
-              onClick={() => (sectionIds.has(s.id) ? openSection(s.id) : openQuote(s.formValue))}
-            >
+            <a href={serviceHref(s.id)} onClick={onHashLinkClick}>
               {s.title}
-            </button>
+            </a>
           </li>
         ))}
       </ul>
       <p className="footer-about">
-        {site.name} is a {site.city} practice for custom PCs, repairs, upgrades, IT consulting,
-        websites, website care, managed Facebook, Instagram and Google ads, Windows setup, and
-        Microsoft 365 configuration. Windows and Microsoft 365 work uses the customer’s genuine
-        license or subscription. We do not sell Microsoft licenses.
+        {site.name} is a {site.city} practice for computer repairs, custom PC builds and upgrades,
+        website design and development, IT support and consulting, website maintenance, and
+        Facebook, Instagram and Google advertising management. Windows and Microsoft 365 work uses
+        the customer’s genuine license or subscription. We do not sell Microsoft licenses.
       </p>
     </footer>
   )

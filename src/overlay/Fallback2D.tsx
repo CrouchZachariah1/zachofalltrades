@@ -1,5 +1,5 @@
-import { services, site } from '../config/site.ts'
-import { openQuote, openSection } from '../lib/actions.ts'
+import { serviceHref, services, site } from '../config/site.ts'
+import { onHashLinkClick, openQuote } from '../lib/actions.ts'
 import { ContactActions } from './ContactActions.tsx'
 import { HexMark } from './Mark.tsx'
 import { MagneticButton } from './MagneticButton.tsx'
@@ -16,23 +16,23 @@ const chapters = [
     id: 'builds',
     index: '01',
     kicker: 'Hardware',
-    title: 'Built for you.',
-    body: 'Custom gaming, work, and business PCs specified around the software you actually run — assembled, cabled, and ready.',
+    title: 'Custom PC builds and upgrades',
+    body: 'Custom gaming, work, and business PCs specified around the software you actually run — assembled, cabled, and ready. Upgrades keep the machine you have and change the parts that hold it back.',
     cta: 'Build your PC',
     service: 'PC Build',
     image: '/media/build.jpg',
-    imageAlt: 'Open custom PC chassis with cyan edge lighting',
+    imageAlt: 'Custom-built desktop PC with an open chassis and cyan edge lighting',
   },
   {
     id: 'repairs',
     index: '02',
     kicker: 'Diagnostics',
-    title: 'Something broke. We fix it.',
-    body: 'Diagnostics first. Then hardware repair, Windows recovery, cooling, storage, and the slow machines that just need the right part.',
+    title: 'Computer repairs',
+    body: 'Computer repairs in Cape Town start with diagnostics. Then hardware repair, Windows recovery, cooling, storage, and the slow machines that just need the right part.',
     cta: 'Book a repair',
     service: 'PC Repair',
     image: '/media/repair.jpg',
-    imageAlt: 'Motherboard under diagnostic light',
+    imageAlt: 'Computer motherboard on a diagnostic bench under inspection lighting',
     flip: true,
   },
 ] as const
@@ -42,7 +42,7 @@ const leads = [
     target: 'web',
     index: '03',
     kicker: 'Web',
-    title: 'Web Development',
+    title: 'Website design and development',
     body: 'Professional websites from R2,500.',
     go: 'Explore Web Development',
   },
@@ -50,15 +50,15 @@ const leads = [
     target: 'ads',
     index: '04',
     kicker: 'Ads',
-    title: 'Advertising',
-    body: 'Managed digital advertising from R750/month.',
+    title: 'Advertising management',
+    body: 'Facebook, Instagram and Google advertising management from R750/month.',
     go: 'Explore Advertising',
   },
   {
     target: 'care',
     index: '05',
     kicker: 'Care',
-    title: 'Website Care',
+    title: 'Website maintenance',
     body: 'Ongoing website maintenance from R450/month.',
     go: 'View Maintenance Plans',
   },
@@ -69,8 +69,8 @@ const modules = [
     id: 'consulting',
     index: '06',
     kicker: 'Consulting',
-    title: 'Don’t know what you need?',
-    body: 'Tell us what you are trying to get done. We will help you choose the right technology before you buy, build, or rebuild.',
+    title: 'IT support and consulting',
+    body: 'Tell us what you are trying to get done. IT support and consulting helps you choose the right technology before you buy, build, or rebuild.',
     service: 'IT Consulting',
     go: 'Request IT advice',
   },
@@ -78,7 +78,7 @@ const modules = [
     id: 'systems',
     index: '07',
     kicker: 'Systems',
-    title: 'Your tech. Set up right.',
+    title: 'Windows and Microsoft 365',
     body: 'Windows and Microsoft 365 installed and configured on your genuine licence or subscription. We do not sell Microsoft licences.',
     service: 'Windows',
     go: 'Request Windows setup',
@@ -111,8 +111,6 @@ function catalogGo(id: string): string {
       return 'Get a quote'
   }
 }
-
-const sectionIds = new Set(['web', 'ads', 'care'])
 
 export function Fallback2D({ reason }: Props) {
   return (
@@ -202,14 +200,19 @@ export function Fallback2D({ reason }: Props) {
 
       <section className="stage-leads">
         {leads.map((lead) => (
-          <button key={lead.target} type="button" className="stage-lead" onClick={() => openSection(lead.target)}>
+          <a
+            key={lead.target}
+            className="stage-lead"
+            href={`#${lead.target}`}
+            onClick={onHashLinkClick}
+          >
             <p className="kicker">
               {lead.index} · {lead.kicker}
             </p>
-            <h2>{lead.title}</h2>
+            <p className="stage-lead-title">{lead.title}</p>
             <p className="body">{lead.body}</p>
             <span className="stage-mod-go">{lead.go}</span>
-          </button>
+          </a>
         ))}
       </section>
 
@@ -217,12 +220,15 @@ export function Fallback2D({ reason }: Props) {
 
       <section className="stage-modules">
         {modules.map((mod) => (
-          <button
+          <a
             key={mod.id}
-            type="button"
-            id={mod.id === 'systems' ? undefined : mod.id}
+            id={mod.id}
             className="stage-mod"
-            onClick={() => openQuote(mod.service)}
+            href="#contact"
+            onClick={(event) => {
+              event.preventDefault()
+              openQuote(mod.service)
+            }}
           >
             <p className="kicker">
               {mod.index} · {mod.kicker}
@@ -230,29 +236,36 @@ export function Fallback2D({ reason }: Props) {
             <h2>{mod.title}</h2>
             <p className="body">{mod.body}</p>
             <span className="stage-mod-go">{mod.go}</span>
-          </button>
+          </a>
         ))}
       </section>
 
       <section id="services" className="stage-catalog">
         <header className="stage-catalog-head">
           <p className="kicker">08 · Services</p>
-          <h2>The whole machine.</h2>
+          <h2>Services</h2>
           <p className="body">Choose a service. We quote the work, then we do it.</p>
         </header>
         <div className="stage-catalog-grid">
           {services.map((s, i) => (
-            <button
+            <a
               key={s.id}
-              type="button"
               className="stage-card"
-              onClick={() => (sectionIds.has(s.id) ? openSection(s.id) : openQuote(s.formValue))}
+              href={serviceHref(s.id)}
+              onClick={(event) => {
+                if (serviceHref(s.id) === '#contact') {
+                  event.preventDefault()
+                  openQuote(s.formValue)
+                  return
+                }
+                onHashLinkClick(event)
+              }}
             >
               <span className="stage-card-index">{String(i + 1).padStart(2, '0')}</span>
               <h3>{s.title}</h3>
               <p>{s.short}</p>
               <span className="stage-card-go">{catalogGo(s.id)}</span>
-            </button>
+            </a>
           ))}
         </div>
       </section>

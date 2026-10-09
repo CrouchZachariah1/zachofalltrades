@@ -4,7 +4,7 @@ export const site = {
   tagline: 'Technology. Built right.',
   line: 'Build it. Connect it. Protect it. Fix it.',
   intro:
-    'Custom PCs, computer repairs, websites and IT support for homes and businesses in Cape Town.',
+    'Computer repairs, custom PC builds and upgrades, website design and development, and IT support for homes and businesses in Cape Town.',
   url: 'https://zachofalltrades.co.za',
   studioUrl: 'https://studio.zachofalltrades.co.za',
   email: 'support@zachofalltrades.co.za',
@@ -17,9 +17,9 @@ export const site = {
   countryCode: 'ZA',
   ogImage: 'https://zachofalltrades.co.za/share.jpg',
   logo: 'https://zachofalltrades.co.za/logo.png',
-  title: 'Zach of All Trades | Cape Town — PCs, Repair & Web',
+  title: 'Zach of All Trades | Computer Repairs & Web Design Cape Town',
   description:
-    'Custom PCs, repairs, upgrades, IT consulting, websites from R2,500, Facebook, Instagram and Google ads, Windows and Microsoft 365 in Cape Town. WhatsApp 060 329 2708.',
+    'Computer repairs, custom PCs, website design and development, and IT support in Cape Town — plus website maintenance and ads management.',
 }
 
 export const navLinks = [
@@ -37,7 +37,7 @@ export const services = [
     id: 'pc-build',
     formValue: 'PC Build',
     title: 'PC Builds',
-    short: 'Custom machines, assembled for how you actually work and play.',
+    short: 'Custom PC builds and upgrades, assembled for how you actually work and play.',
     body: 'Custom gaming, work, business and performance PCs designed around your performance, budget and goals.',
     progress: 0.1,
   },
@@ -45,7 +45,7 @@ export const services = [
     id: 'pc-repair',
     formValue: 'PC Repair',
     title: 'PC Repair',
-    short: 'Diagnostics, hardware repair, and software troubleshooting.',
+    short: 'Computer repairs: diagnostics, hardware repair, and software troubleshooting.',
     body: 'When something breaks, we isolate the fault and fix the machine — hardware, Windows, or both.',
     progress: 0.3,
   },
@@ -61,7 +61,7 @@ export const services = [
     id: 'consulting',
     formValue: 'IT Consulting',
     title: 'IT Consulting',
-    short: 'Advice before you buy, build, or rebuild.',
+    short: 'IT support and consulting before you buy, build, or rebuild.',
     body: 'Technology advice, purchasing guidance, troubleshooting, and setup — so you are not guessing.',
     progress: 0.57,
   },
@@ -69,7 +69,7 @@ export const services = [
     id: 'web',
     formValue: 'Website Development',
     title: 'Web Development',
-    short: 'Professional websites from R2,500.',
+    short: 'Website design and development from R2,500.',
     body: 'Custom websites for individuals, startups and businesses. Starting prices, quoted around the pages and functionality the project needs.',
     progress: 0.4,
   },
@@ -77,16 +77,16 @@ export const services = [
     id: 'care',
     formValue: 'Website Care',
     title: 'Website Care',
-    short: 'Ongoing website maintenance from R450/month.',
-    body: 'Agreed maintenance and support for live sites. New pages, major redesigns and new functionality are quoted separately.',
+    short: 'Website maintenance from R450/month.',
+    body: 'Agreed website maintenance and support for live sites. New pages, major redesigns and new functionality are quoted separately.',
     progress: 0.4,
   },
   {
     id: 'ads',
     formValue: 'Advertising',
     title: 'Advertising',
-    short: 'Managed digital advertising from R750/month.',
-    body: 'Facebook, Instagram and Google ads management. The monthly fee is for setup, management and optimisation. Advertising spend is paid separately to the platforms.',
+    short: 'Facebook, Instagram and Google advertising management from R750/month.',
+    body: 'Facebook, Instagram and Google advertising management. The monthly fee is for setup, management and optimisation. Advertising spend is paid separately to the platforms.',
     progress: 0.83,
   },
   {
@@ -109,11 +109,34 @@ export const services = [
     id: 'support',
     formValue: 'Other',
     title: 'Tech Support',
-    short: 'Hands-on help when your computer or software is not working as it should.',
-    body: 'Practical support across hardware, Windows, and the software you already pay for.',
+    short: 'Hands-on IT support when your computer or software is not working as it should.',
+    body: 'Practical IT support across hardware, Windows, and the software you already pay for.',
     progress: 0.83,
   },
 ] as const
+
+export function serviceHref(id: string): string {
+  switch (id) {
+    case 'pc-build':
+    case 'pc-upgrade':
+      return '#builds'
+    case 'pc-repair':
+      return '#repairs'
+    case 'consulting':
+      return '#consulting'
+    case 'web':
+      return '#web'
+    case 'care':
+      return '#care'
+    case 'ads':
+      return '#ads'
+    case 'windows':
+    case 'm365':
+      return '#systems'
+    default:
+      return '#contact'
+  }
+}
 
 export const formServices = [
   'PC Build',

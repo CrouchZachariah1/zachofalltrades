@@ -1,8 +1,24 @@
+import type { MouseEvent } from 'react'
 import type { QuoteExtras } from '../config/offers.ts'
 import { scrollApi } from '../hooks/useSmoothScroll.ts'
 import { useExperience, type InspectItem } from '../store/experience.ts'
 
 export type { InspectItem, QuoteExtras }
+
+export function followHash(href: string): void {
+  const id = href.startsWith('#') ? href.slice(1) : href
+  if (!id) return
+  const hash = `#${id}`
+  if (window.location.hash !== hash) history.pushState(null, '', hash)
+  scrollApi.toElement(id)
+}
+
+export function onHashLinkClick(event: MouseEvent<HTMLAnchorElement>): void {
+  const href = event.currentTarget.getAttribute('href') || ''
+  if (!href.startsWith('#')) return
+  event.preventDefault()
+  followHash(href)
+}
 
 export function openSection(id: string): void {
   if (document.getElementById(id)) {

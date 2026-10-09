@@ -15,7 +15,7 @@ export const beats: NarrativeBeat[] = [
     range: [0.018, 0.086],
     kicker: 'CAPE TOWN',
     title: ['ZACH', 'OF ALL', 'TRADES'],
-    body: 'Custom PCs, computer repairs, websites and IT support for homes and businesses in Cape Town.',
+    body: 'Computer repairs, custom PC builds and upgrades, website design and development, and IT support for homes and businesses in Cape Town.',
     cta: { label: 'Explore services', href: '#services' },
     secondary: { label: 'Get a quote' },
   },

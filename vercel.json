@@ -4,8 +4,7 @@
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
   "rewrites": [
-    { "source": "/ad", "destination": "/ad/index.html" },
-    { "source": "/((?!ad/).*)", "destination": "/index.html" }
+    { "source": "/ad", "destination": "/ad/index.html" }
   ],
   "headers": [
     {

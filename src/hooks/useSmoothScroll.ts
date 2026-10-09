@@ -47,9 +47,18 @@ export function useSmoothScroll(enabled: boolean): void {
   useEffect(() => {
     if ('scrollRestoration' in history) history.scrollRestoration = 'manual'
     const hash = window.location.hash.replace('#', '')
-    const keepHash = new Set(['contact', 'web', 'ads', 'care', 'services', 'builds', 'repairs', 'consulting']).has(
-      hash,
-    )
+    const keepHash = new Set([
+      'contact',
+      'web',
+      'ads',
+      'care',
+      'services',
+      'builds',
+      'repairs',
+      'consulting',
+      'systems',
+      'top',
+    ]).has(hash)
     if (enabled) document.documentElement.classList.add('is-booting')
     if (!keepHash) pinTop()
 
