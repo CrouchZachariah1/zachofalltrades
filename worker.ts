@@ -53,18 +53,6 @@ function limited(ip: string) {
   return current.n > 8
 }
 
-function isCrawler(ua: string) {
-  return /Googlebot|AdsBot|APIs-Google|Mediapartners-Google|bingbot|BingPreview|DuckDuckBot|Yandex|Baiduspider|Slurp|facebookexternalhit|LinkedInBot|Twitterbot|Applebot|SemrushBot|AhrefsBot|DotBot/i.test(
-    ua,
-  )
-}
-
-function wantsHtmlPage(request: Request) {
-  if (isCrawler(request.headers.get('user-agent') || '')) return false
-  const accept = request.headers.get('accept') || ''
-  return accept.includes('text/html')
-}
-
 async function sitemapHtmlPage(env: Env, request: Request) {
   const file = new URL(request.url)
   file.pathname = '/sitemap.html'
@@ -107,12 +95,10 @@ export default {
     if (url.pathname === '/sitemap' || url.pathname === '/sitemap/' || url.pathname === '/sitemap.html') {
       return sitemapHtmlPage(env, request)
     }
-    if (url.pathname === '/sitemap.xml' && wantsHtmlPage(request)) {
-      return sitemapHtmlPage(env, request)
-    }
     const asset = await env.ASSETS.fetch(request)
     const extra: Record<string, string> = {}
     if (url.pathname === '/sitemap.xml') {
+      extra['Content-Type'] = 'application/xml; charset=utf-8'
       extra['Cache-Control'] = 'no-store'
       extra['CDN-Cache-Control'] = 'no-store'
       extra['Cloudflare-CDN-Cache-Control'] = 'no-store'
