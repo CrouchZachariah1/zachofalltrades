@@ -3,8 +3,14 @@
   "framework": "vite",
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
+  "trailingSlash": true,
   "rewrites": [
     { "source": "/ad", "destination": "/ad/index.html" }
+  ],
+  "redirects": [
+    { "source": "/computer-repairs", "destination": "/computer-repairs/", "permanent": true },
+    { "source": "/custom-pcs", "destination": "/custom-pcs/", "permanent": true },
+    { "source": "/web-design", "destination": "/web-design/", "permanent": true }
   ],
   "headers": [
     {

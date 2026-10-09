@@ -65,6 +65,11 @@ export default {
       url.protocol = 'https:'
       return Response.redirect(url.toString(), 301)
     }
+    const serviceRoots = ['/computer-repairs', '/custom-pcs', '/web-design']
+    if (serviceRoots.includes(url.pathname)) {
+      url.pathname = `${url.pathname}/`
+      return Response.redirect(url.toString(), 301)
+    }
     if (url.pathname === '/api/quote' && request.method === 'POST') {
       return handleQuote(request, env)
     }

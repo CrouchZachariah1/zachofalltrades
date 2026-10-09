@@ -74,7 +74,9 @@ export function OfferSections() {
       <section id="web" className="offer">
         <header className="offer-head">
           <p className="kicker">03 · Web Development</p>
-          <h2>Website design and development</h2>
+          <h2>
+            <a href="/web-design/">Website design and development</a>
+          </h2>
           <p className="body">
             Website design and development is quoted around the project — pages, functionality and
             integrations — from clear starting prices. Advertising is a separate service.

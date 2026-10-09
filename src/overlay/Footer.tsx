@@ -11,8 +11,10 @@ export function Footer() {
     <footer className="footer">
       <div className="footer-top">
         <div className="footer-brand">
-          <BrandMark className="footer-mark" />
-          <strong>{site.name}</strong>
+          <a href="/" aria-label={`${site.name} homepage`}>
+            <BrandMark className="footer-mark" />
+            <strong>{site.name}</strong>
+          </a>
         </div>
         <ul className="footer-meta">
           <li>

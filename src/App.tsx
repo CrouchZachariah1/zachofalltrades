@@ -7,8 +7,10 @@ import { Contact } from './overlay/Contact.tsx'
 import { DomainNote } from './overlay/DomainNote.tsx'
 import { Cursor } from './overlay/Cursor.tsx'
 import { ErrorBoundary } from './overlay/ErrorBoundary.tsx'
+import { findServicePage } from './config/pages.ts'
 import { Fallback2D } from './overlay/Fallback2D.tsx'
 import { Footer } from './overlay/Footer.tsx'
+import { ServicePage } from './overlay/ServicePage.tsx'
 import { InspectCard } from './overlay/InspectCard.tsx'
 import { Loader } from './overlay/Loader.tsx'
 import { Narrative } from './overlay/Narrative.tsx'
@@ -25,26 +27,30 @@ export default function App() {
   const [mode] = useState(() => detectAppMode())
   const [quality, setQuality] = useState<Quality>(mode.quality)
   const [force2d, setForce2d] = useState(false)
+  const [page] = useState(() => findServicePage())
   const setReady = useExperience((s) => s.setReady)
-  const use3d = mode.mode === '3d' && !force2d
+  const setCompactNav = useExperience((s) => s.setCompactNav)
+  const use3d = !page && mode.mode === '3d' && !force2d
 
   useSmoothScroll(use3d)
   usePointer(use3d)
 
   useEffect(() => {
     applyTheme(readTheme())
-  }, [])
+    if (page) setCompactNav(true)
+  }, [page, setCompactNav])
 
   useEffect(() => {
     document.documentElement.classList.toggle('is-2d', !use3d)
     document.documentElement.classList.toggle('is-mobile', quality.mobile)
+    document.documentElement.classList.toggle('is-service', Boolean(page))
     if (!use3d) {
       setReady(true)
       return
     }
     const failsafe = window.setTimeout(() => setReady(true), 2500)
     return () => window.clearTimeout(failsafe)
-  }, [use3d, quality.mobile, setReady])
+  }, [use3d, quality.mobile, setReady, page])
 
   return (
     <div className="app">
@@ -54,7 +60,12 @@ export default function App() {
       <Loader />
       <DomainNote />
       <Nav />
-      {use3d ? (
+      {page ? (
+        <>
+          <ServicePage page={page} />
+          <ScrollBar />
+        </>
+      ) : use3d ? (
         <ErrorBoundary fallback={<Fallback2D />} onError={() => setForce2d(true)}>
           <Suspense fallback={null}>
             <CanvasRoot quality={quality} onQuality={setQuality} onFail={() => setForce2d(true)} />

@@ -23,12 +23,12 @@ export const site = {
 }
 
 export const navLinks = [
-  { id: 'services', label: 'SERVICES', progress: 0.83, href: '#services' },
-  { id: 'builds', label: 'PC BUILDS', progress: 0.1, href: '#builds' },
-  { id: 'repairs', label: 'REPAIRS', progress: 0.3, href: '#repairs' },
-  { id: 'consulting', label: 'CONSULTING', progress: 0.57, href: '#consulting' },
-  { id: 'web', label: 'WEB', progress: 0.4, href: '#web' },
-  { id: 'ads', label: 'ADS', progress: 0.83, href: '#ads' },
+  { id: 'services', label: 'SERVICES', progress: 0.83, href: '/#services' },
+  { id: 'builds', label: 'PC BUILDS', progress: 0.1, href: '/custom-pcs/' },
+  { id: 'repairs', label: 'REPAIRS', progress: 0.3, href: '/computer-repairs/' },
+  { id: 'consulting', label: 'CONSULTING', progress: 0.57, href: '/#consulting' },
+  { id: 'web', label: 'WEB', progress: 0.4, href: '/web-design/' },
+  { id: 'ads', label: 'ADS', progress: 0.83, href: '/#ads' },
   { id: 'contact', label: 'CONTACT', href: '#contact' },
 ] as const
 
@@ -119,20 +119,20 @@ export function serviceHref(id: string): string {
   switch (id) {
     case 'pc-build':
     case 'pc-upgrade':
-      return '#builds'
+      return '/custom-pcs/'
     case 'pc-repair':
-      return '#repairs'
+      return '/computer-repairs/'
     case 'consulting':
-      return '#consulting'
+      return '/#consulting'
     case 'web':
-      return '#web'
+      return '/web-design/'
     case 'care':
-      return '#care'
+      return '/#care'
     case 'ads':
-      return '#ads'
+      return '/#ads'
     case 'windows':
     case 'm365':
-      return '#systems'
+      return '/#systems'
     default:
       return '#contact'
   }

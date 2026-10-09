@@ -14,10 +14,22 @@ export function followHash(href: string): void {
 }
 
 export function onHashLinkClick(event: MouseEvent<HTMLAnchorElement>): void {
+  onSiteLinkClick(event)
+}
+
+export function onSiteLinkClick(event: MouseEvent<HTMLAnchorElement>): void {
   const href = event.currentTarget.getAttribute('href') || ''
-  if (!href.startsWith('#')) return
+  if (!href || href.startsWith('http') || href.startsWith('mailto:') || href.startsWith('tel:')) return
+
+  const url = new URL(href, window.location.origin)
+  if (url.origin !== window.location.origin) return
+
+  const here = window.location.pathname.replace(/\/+$/, '') || '/'
+  const there = url.pathname.replace(/\/+$/, '') || '/'
+  if (there !== here || !url.hash) return
+
   event.preventDefault()
-  followHash(href)
+  followHash(url.hash)
 }
 
 export function openSection(id: string): void {

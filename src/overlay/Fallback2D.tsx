@@ -20,6 +20,7 @@ const chapters = [
     body: 'Custom gaming, work, and business PCs specified around the software you actually run — assembled, cabled, and ready. Upgrades keep the machine you have and change the parts that hold it back.',
     cta: 'Build your PC',
     service: 'PC Build',
+    href: '/custom-pcs/',
     image: '/media/build.jpg',
     imageAlt: 'Custom-built desktop PC with an open chassis and cyan edge lighting',
   },
@@ -31,6 +32,7 @@ const chapters = [
     body: 'Computer repairs in Cape Town start with diagnostics. Then hardware repair, Windows recovery, cooling, storage, and the slow machines that just need the right part.',
     cta: 'Book a repair',
     service: 'PC Repair',
+    href: '/computer-repairs/',
     image: '/media/repair.jpg',
     imageAlt: 'Computer motherboard on a diagnostic bench under inspection lighting',
     flip: true,
@@ -45,6 +47,7 @@ const leads = [
     title: 'Website design and development',
     body: 'Professional websites from R2,500.',
     go: 'Explore Web Development',
+    href: '/web-design/',
   },
   {
     target: 'ads',
@@ -189,7 +192,9 @@ export function Fallback2D({ reason }: Props) {
             <p className="kicker">
               {chapter.index} · {chapter.kicker}
             </p>
-            <h2>{chapter.title}</h2>
+            <h2>
+              <a href={chapter.href}>{chapter.title}</a>
+            </h2>
             <p className="body">{chapter.body}</p>
             <MagneticButton className="primary" onClick={() => openQuote(chapter.service)}>
               {chapter.cta}
@@ -203,7 +208,7 @@ export function Fallback2D({ reason }: Props) {
           <a
             key={lead.target}
             className="stage-lead"
-            href={`#${lead.target}`}
+            href={'href' in lead ? lead.href : `#${lead.target}`}
             onClick={onHashLinkClick}
           >
             <p className="kicker">

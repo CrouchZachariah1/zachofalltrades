@@ -1,6 +1,7 @@
 import { useState } from 'react'
+import { isHomePath } from '../config/pages.ts'
 import { navLinks, site } from '../config/site.ts'
-import { openQuote } from '../lib/actions.ts'
+import { followHash, onSiteLinkClick, openQuote } from '../lib/actions.ts'
 import { scrollApi } from '../hooks/useSmoothScroll.ts'
 import { useExperience } from '../store/experience.ts'
 import { BrandMark } from './Mark.tsx'
@@ -10,19 +11,20 @@ import { ThemeToggle } from './ThemeToggle.tsx'
 export function Nav() {
   const compact = useExperience((s) => s.compactNav)
   const [open, setOpen] = useState(false)
+  const home = isHomePath()
 
   return (
     <header className={`nav ${compact ? 'is-compact' : ''} ${open ? 'is-open' : ''}`}>
       <a
         className="nav-logo"
-        href="#top"
+        href={home ? '#top' : '/'}
         onClick={(e) => {
-          e.preventDefault()
           setOpen(false)
+          if (!home) return
+          e.preventDefault()
           const twoD = document.documentElement.classList.contains('is-2d')
           if (twoD) {
-            if (window.location.hash !== '#top') history.pushState(null, '', '#top')
-            scrollApi.toElement('top')
+            followHash('#top')
             return
           }
           scrollApi.toProgress(0)
@@ -41,16 +43,18 @@ export function Nav() {
             key={link.id}
             href={link.href}
             onClick={(e) => {
-              e.preventDefault()
               setOpen(false)
+              const pathOnly = link.href.startsWith('/') && !link.href.startsWith('/#')
+              if (pathOnly) return
+              if (!home && link.href.startsWith('/#')) return
+              e.preventDefault()
               const twoD = document.documentElement.classList.contains('is-2d')
               if (twoD) {
-                if (window.location.hash !== link.href) history.pushState(null, '', link.href)
-                scrollApi.toElement(link.href.slice(1))
+                onSiteLinkClick(e)
                 return
               }
               if ('progress' in link) scrollApi.toProgress(link.progress)
-              else scrollApi.toElement(link.href.slice(1))
+              else followHash(link.href.includes('#') ? `#${link.href.split('#')[1]}` : link.href)
             }}
           >
             {link.label}
