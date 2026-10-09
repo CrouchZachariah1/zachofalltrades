@@ -7,8 +7,23 @@ type Props = {
   whatsappHref?: string
 }
 
+export function copySupportEmail(): Promise<boolean> {
+  return navigator.clipboard.writeText(site.email).then(
+    () => true,
+    () => false,
+  )
+}
+
 export function ContactActions({ className = 'ghost', whatsappHref }: Props) {
   const [copied, setCopied] = useState(false)
+
+  const copyEmail = () => {
+    void copySupportEmail().then((ok) => {
+      if (!ok) return
+      setCopied(true)
+      window.setTimeout(() => setCopied(false), 2000)
+    })
+  }
 
   return (
     <>
@@ -30,20 +45,23 @@ export function ContactActions({ className = 'ghost', whatsappHref }: Props) {
       </MagneticButton>
       <MagneticButton
         className={className}
-        title={copied ? 'Email address copied' : site.email}
-        aria-label={copied ? 'Email address copied' : `Copy ${site.email}`}
-        onClick={() => {
-          void navigator.clipboard.writeText(site.email).then(
-            () => {
-              setCopied(true)
-              window.setTimeout(() => setCopied(false), 1600)
-            },
-            () => {},
-          )
-        }}
+        href={`mailto:${site.email}`}
+        title={site.email}
+        aria-label={`Email us at ${site.email}`}
       >
-        {copied ? 'Copied' : 'Email'}
+        Email us
       </MagneticButton>
+      <MagneticButton
+        className={className}
+        title={copied ? 'Email address copied' : `Copy ${site.email}`}
+        aria-label={copied ? 'Email address copied' : `Copy email address ${site.email}`}
+        onClick={copyEmail}
+      >
+        {copied ? 'Copied' : 'Copy email address'}
+      </MagneticButton>
+      <span className="visually-hidden" role="status" aria-live="polite">
+        {copied ? 'Email address copied' : ''}
+      </span>
     </>
   )
 }

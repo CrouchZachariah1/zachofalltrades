@@ -93,6 +93,7 @@ export function Contact() {
   const [whatsapp, setWhatsapp] = useState('')
   const nameRef = useRef<HTMLInputElement>(null)
   const headingRef = useRef<HTMLHeadingElement>(null)
+  const errorRef = useRef<HTMLParagraphElement>(null)
   const stepped = useRef(false)
 
   const chosen = useMemo(
@@ -156,6 +157,11 @@ export function Contact() {
     headingRef.current?.focus()
   }, [step])
 
+  useEffect(() => {
+    if (!error) return
+    errorRef.current?.focus()
+  }, [error])
+
   const toggleService = (value: string) => {
     const next = services.includes(value) ? services.filter((item) => item !== value) : [...services, value]
     setServices(next)
@@ -197,7 +203,7 @@ export function Contact() {
 
   const goPath = () => {
     if (!services.length) {
-      setError('Pick at least one service.')
+      setError('Choose at least one service to continue.')
       return
     }
     setError('')
@@ -206,7 +212,7 @@ export function Contact() {
 
   const goDetails = () => {
     if (!services.length) {
-      setError('Pick at least one service.')
+      setError('Choose at least one service to continue.')
       setStep(1)
       return
     }
@@ -313,6 +319,7 @@ export function Contact() {
   return (
     <section id="contact" className="contact">
       <div className="contact-copy">
+        <p className="contact-process">Tell us what you need → Receive a quote → Approve the work.</p>
         {showBrief && brief ? (
           <RequestBrief brief={brief} />
         ) : (
@@ -333,8 +340,8 @@ export function Contact() {
             </h2>
             <p className="body">
               {step === 3
-                ? 'Name and email are enough. We reply there with a clear next step.'
-                : 'Tap one or more paths. Each one opens a brief built for that job — and if you stack them, the work is sequenced as one visit where it can be. Microsoft work always uses your genuine licence or subscription.'}
+                ? 'Name and email are enough. Phone is optional. We reply by email with a clear next step.'
+                : 'Choose one or more services. Each one opens a brief for that job — and if you choose more than one, the work is sequenced as one visit where it can be. Microsoft work always uses your genuine licence or subscription.'}
             </p>
           </>
         )}
@@ -368,6 +375,37 @@ export function Contact() {
             )}
           </dl>
         )}
+        <dl className="contact-nap">
+          <div>
+            <dt>Location</dt>
+            <dd>
+              {site.city}, {site.country}
+            </dd>
+          </div>
+          <div>
+            <dt>Email</dt>
+            <dd>
+              <a href={`mailto:${site.email}`}>{site.email}</a>
+            </dd>
+          </div>
+          <div>
+            <dt>Phone</dt>
+            <dd>
+              <a href={`tel:${site.phoneTel}`}>{site.phoneDisplay}</a>
+            </dd>
+          </div>
+          <div>
+            <dt>WhatsApp</dt>
+            <dd>
+              <a href={`https://wa.me/${site.whatsapp}`} target="_blank" rel="noreferrer">
+                {site.phoneDisplay}
+              </a>
+            </dd>
+          </div>
+        </dl>
+        <div className="beat-actions contact-direct">
+          <ContactActions />
+        </div>
       </div>
 
       {status === 'sent' ? (
@@ -387,7 +425,7 @@ export function Contact() {
           <ol className="request-steps" aria-label="Request steps">
             {(
               [
-                [1, 'Path'],
+                [1, 'Service'],
                 [2, 'Details'],
                 [3, 'Contact'],
               ] as const
@@ -415,9 +453,12 @@ export function Contact() {
             <fieldset className="service-pick">
               <legend className="visually-hidden">Services</legend>
               <h3 ref={headingRef} tabIndex={-1} className="request-heading">
-                Tap everything you need
+                Choose a service
               </h3>
-              <p className="service-note">One job, or a stack. The brief on the left updates as you select.</p>
+              <p className="service-note">
+                Choose one or more services. The brief on the left updates as you select. Choose at least one service
+                to continue.
+              </p>
               <div className="service-grid">
                 {requestOptions.map((item) => (
                   <button
@@ -439,7 +480,11 @@ export function Contact() {
                 <MagneticButton className="primary" type="button" onClick={goPath} disabled={!services.length}>
                   CONTINUE
                 </MagneticButton>
-                {error && <p className="form-note warn">{error}</p>}
+                {error && (
+                  <p ref={errorRef} className="form-note warn" role="alert" tabIndex={-1}>
+                    {error}
+                  </p>
+                )}
               </div>
             </fieldset>
           )}
@@ -467,10 +512,18 @@ export function Contact() {
                 </button>
               </div>
 
+              <p className="service-note">
+                {hasWeb
+                  ? 'Choose the website type and number of pages to continue. Features and budget are optional if you describe the project.'
+                  : needChoices.length
+                    ? 'Select the options that apply, or write a short description, then continue. Budget is optional.'
+                    : 'Describe what you need so we can quote the work, then continue.'}
+              </p>
+
               {hasWeb && (
                 <>
                   <ChipRow
-                    legend="What do you need?"
+                    legend="What do you need? (required)"
                     options={webNeedOptions}
                     value={webNeed}
                     onToggle={(entry) => {
@@ -479,7 +532,7 @@ export function Contact() {
                     }}
                   />
                   <ChipRow
-                    legend="Approximate number of pages"
+                    legend="Approximate number of pages (required)"
                     options={webPageOptions}
                     value={pages}
                     onToggle={(entry) => {
@@ -488,7 +541,7 @@ export function Contact() {
                     }}
                   />
                   <ChipRow
-                    legend="Features required"
+                    legend="Features (optional if you describe the project below)"
                     options={webFeatureOptions}
                     value={features}
                     multiple
@@ -518,7 +571,11 @@ export function Contact() {
 
               {showBudget && (
                 <fieldset className="budget-pick">
-                  <legend>{hasWeb ? 'What budget have you allocated for this project?' : 'Budget · R (ZAR)'}</legend>
+                  <legend>
+                    {hasWeb
+                      ? 'What budget have you allocated for this project? (optional)'
+                      : 'Budget (optional) · R (ZAR)'}
+                  </legend>
                   {hasWeb && (
                     <p className="field-hint">
                       This helps us understand your expectations. Final pricing is determined after reviewing the
@@ -553,7 +610,13 @@ export function Contact() {
               )}
 
               <label className="full">
-                <span>{hasWeb ? 'Description of the project' : needChoices.length ? 'Anything else we should know?' : 'What are you trying to get done?'}</span>
+                <span>
+                  {hasWeb
+                    ? 'Description of the project (optional if you selected features)'
+                    : needChoices.length
+                      ? 'Anything else we should know? (optional if you selected options above)'
+                      : 'What are you trying to get done?'}
+                </span>
                 <textarea
                   name="message"
                   rows={4}
@@ -577,7 +640,11 @@ export function Contact() {
                 <MagneticButton className="primary" type="button" onClick={goDetails}>
                   CONTINUE
                 </MagneticButton>
-                {error && <p className="form-note warn">{error}</p>}
+                {error && (
+                  <p ref={errorRef} className="form-note warn" role="alert" tabIndex={-1}>
+                    {error}
+                  </p>
+                )}
               </div>
             </div>
           )}
@@ -627,10 +694,11 @@ export function Contact() {
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   required
+                  aria-required="true"
                 />
               </label>
               <label>
-                <span>Business / company name</span>
+                <span>Business / company name (optional)</span>
                 <input
                   name="business"
                   autoComplete="organization"
@@ -649,16 +717,17 @@ export function Contact() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
+                  aria-required="true"
                 />
               </label>
               <label>
-                <span>Phone / WhatsApp</span>
+                <span>Phone / WhatsApp (optional)</span>
                 <input
                   name="phone"
                   type="tel"
                   autoComplete="tel"
                   inputMode="tel"
-                  placeholder="060 329 2708"
+                  placeholder="Your phone or WhatsApp number"
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
                 />
@@ -666,7 +735,7 @@ export function Contact() {
               {hasWeb && (
                 <>
                   <label className="full">
-                    <span>Existing website</span>
+                    <span>Existing website (optional)</span>
                     <input
                       name="website"
                       autoComplete="url"
@@ -676,7 +745,7 @@ export function Contact() {
                     />
                   </label>
                   <label className="full">
-                    <span>Preferred launch date / deadline</span>
+                    <span>Preferred launch date / deadline (optional)</span>
                     <input
                       name="deadline"
                       placeholder="When does this need to be live?"
@@ -703,7 +772,7 @@ export function Contact() {
                   </div>
                 )}
                 {status === 'error' && error && (
-                  <div className="form-note warn">
+                  <div className="form-note warn" role="alert">
                     <p>{error}</p>
                     <div className="beat-actions">
                       <ContactActions />

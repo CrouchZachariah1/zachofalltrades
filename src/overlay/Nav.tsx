@@ -30,19 +30,24 @@ export function Nav() {
       <span className="nav-status">SYSTEMS ONLINE</span>
       <nav className="nav-links" aria-label="Primary">
         {navLinks.map((link) => (
-          <button
+          <a
             key={link.id}
-            type="button"
-            onClick={() => {
+            href={link.href}
+            onClick={(e) => {
+              e.preventDefault()
               setOpen(false)
               const twoD = document.documentElement.classList.contains('is-2d')
-              if (twoD && 'href' in link && link.href) scrollApi.toElement(link.href.slice(1))
-              else if ('progress' in link) scrollApi.toProgress(link.progress)
-              else if ('href' in link && link.href) scrollApi.toElement(link.href.slice(1))
+              if (twoD) {
+                if (window.location.hash !== link.href) history.pushState(null, '', link.href)
+                scrollApi.toElement(link.href.slice(1))
+                return
+              }
+              if ('progress' in link) scrollApi.toProgress(link.progress)
+              else scrollApi.toElement(link.href.slice(1))
             }}
           >
             {link.label}
-          </button>
+          </a>
         ))}
       </nav>
       <ThemeToggle />

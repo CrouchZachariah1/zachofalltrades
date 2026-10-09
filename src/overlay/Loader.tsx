@@ -2,25 +2,36 @@ import { useEffect, useState } from 'react'
 import { useExperience } from '../store/experience.ts'
 import { BrandMark } from './Mark.tsx'
 
+function prefersReducedMotion(): boolean {
+  return typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
+}
+
 export function Loader() {
   const ready = useExperience((s) => s.ready)
-  const [phase, setPhase] = useState<'boot' | 'ready' | 'gone'>('boot')
+  const [phase, setPhase] = useState<'boot' | 'ready' | 'gone'>(() =>
+    prefersReducedMotion() ? 'gone' : 'boot',
+  )
   const [line, setLine] = useState('INITIALIZING SYSTEM')
 
   useEffect(() => {
+    if (prefersReducedMotion() || ready) return
     const a = window.setTimeout(() => setLine('MAPPING HARDWARE'), 420)
     const b = window.setTimeout(() => setLine('LINKING NETWORK'), 820)
     return () => {
       window.clearTimeout(a)
       window.clearTimeout(b)
     }
-  }, [])
+  }, [ready])
 
   useEffect(() => {
+    if (prefersReducedMotion()) {
+      setPhase('gone')
+      return
+    }
     if (!ready) return
     setLine('SYSTEMS ONLINE')
     setPhase('ready')
-    const t = window.setTimeout(() => setPhase('gone'), 700)
+    const t = window.setTimeout(() => setPhase('gone'), 200)
     return () => window.clearTimeout(t)
   }, [ready])
 

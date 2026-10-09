@@ -68,10 +68,11 @@ const modules = [
   {
     id: 'consulting',
     index: '06',
-    kicker: 'Network',
+    kicker: 'Consulting',
     title: 'Don’t know what you need?',
-    body: 'Tell us what you are trying to accomplish. We will help you figure out the technology before you buy, build, or rebuild.',
+    body: 'Tell us what you are trying to get done. We will help you choose the right technology before you buy, build, or rebuild.',
     service: 'IT Consulting',
+    go: 'Request IT advice',
   },
   {
     id: 'systems',
@@ -80,8 +81,36 @@ const modules = [
     title: 'Your tech. Set up right.',
     body: 'Windows and Microsoft 365 installed and configured on your genuine licence or subscription. We do not sell Microsoft licences.',
     service: 'Windows',
+    go: 'Request Windows setup',
   },
 ] as const
+
+function catalogGo(id: string): string {
+  switch (id) {
+    case 'pc-build':
+      return 'Build your PC'
+    case 'pc-repair':
+      return 'Request a repair'
+    case 'pc-upgrade':
+      return 'Discuss an upgrade'
+    case 'consulting':
+      return 'Request IT advice'
+    case 'web':
+      return 'Explore Web Development'
+    case 'ads':
+      return 'Explore Advertising'
+    case 'care':
+      return 'View Maintenance Plans'
+    case 'windows':
+      return 'Request Windows setup'
+    case 'm365':
+      return 'Request Microsoft 365 setup'
+    case 'support':
+      return 'Request tech support'
+    default:
+      return 'Get a quote'
+  }
+}
 
 const sectionIds = new Set(['web', 'ads', 'care'])
 
@@ -105,7 +134,7 @@ export function Fallback2D({ reason }: Props) {
           <div className="stage-hero-copy">
             <p className="kicker">
               <span className="stage-pip" aria-hidden="true" />
-              Cape Town · Systems online
+              Cape Town
             </p>
             <h1>
               <span className="stage-word">ZACH</span>
@@ -113,15 +142,17 @@ export function Fallback2D({ reason }: Props) {
               <span className="stage-word">TRADES</span>
             </h1>
             <p className="lede">{site.tagline}</p>
-            <p className="body">{site.line}</p>
+            <p className="body">{site.intro}</p>
             {reason === 'motion' && (
               <p className="fall-note">Motion is reduced. This is the still version of the studio.</p>
             )}
             <div className="beat-actions">
-              <MagneticButton className="primary" onClick={() => openQuote()}>
+              <MagneticButton className="primary" href="#services">
+                Explore services
+              </MagneticButton>
+              <MagneticButton className="ghost" onClick={() => openQuote()}>
                 Get a quote
               </MagneticButton>
-              <ContactActions />
             </div>
             <ul className="stage-meta">
               <li>{site.city}</li>
@@ -198,7 +229,7 @@ export function Fallback2D({ reason }: Props) {
             </p>
             <h2>{mod.title}</h2>
             <p className="body">{mod.body}</p>
-            <span className="stage-mod-go">Request this</span>
+            <span className="stage-mod-go">{mod.go}</span>
           </button>
         ))}
       </section>
@@ -207,7 +238,7 @@ export function Fallback2D({ reason }: Props) {
         <header className="stage-catalog-head">
           <p className="kicker">08 · Services</p>
           <h2>The whole machine.</h2>
-          <p className="body">Pick a path. We quote the work, then we do it.</p>
+          <p className="body">Choose a service. We quote the work, then we do it.</p>
         </header>
         <div className="stage-catalog-grid">
           {services.map((s, i) => (
@@ -220,9 +251,7 @@ export function Fallback2D({ reason }: Props) {
               <span className="stage-card-index">{String(i + 1).padStart(2, '0')}</span>
               <h3>{s.title}</h3>
               <p>{s.short}</p>
-              <span className="stage-card-go">
-                {s.id === 'web' ? 'Explore Web Development' : s.id === 'ads' ? 'Explore Advertising' : s.id === 'care' ? 'View Maintenance Plans' : 'Request this'}
-              </span>
+              <span className="stage-card-go">{catalogGo(s.id)}</span>
             </button>
           ))}
         </div>

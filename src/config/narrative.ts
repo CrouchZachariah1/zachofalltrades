@@ -15,7 +15,9 @@ export const beats: NarrativeBeat[] = [
     range: [0.018, 0.086],
     kicker: 'CAPE TOWN',
     title: ['ZACH', 'OF ALL', 'TRADES'],
-    body: 'Build it. Connect it. Protect it. Fix it.',
+    body: 'Custom PCs, computer repairs, websites and IT support for homes and businesses in Cape Town.',
+    cta: { label: 'Explore services', href: '#services' },
+    secondary: { label: 'Get a quote' },
   },
   {
     id: 'workshop',
@@ -71,10 +73,10 @@ export const beats: NarrativeBeat[] = [
   {
     id: 'consult',
     range: [0.568, 0.632],
-    kicker: 'NETWORK',
+    kicker: 'CONSULTING',
     title: ['DON’T KNOW', 'WHAT YOU NEED?'],
-    body: 'That’s what we’re here for. Tell us what you’re trying to accomplish. We’ll help you figure out the technology.',
-    cta: { label: 'GET ADVICE', service: 'IT Consulting' },
+    body: 'That’s what we’re here for. Tell us what you’re trying to get done. We’ll help you choose the right technology.',
+    cta: { label: 'Request IT advice', service: 'IT Consulting' },
   },
   {
     id: 'os',
@@ -104,7 +106,7 @@ export const beats: NarrativeBeat[] = [
     range: [0.83, 0.888],
     kicker: 'SERVICES',
     title: ['ZACH OF ALL TRADES'],
-    body: 'Click a node. Pick a path. Or just keep moving.',
+    body: 'Click a node. Choose a service. Or just keep moving.',
   },
   {
     id: 'cta',

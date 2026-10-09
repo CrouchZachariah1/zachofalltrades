@@ -1,5 +1,6 @@
 import gsap from 'gsap'
 import { useRef, type MouseEvent, type ReactNode, type RefObject } from 'react'
+import { scrollApi } from '../hooks/useSmoothScroll.ts'
 
 type Props = {
   children: ReactNode
@@ -44,6 +45,7 @@ export function MagneticButton({
   }
 
   if (href) {
+    const hash = href.startsWith('#')
     const external = href.startsWith('http')
     return (
       <a
@@ -52,7 +54,15 @@ export function MagneticButton({
         className={`magnet ${className}`}
         onMouseMove={move}
         onMouseLeave={leave}
-        onClick={onClick}
+        onClick={(e) => {
+          if (hash) {
+            e.preventDefault()
+            const id = href.slice(1)
+            if (window.location.hash !== href) history.pushState(null, '', href)
+            scrollApi.toElement(id)
+          }
+          onClick?.()
+        }}
         target={external ? '_blank' : undefined}
         rel={external ? 'noreferrer' : undefined}
         title={title}

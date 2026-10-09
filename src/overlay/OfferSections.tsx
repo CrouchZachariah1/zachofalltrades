@@ -11,10 +11,14 @@ import {
   webPricingDisclaimer,
   type OfferPackage,
 } from '../config/offers.ts'
+import { site } from '../config/site.ts'
 import { openQuote } from '../lib/actions.ts'
 import { MagneticButton } from './MagneticButton.tsx'
 
 function OfferCard({ offer }: { offer: OfferPackage }) {
+  const preview = offer.items.slice(0, 3)
+  const rest = offer.items.slice(3)
+
   return (
     <article className="offer-card">
       <h3>{offer.name}</h3>
@@ -27,9 +31,8 @@ function OfferCard({ offer }: { offer: OfferPackage }) {
         </p>
       )}
       <p className="offer-audience">{offer.audience}</p>
-      <p className="offer-include">{offer.includeLabel}</p>
       <ul>
-        {offer.items.map((item) => (
+        {preview.map((item) => (
           <li key={item}>{item}</li>
         ))}
       </ul>
@@ -37,6 +40,20 @@ function OfferCard({ offer }: { offer: OfferPackage }) {
       <MagneticButton className="primary" onClick={() => openQuote(offer.service, offer.extras)}>
         {offer.cta}
       </MagneticButton>
+      {rest.length > 0 && (
+        <details className="offer-details">
+          <summary>
+            <span className="offer-details-closed">View details</span>
+            <span className="offer-details-open">Hide details</span>
+          </summary>
+          <p className="offer-include">{offer.includeLabel}</p>
+          <ul>
+            {rest.map((item) => (
+              <li key={item}>{item}</li>
+            ))}
+          </ul>
+        </details>
+      )}
     </article>
   )
 }
@@ -61,6 +78,9 @@ export function OfferSections() {
           <p className="body">
             Websites are quoted around the project — pages, functionality and integrations — from clear starting prices.
             Advertising is a separate service.
+          </p>
+          <p className="offer-work">
+            <a href={site.studioUrl}>View our work</a>
           </p>
         </header>
         <OfferGrid offers={webPackages} />
@@ -97,6 +117,10 @@ export function OfferSections() {
           </p>
           <p>{adsSpendDisclaimer}</p>
           <p>{adsBillingDisclaimer}</p>
+          <p>
+            Example: Ads Starter is R750/month management, plus a client-selected advertising budget. That R750 is for
+            our work — it is not R750 of advertising.
+          </p>
         </aside>
 
         <div className="offer-sub">
@@ -121,15 +145,6 @@ export function OfferSections() {
           <p className="body">Advanced advertising requirements receive a custom quote.</p>
         </div>
         <OfferGrid offers={combinedAdPackages} />
-        <aside className="offer-disclaimer">
-          <p>
-            <strong>The monthly fee is management. The advertising budget is paid to the platform.</strong>
-          </p>
-          <p>
-            Example: Ads Starter is R750/month management, plus a client-selected advertising budget. That R750 is for
-            our work — it is not R750 of advertising.
-          </p>
-        </aside>
       </section>
     </>
   )

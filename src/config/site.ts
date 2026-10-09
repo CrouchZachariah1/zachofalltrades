@@ -3,6 +3,8 @@ export const site = {
   short: 'ZOAT',
   tagline: 'Technology. Built right.',
   line: 'Build it. Connect it. Protect it. Fix it.',
+  intro:
+    'Custom PCs, computer repairs, websites and IT support for homes and businesses in Cape Town.',
   url: 'https://zachofalltrades.co.za',
   studioUrl: 'https://studio.zachofalltrades.co.za',
   email: 'support@zachofalltrades.co.za',
@@ -107,7 +109,7 @@ export const services = [
     id: 'support',
     formValue: 'Other',
     title: 'Tech Support',
-    short: 'Hands-on help when the stack does not behave.',
+    short: 'Hands-on help when your computer or software is not working as it should.',
     body: 'Practical support across hardware, Windows, and the software you already pay for.',
     progress: 0.83,
   },

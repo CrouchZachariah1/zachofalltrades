@@ -105,6 +105,8 @@ export function Narrative() {
                     if (beat.secondary?.href) scrollApi.toElement(beat.secondary.href.slice(1))
                     else if (beat.secondary?.progress !== undefined) {
                       scrollApi.toProgress(beat.secondary.progress)
+                    } else {
+                      openQuote()
                     }
                   }}
                 >

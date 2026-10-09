@@ -38,14 +38,11 @@ export default function App() {
   useEffect(() => {
     document.documentElement.classList.toggle('is-2d', !use3d)
     document.documentElement.classList.toggle('is-mobile', quality.mobile)
-    const failsafe = window.setTimeout(() => setReady(true), use3d ? 2500 : 400)
     if (!use3d) {
-      const t = window.setTimeout(() => setReady(true), 120)
-      return () => {
-        window.clearTimeout(t)
-        window.clearTimeout(failsafe)
-      }
+      setReady(true)
+      return
     }
+    const failsafe = window.setTimeout(() => setReady(true), 2500)
     return () => window.clearTimeout(failsafe)
   }, [use3d, quality.mobile, setReady])
 

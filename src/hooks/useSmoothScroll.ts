@@ -12,11 +12,19 @@ export const scrollApi = {
     if (this.lenis) this.lenis.scrollTo(y, { duration: 2.2, lerp: 0.06 })
     else window.scrollTo({ top: y, behavior: 'smooth' })
   },
-  toElement(id: string) {
+  toElement(id: string, opts?: { immediate?: boolean }) {
     const el = document.getElementById(id)
     if (!el) return
-    if (this.lenis) this.lenis.scrollTo(el, { offset: -12, duration: 2.2, lerp: 0.06 })
-    else el.scrollIntoView({ behavior: 'smooth' })
+    const nav = document.querySelector('.nav')
+    const offset = Math.round((nav instanceof HTMLElement ? nav.getBoundingClientRect().height : 72) + 16)
+    const top = Math.max(0, Math.round(window.scrollY + el.getBoundingClientRect().top - offset))
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    const immediate = Boolean(opts?.immediate) || reduce
+    if (this.lenis) {
+      this.lenis.scrollTo(el, { offset: -offset, duration: immediate ? 0 : 1.2, lerp: 0.08, immediate })
+      return
+    }
+    window.scrollTo({ top, behavior: immediate ? 'auto' : 'smooth' })
   },
 }
 
@@ -42,13 +50,13 @@ export function useSmoothScroll(enabled: boolean): void {
     const keepHash = new Set(['contact', 'web', 'ads', 'care', 'services', 'builds', 'repairs', 'consulting']).has(
       hash,
     )
-    document.documentElement.classList.add('is-booting')
+    if (enabled) document.documentElement.classList.add('is-booting')
     if (!keepHash) pinTop()
 
     const { setSceneFromProgress, setCompactNav } = useExperience.getState()
 
     const apply = (progress: number, velocity: number) => {
-      const locked = !live.ready && !keepHash
+      const locked = enabled && !live.ready && !keepHash
       const p = locked ? 0 : Math.max(0, Math.min(1, Number.isFinite(progress) ? progress : 0))
       live.progress = p
       live.velocity = locked ? 0 : velocity
@@ -75,13 +83,28 @@ export function useSmoothScroll(enabled: boolean): void {
       const onScroll = () => apply(readNativeProgress(), 0)
       onScroll()
       window.addEventListener('scroll', onScroll, { passive: true })
-      const unsub = useExperience.subscribe((s) => {
-        if (s.ready) releaseBoot()
-      })
-      if (useExperience.getState().ready) releaseBoot()
+      document.documentElement.classList.remove('is-booting')
+      const jump = (id: string, immediate = false) => {
+        if (!id) return
+        if (document.getElementById(id)) {
+          scrollApi.toElement(id, { immediate })
+          return
+        }
+        window.requestAnimationFrame(() => {
+          if (document.getElementById(id)) scrollApi.toElement(id, { immediate })
+        })
+      }
+      if (keepHash && hash) {
+        window.requestAnimationFrame(() => jump(hash, true))
+        window.setTimeout(() => jump(hash, true), 280)
+      }
+      const onHash = () => jump(window.location.hash.replace('#', ''))
+      window.addEventListener('hashchange', onHash)
+      window.addEventListener('popstate', onHash)
       return () => {
         window.removeEventListener('scroll', onScroll)
-        unsub()
+        window.removeEventListener('hashchange', onHash)
+        window.removeEventListener('popstate', onHash)
       }
     }
 

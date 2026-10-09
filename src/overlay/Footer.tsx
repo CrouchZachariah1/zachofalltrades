@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { services, site } from '../config/site.ts'
 import { openQuote, openSection } from '../lib/actions.ts'
+import { copySupportEmail } from './ContactActions.tsx'
 import { BrandMark } from './Mark.tsx'
 
 const sectionIds = new Set(['web', 'ads', 'care'])
@@ -20,26 +21,32 @@ export function Footer() {
             {site.city}, {site.country}
           </li>
           <li>
+            <a href={`mailto:${site.email}`} title={site.email} aria-label={`Email us at ${site.email}`}>
+              Email us
+            </a>
+          </li>
+          <li>
             <button
               type="button"
-              title={copied ? 'Email address copied' : site.email}
-              aria-label={copied ? 'Email address copied' : `Copy ${site.email}`}
+              title={copied ? 'Email address copied' : `Copy ${site.email}`}
+              aria-label={copied ? 'Email address copied' : `Copy email address ${site.email}`}
               onClick={() => {
-                void navigator.clipboard.writeText(site.email).then(
-                  () => {
-                    setCopied(true)
-                    window.setTimeout(() => setCopied(false), 1600)
-                  },
-                  () => {},
-                )
+                void copySupportEmail().then((ok) => {
+                  if (!ok) return
+                  setCopied(true)
+                  window.setTimeout(() => setCopied(false), 2000)
+                })
               }}
             >
-              {copied ? 'Copied' : 'Email'}
+              {copied ? 'Copied' : 'Copy email'}
             </button>
+            <span className="visually-hidden" role="status" aria-live="polite">
+              {copied ? 'Email address copied' : ''}
+            </span>
           </li>
           <li>
             <a href={`tel:${site.phoneTel}`} title={`Call ${site.phoneDisplay}`} aria-label={`Call ${site.phoneDisplay}`}>
-              Call
+              Call {site.phoneDisplay}
             </a>
           </li>
           <li>
