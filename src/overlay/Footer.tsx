@@ -61,7 +61,10 @@ export function Footer() {
             </a>
           </li>
           <li>
-            <a href={site.studioUrl}>Studio</a>
+            <a href="/contact/">Contact</a>
+          </li>
+          <li>
+            <a href={site.studioUrl}>ZOAT Studio</a>
           </li>
         </ul>
       </div>

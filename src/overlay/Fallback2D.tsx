@@ -75,7 +75,8 @@ const modules = [
     title: 'IT support and consulting',
     body: 'Tell us what you are trying to get done. IT support and consulting helps you choose the right technology before you buy, build, or rebuild.',
     service: 'IT Consulting',
-    go: 'Request IT advice',
+    go: 'IT support',
+    href: '/it-support/',
   },
   {
     id: 'systems',
@@ -229,8 +230,9 @@ export function Fallback2D({ reason }: Props) {
             key={mod.id}
             id={mod.id}
             className="stage-mod"
-            href="#contact"
+            href={'href' in mod ? mod.href : '#contact'}
             onClick={(event) => {
+              if ('href' in mod) return
               event.preventDefault()
               openQuote(mod.service)
             }}

@@ -26,10 +26,11 @@ export const navLinks = [
   { id: 'services', label: 'SERVICES', progress: 0.83, href: '/#services' },
   { id: 'builds', label: 'PC BUILDS', progress: 0.1, href: '/custom-pcs/' },
   { id: 'repairs', label: 'REPAIRS', progress: 0.3, href: '/computer-repairs/' },
-  { id: 'consulting', label: 'CONSULTING', progress: 0.57, href: '/#consulting' },
+  { id: 'consulting', label: 'IT SUPPORT', progress: 0.57, href: '/it-support/' },
   { id: 'web', label: 'WEB', progress: 0.4, href: '/web-design/' },
   { id: 'ads', label: 'ADS', progress: 0.83, href: '/#ads' },
-  { id: 'contact', label: 'CONTACT', href: '#contact' },
+  { id: 'studio', label: 'STUDIO', href: site.studioUrl },
+  { id: 'contact', label: 'CONTACT', href: '/contact/' },
 ] as const
 
 export const services = [
@@ -123,7 +124,8 @@ export function serviceHref(id: string): string {
     case 'pc-repair':
       return '/computer-repairs/'
     case 'consulting':
-      return '/#consulting'
+    case 'support':
+      return '/it-support/'
     case 'web':
       return '/web-design/'
     case 'care':

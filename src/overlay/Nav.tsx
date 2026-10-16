@@ -42,10 +42,12 @@ export function Nav() {
           <a
             key={link.id}
             href={link.href}
+            aria-label={link.id === 'studio' ? 'ZOAT Studio' : undefined}
             onClick={(e) => {
               setOpen(false)
+              const external = /^https?:/i.test(link.href)
               const pathOnly = link.href.startsWith('/') && !link.href.startsWith('/#')
-              if (pathOnly) return
+              if (external || pathOnly) return
               if (!home && link.href.startsWith('/#')) return
               e.preventDefault()
               const twoD = document.documentElement.classList.contains('is-2d')

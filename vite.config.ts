@@ -4,7 +4,7 @@ import react from '@vitejs/plugin-react'
 import { defineConfig } from 'vite'
 
 const root = dirname(fileURLToPath(import.meta.url))
-const serviceIds = ['computer-repairs', 'custom-pcs', 'web-design'] as const
+const serviceIds = ['computer-repairs', 'custom-pcs', 'web-design', 'it-support', 'contact'] as const
 
 export default defineConfig({
   base: process.env.ZOAT_RELATIVE_BASE === '1' ? './' : '/',
@@ -39,6 +39,8 @@ export default defineConfig({
         'computer-repairs': resolve(root, 'computer-repairs/index.html'),
         'custom-pcs': resolve(root, 'custom-pcs/index.html'),
         'web-design': resolve(root, 'web-design/index.html'),
+        'it-support': resolve(root, 'it-support/index.html'),
+        contact: resolve(root, 'contact/index.html'),
       },
     },
   },

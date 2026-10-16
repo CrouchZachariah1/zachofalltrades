@@ -7,7 +7,8 @@ import { Contact } from './overlay/Contact.tsx'
 import { DomainNote } from './overlay/DomainNote.tsx'
 import { Cursor } from './overlay/Cursor.tsx'
 import { ErrorBoundary } from './overlay/ErrorBoundary.tsx'
-import { findServicePage } from './config/pages.ts'
+import { findServicePage, isContactPath } from './config/pages.ts'
+import { ContactPage } from './overlay/ContactPage.tsx'
 import { Fallback2D } from './overlay/Fallback2D.tsx'
 import { Footer } from './overlay/Footer.tsx'
 import { ServicePage } from './overlay/ServicePage.tsx'
@@ -28,29 +29,30 @@ export default function App() {
   const [quality, setQuality] = useState<Quality>(mode.quality)
   const [force2d, setForce2d] = useState(false)
   const [page] = useState(() => findServicePage())
+  const [contact] = useState(() => isContactPath())
   const setReady = useExperience((s) => s.setReady)
   const setCompactNav = useExperience((s) => s.setCompactNav)
-  const use3d = !page && mode.mode === '3d' && !force2d
+  const use3d = !page && !contact && mode.mode === '3d' && !force2d
 
   useSmoothScroll(use3d)
   usePointer(use3d)
 
   useEffect(() => {
     applyTheme(readTheme())
-    if (page) setCompactNav(true)
-  }, [page, setCompactNav])
+    if (page || contact) setCompactNav(true)
+  }, [page, contact, setCompactNav])
 
   useEffect(() => {
     document.documentElement.classList.toggle('is-2d', !use3d)
     document.documentElement.classList.toggle('is-mobile', quality.mobile)
-    document.documentElement.classList.toggle('is-service', Boolean(page))
+    document.documentElement.classList.toggle('is-service', Boolean(page || contact))
     if (!use3d) {
       setReady(true)
       return
     }
     const failsafe = window.setTimeout(() => setReady(true), 2500)
     return () => window.clearTimeout(failsafe)
-  }, [use3d, quality.mobile, setReady, page])
+  }, [use3d, quality.mobile, setReady, page, contact])
 
   return (
     <div className="app">
@@ -63,6 +65,11 @@ export default function App() {
       {page ? (
         <>
           <ServicePage page={page} />
+          <ScrollBar />
+        </>
+      ) : contact ? (
+        <>
+          <ContactPage />
           <ScrollBar />
         </>
       ) : use3d ? (

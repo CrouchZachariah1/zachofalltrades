@@ -1,7 +1,7 @@
 import { repairServices, site } from './site.ts'
 
 export type ServicePage = {
-  id: 'computer-repairs' | 'custom-pcs' | 'web-design'
+  id: 'computer-repairs' | 'custom-pcs' | 'web-design' | 'it-support'
   path: string
   title: string
   description: string
@@ -46,7 +46,7 @@ export const servicePages: ServicePage[] = [
     ],
     related: [
       { href: '/custom-pcs/', label: 'Custom PC builds and upgrades' },
-      { href: '/#consulting', label: 'IT support and consulting' },
+      { href: '/it-support/', label: 'IT support and consulting' },
       { href: '/#systems', label: 'Windows and Microsoft 365' },
     ],
   },
@@ -81,7 +81,7 @@ export const servicePages: ServicePage[] = [
     ],
     related: [
       { href: '/computer-repairs/', label: 'Computer repairs' },
-      { href: '/#consulting', label: 'IT support and consulting' },
+      { href: '/it-support/', label: 'IT support and consulting' },
     ],
   },
   {
@@ -121,10 +121,58 @@ export const servicePages: ServicePage[] = [
       { href: '/#web', label: 'Full website packages and details' },
       { href: '/#care', label: 'Website maintenance' },
       { href: '/#ads', label: 'Advertising management' },
-      { href: site.studioUrl, label: 'View our work' },
+      { href: site.studioUrl, label: 'ZOAT Studio work' },
+    ],
+  },
+  {
+    id: 'it-support',
+    path: '/it-support/',
+    title: 'IT Support & Consulting | Zach of All Trades Cape Town',
+    description:
+      'IT support and consulting in Cape Town: help choosing, setting up and fixing computers, Windows, Microsoft 365 and the software you already use.',
+    h1: 'IT support and consulting',
+    kicker: 'IT Support',
+    quoteService: 'IT Consulting',
+    image: '/media/hangar.jpg',
+    imageAlt: 'Zach of All Trades studio hangar in Cape Town',
+    intro:
+      'Tell us what you are trying to get done. IT support and consulting is the advice and hands-on help before you buy, build, or rebuild — and when the machine you have is not doing the job.',
+    sections: [
+      {
+        heading: 'What this is for',
+        body: 'A slow PC, a purchase you do not want to get wrong, Windows that will not settle, or a small business that needs the next step named clearly. We work in Cape Town with homes and businesses.',
+        items: [
+          'IT consulting before you buy or rebuild',
+          'Hands-on tech support',
+          'Windows and Microsoft 365 setup on your licence',
+          'Network and software that will not behave',
+        ],
+      },
+      {
+        heading: 'When it is a repair or a build',
+        body: 'If a part has failed, that is a computer repair. If the chassis is sound and the bottleneck is RAM, storage or a GPU, that is an upgrade. If you need a new machine, that is a custom PC. Consulting is how we tell those apart before you spend.',
+      },
+      {
+        heading: 'Windows and Microsoft 365',
+        body: 'Installs, drivers, accounts and configuration use your genuine Windows licence or Microsoft 365 subscription. We do not sell Microsoft licences.',
+      },
+    ],
+    related: [
+      { href: '/computer-repairs/', label: 'Computer repairs' },
+      { href: '/custom-pcs/', label: 'Custom PC builds and upgrades' },
+      { href: '/contact/', label: 'Contact' },
     ],
   },
 ]
+
+export const contactPage = {
+  path: '/contact/',
+  title: 'Contact | Zach of All Trades Cape Town',
+  description:
+    'Contact Zach of All Trades in Cape Town for computer repairs, custom PCs, website design, IT support, WhatsApp, phone or a quote.',
+  h1: 'Contact Zach of All Trades',
+  kicker: 'Contact',
+} as const
 
 export function findServicePage(pathname = window.location.pathname): ServicePage | undefined {
   const slug = pathname.replace(/\/+$/, '')
@@ -133,4 +181,8 @@ export function findServicePage(pathname = window.location.pathname): ServicePag
 
 export function isHomePath(pathname = window.location.pathname): boolean {
   return pathname === '/' || pathname === ''
+}
+
+export function isContactPath(pathname = window.location.pathname): boolean {
+  return pathname.replace(/\/+$/, '') === '/contact'
 }
