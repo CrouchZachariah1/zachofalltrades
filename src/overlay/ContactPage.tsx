@@ -1,6 +1,6 @@
 import { contactPage } from '../config/pages.ts'
 import { site } from '../config/site.ts'
-import { ContactActions } from './ContactActions.tsx'
+import { ContactNap } from './ContactNap.tsx'
 
 export function ContactPage() {
   return (
@@ -31,9 +31,7 @@ export function ContactPage() {
             Cape Town. WhatsApp, call, email, or the quote form below. ZOAT Studio is the web
             development division — work and portfolio live there.
           </p>
-          <div className="beat-actions">
-            <ContactActions />
-          </div>
+          <ContactNap />
         </div>
       </section>
       <section className="service-related">

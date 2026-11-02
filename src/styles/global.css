@@ -525,7 +525,7 @@ html.has-domain-note .beat { top: 140px; }
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-end;
-  gap: 6px 14px;
+  gap: 8px 26px;
 }
 .nav-links a {
   font-family: var(--mono);
@@ -881,7 +881,12 @@ html.theme-light .magnet.primary:focus-visible {
 .contact-nap a { color: inherit; text-decoration: underline; text-underline-offset: 3px; }
 .contact-nap a:hover,
 .contact-nap a:focus-visible { color: var(--cyan); }
-.contact-direct { margin-top: 16px; }
+.service-page .contact-nap {
+  margin: 20px 0 0;
+}
+.service-page .contact-nap + .beat-actions {
+  margin-top: 18px;
+}
 .brief {
   padding-left: 16px;
   border-left: 1px solid var(--cyan);
@@ -2099,8 +2104,8 @@ html.is-service .nav {
 
 @media (max-width: 1180px) {
   .nav-word { max-width: 18ch; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  .nav-links { gap: 4px 10px; }
-  .nav-links a { font-size: 12px; letter-spacing: 0.08em; }
+  .nav-links { gap: 6px 18px; }
+  .nav-links a { font-size: 12px; letter-spacing: 0.1em; }
   .stage-catalog-grid { grid-template-columns: 1fr 1fr; }
   .stage-leads { grid-template-columns: 1fr; }
   .stage-lead { border-right: 0; }
