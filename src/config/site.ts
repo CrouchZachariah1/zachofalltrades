@@ -7,6 +7,7 @@ export const site = {
     'Computer repairs, custom PC builds and upgrades, website design and development, and IT support for homes and businesses in Cape Town.',
   url: 'https://zachofalltrades.co.za',
   studioUrl: 'https://studio.zachofalltrades.co.za',
+  blogUrl: 'https://blog.zachofalltrades.co.za',
   email: 'support@zachofalltrades.co.za',
   phoneDisplay: '060 329 2708',
   phoneTel: '+27603292708',
@@ -30,6 +31,7 @@ export const navLinks = [
   { id: 'web', label: 'WEB', progress: 0.4, href: '/web-design/' },
   { id: 'ads', label: 'ADS', progress: 0.83, href: '/#ads' },
   { id: 'studio', label: 'STUDIO', href: site.studioUrl },
+  { id: 'blog', label: 'BLOG', href: site.blogUrl },
   { id: 'contact', label: 'CONTACT', href: '/contact/' },
 ] as const
 

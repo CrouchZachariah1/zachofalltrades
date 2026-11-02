@@ -54,6 +54,9 @@ export function ContactPage() {
           <li>
             <a href={site.studioUrl}>ZOAT Studio</a>
           </li>
+          <li>
+            <a href={site.blogUrl}>Blog</a>
+          </li>
         </ul>
       </section>
     </main>

@@ -42,7 +42,9 @@ export function Nav() {
           <a
             key={link.id}
             href={link.href}
-            aria-label={link.id === 'studio' ? 'ZOAT Studio' : undefined}
+            aria-label={
+              link.id === 'studio' ? 'ZOAT Studio' : link.id === 'blog' ? 'ZOAT Blog' : undefined
+            }
             onClick={(e) => {
               setOpen(false)
               const external = /^https?:/i.test(link.href)
